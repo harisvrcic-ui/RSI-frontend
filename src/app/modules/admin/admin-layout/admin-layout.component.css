@@ -1,0 +1,340 @@
+/* ===============================
+   GLOBAL LAYOUT
+================================ */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #d1d5db; /* siva boja */
+  margin-top: -80px;
+  padding-top: 80px;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ===============================
+   SIDEBAR
+================================ */
+.admin-sidebar {
+  width: 270px;
+  background: #808080; /* tamno siva */
+  color: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 1000;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar header */
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.admin-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+/* ===============================
+   NAVIGATION
+================================ */
+.sidebar-nav {
+  flex: 1;
+  padding: 10px 0;
+  overflow-y: auto;
+}
+
+.nav-section {
+  margin-bottom: 10px;
+}
+
+.nav-section-title {
+  font-size: 0.75rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 20px 24px 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 24px;
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-left: 3px solid transparent;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.nav-item.active {
+  background: rgba(255, 215, 0, 0.12);
+  color: #ffd700;
+  border-left-color: #ffd700;
+}
+
+/* ===============================
+   SIDEBAR FOOTER
+================================ */
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.back-to-site-btn {
+  width: 100%;
+  background: #ffd700;
+  color: #111827;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.back-to-site-btn:hover {
+  background: #facc15;
+}
+
+/* ===============================
+   MAIN CONTENT
+================================ */
+.admin-main {
+  flex: 1;
+  margin-left: 270px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.admin-header {
+  background: #e5e7eb; /* svijetlosiva */
+  border-bottom: 1px solid #d1d5db;
+  padding: 16px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827; /* crna boja slova */
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #111827; /* crna boja slova */
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Header actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-name {
+  display: block;
+  color: #111827;
+  font-weight: 600;
+}
+
+.user-role {
+  display: block;
+  color: #6b7280;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Logout */
+.logout-btn {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #fecaca;
+}
+
+/* ===============================
+   CONTENT AREA
+================================ */
+.admin-content {
+  flex: 1;
+  padding: 30px;
+  background: #d1d5db; /* siva boja */
+  overflow-y: auto;
+}
+
+/* ===============================
+   TABLE STYLING
+================================ */
+.table-container {
+  background: #f3f4f6; /* svijetlosiva */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* vertikalni gap između redova */
+}
+
+.table-header-cell {
+  padding: 16px 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #111827; /* crna boja slova u headeru */
+}
+
+.table-cell {
+  padding: 16px 20px;
+  color: #111827; /* crna boja slova u poljima */
+  font-size: 0.9rem;
+  background: #ffffff; /* bijela pozadina za bolji kontrast */
+  border-top: none;
+  border-radius: 6px;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.active {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.status-badge.inactive {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: #111827;
+  transition: all 0.3s ease;
+}
+
+.edit-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+}
+
+.delete-btn:hover {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  padding: 20px 30px;
+  background: #f3f4f6; /* svijetlosiva */
+  border-radius: 12px;
+}
+
+.page-number-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5e7eb;
+  border-radius: 6px;
+  color: #111827;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-number-btn.active {
+  background: #111827;
+  color: #ffd700;
+  font-weight: 600;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 1024px) {
+  .admin-sidebar { width: 240px; }
+  .admin-main { margin-left: 240px; }
+}
+
+@media (max-width: 768px) {
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar { position: relative; width: 100%; height: auto; }
+  .admin-main { margin-left: 0; }
+  .header-content { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .header-actions { width: 100%; justify-content: space-between; }
+  .admin-content { padding: 20px; }
+}
+
+@media (max-width: 480px) {
+  .page-title { font-size: 1.4rem; }
+  .nav-item { padding: 8px 16px; font-size: 0.9rem; }
+}

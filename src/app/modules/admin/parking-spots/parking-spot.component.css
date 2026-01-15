@@ -1,0 +1,46 @@
+.spots-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.spot-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.spot-form input {
+  padding: 5px 10px;
+}
+
+.spot-form button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.spots-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spots-table th,
+.spots-table td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.spots-table th {
+  background: #eee;
+}
+
+.spots-table button {
+  margin-right: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+}

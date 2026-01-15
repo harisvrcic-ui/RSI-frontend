@@ -1,0 +1,35 @@
+<div class="spot-type-container">
+  <h2>Parking Spot Types</h2>
+
+  <form [formGroup]="spotTypeForm" (ngSubmit)="saveSpotType()" class="spot-type-form">
+    <input type="text" formControlName="name" placeholder="Name" />
+    <input type="text" formControlName="description" placeholder="Description" />
+    <input type="number" formControlName="priceMultiplier" placeholder="Price Multiplier" />
+    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
+  </form>
+
+  <table class="spot-type-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price Multiplier</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let spot of spotTypes">
+      <td>{{ spot.id }}</td>
+      <td>{{ spot.name }}</td>
+      <td>{{ spot.description }}</td>
+      <td>{{ spot.priceMultiplier }}</td>
+      <td>
+        <button (click)="editSpotType(spot.id)">Edit</button>
+        <button (click)="deleteSpotType(spot.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

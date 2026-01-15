@@ -1,0 +1,170 @@
+<!-- Hero Section with Parking Carousel -->
+<div class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">{{ 'HOME.HERO_TITLE' | translate }}</h1>
+    <p class="hero-subtitle">{{ 'HOME.HERO_SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Parking Spots Carousel -->
+  <div class="parking-carousel" *ngIf="(parkingSpots?.dataItems?.length ?? 0) > 0">
+    <div class="carousel-container">
+
+      <!-- Previous Button -->
+      <button class="carousel-btn carousel-btn-prev" (click)="previousSpot()"
+              [disabled]="(parkingSpots?.dataItems?.length ?? 0) <= 1">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15,18 9,12 15,6"></polyline>
+        </svg>
+      </button>
+
+      <!-- Current Parking Spot Display -->
+      <div class="parking-display" *ngIf="getCurrentSpot() as currentSpot">
+        <div class="parking-card">
+          <div class="spot-info">
+            <div class="availability-status">
+              <span class="availability-badge"
+                    [class.available]="currentSpot.isActive"
+                    [class.full]="!currentSpot.isActive">
+                {{ currentSpot.isActive ? ('HOME.AVAILABLE' | translate) : ('HOME.FULL' | translate) }}
+              </span>
+            </div>
+
+            <div class="spot-actions" *ngIf="currentSpot.latitude && currentSpot.longitude">
+              <a [href]="'https://www.google.com/maps/search/?api=1&query=' + currentSpot.latitude + ',' + currentSpot.longitude"
+                 target="_blank"
+                 class="map-action-btn">
+                {{ 'HOME.OPEN_IN_MAPS' | translate }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Button -->
+      <button class="carousel-btn carousel-btn-next" (click)="nextSpot()"
+              [disabled]="(parkingSpots?.dataItems?.length ?? 0) <= 1">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9,18 15,12 9,6"></polyline>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Carousel Indicators -->
+    <div class="carousel-indicators" *ngIf="(parkingSpots?.dataItems?.length ?? 0) > 1">
+      <button
+        *ngFor="let spot of (parkingSpots?.dataItems ?? []); let i = index"
+        class="indicator-dot"
+        [class.active]="i === currentSpotIndex"
+        (click)="goToSpot(i)">
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Features + Map Section -->
+<div class="features-map-wrapper">
+
+  <!-- Feature Cards (Left) -->
+  <div class="features-grid">
+    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="feature-card-inner">
+        <div class="feature-icon-wrapper">
+
+
+        </div>
+        <div class="feature-content">
+          <h3>{{ 'HOME.FEATURE_1_TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURE_1_DESC' | translate }}</p>
+        </div>
+        <div class="feature-decoration">
+          <div class="decoration-line"></div>
+          <div class="decoration-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="feature-card-inner">
+        <div class="feature-icon-wrapper">
+        </div>
+        <div class="feature-content">
+          <h3>{{ 'HOME.FEATURE_2_TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURE_2_DESC' | translate }}</p>
+        </div>
+        <div class="feature-decoration">
+          <div class="decoration-line"></div>
+          <div class="decoration-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+      <div class="feature-card-inner">
+        <div class="feature-icon-wrapper">
+        </div>
+        <div class="feature-content">
+          <h3>{{ 'HOME.FEATURE_3_TITLE' | translate }}</h3>
+          <p>{{ 'HOME.FEATURE_3_DESC' | translate }}</p>
+        </div>
+        <div class="feature-decoration">
+          <div class="decoration-line"></div>
+          <div class="decoration-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map (Right) -->
+  <div class="map-container">
+    <div class="map-wrapper">
+      <div class="map-overlay">
+        <div class="map-info">
+          <div class="map-info-content">
+            <div class="location-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div class="location-details">
+              <h4>{{ 'HOME.LOCATION_NAME' | translate }}</h4>
+              <p>{{ 'HOME.LOCATION_ADDRESS' | translate }}</p>
+              <div class="location-actions">
+                <a href="https://www.google.com/maps/place/Gara%C5%BEa+ARIA+mall/@43.858152,18.4165706,19.5z/data=!4m6!3m5!1s0x4758c900585eaeb9:0xca3446b046b27af8!8m2!3d43.858134!4d18.4169251!16s%2Fg%2F11vwnqmtld?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
+                   target="_blank"
+                   class="map-action-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                  </svg>
+                  {{ 'HOME.OPEN_IN_MAPS' | translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-iframe-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d508.5667363909776!2d18.41657058236005!3d43.85815201976615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4758c900585eaeb9%3A0xca3446b046b27af8!2sGara%C5%BEa%20ARIA%20mall!5e0!3m2!1sen!2sba!4v1767541800367!5m2!1sen!2sba"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map-iframe">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+</div>

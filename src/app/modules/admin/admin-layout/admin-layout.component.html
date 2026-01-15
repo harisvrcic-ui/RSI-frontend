@@ -1,0 +1,108 @@
+<!-- Modern Admin Layout with Sidebar -->
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <div class="logo-section">
+
+      </div>
+      <h2 class="admin-title">{{ 'ADMIN.PANEL' | translate }}</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+
+
+      <!-- Content Management Section -->
+      <div class="nav-section">
+        <h3 class="nav-section-title">{{ 'ADMIN.CONTENT_MANAGEMENT' | translate }}</h3>
+
+
+        <a routerLink="/admin/brands" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.BRANDS' | translate }}</span>
+        </a>
+        <a routerLink="/admin/cars" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.CARS' | translate }}</span>
+        </a>
+      </div>
+
+      <!-- Locations & Colors Section -->
+      <div class="nav-section">
+        <h3 class="nav-section-title">{{ 'ADMIN.LOCATIONS' | translate }}</h3>
+        <a routerLink="/admin/cities" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.CITIES' | translate }}</span>
+        </a>
+        <a routerLink="/admin/countries" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.COUNTRIES' | translate }}</span>
+        </a>
+        <a routerLink="/admin/colors" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.COLORS' | translate }}</span>
+        </a>
+        <a routerLink="/admin/genders" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.GENDERS' | translate }}</span>
+        </a>
+      </div>
+
+      <!-- Parking & Reservations Section -->
+      <div class="nav-section">
+        <h3 class="nav-section-title">{{ 'ADMIN.PARKING_MANAGEMENT' | translate }}</h3>
+        <a routerLink="/admin/parking-spot-types" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.PARKING_SPOT_TYPES' | translate }}</span>
+        </a>
+        <a routerLink="/admin/parking-spots" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.PARKING_SPOTS' | translate }}</span>
+        </a>
+        <a routerLink="/admin/parking-zones" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.PARKING_ZONES' | translate }}</span>
+        </a>
+        <a routerLink="/admin/reservation-types" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.RESERVATION_TYPES' | translate }}</span>
+        </a>
+        <a routerLink="/admin/reservations" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.RESERVATIONS' | translate }}</span>
+        </a>
+        <a routerLink="/admin/reviews" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.REVIEWS' | translate }}</span>
+        </a>
+      </div>
+
+      <!-- User Management Section -->
+      <div class="nav-section">
+        <h3 class="nav-section-title">{{ 'ADMIN.USER_MANAGEMENT' | translate }}</h3>
+        <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.USERS' | translate }}</span>
+        </a>
+        <a routerLink="/admin/admins" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.ADMINS' | translate }}</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="back-to-site-btn" (click)="navigateToHome()">
+        <span>{{ 'ADMIN.BACK_TO_SITE' | translate }}</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="admin-main">
+    <header class="admin-header">
+      <div class="header-content">
+        <h1 class="page-title">{{ 'ADMIN.DASHBOARD' | translate }}</h1>
+        <div class="header-actions">
+          <div class="user-info">
+            <span class="user-name">{{ getUserDisplayName() }}</span>
+            <span class="user-role">{{ 'ADMIN.ADMIN' | translate }}</span>
+          </div>
+          <button class="logout-btn" (click)="logout()">
+            <span>{{ 'ADMIN.LOGOUT' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="admin-content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,44 @@
+<div class="reservation-types-container">
+  <h2>Reservation Types</h2>
+
+  <form [formGroup]="reservationTypeForm" (ngSubmit)="saveReservationType()" class="reservation-type-form">
+    <input type="text" formControlName="name" placeholder="Type Name" />
+    <input type="number" formControlName="price" placeholder="Price" min="0" />
+    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
+  </form>
+
+  <div *ngIf="isLoading" class="loading-container">Loading reservation types...</div>
+
+  <table *ngIf="!isLoading && reservationTypes.length" class="reservation-types-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let type of reservationTypes">
+      <td>{{ type.id }}</td>
+      <td>{{ type.name }}</td>
+      <td>{{ type.price | number:'1.2-2' }}</td>
+      <td>
+        <button (click)="editReservationType(type.id)">Edit</button>
+        <button (click)="deleteReservationType(type.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="totalPages > 1" class="pagination-container">
+    <button *ngFor="let page of pageNumbers" (click)="onPageChange(page)" [class.active]="page === currentPage">
+      {{ page }}
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && !reservationTypes.length" class="empty-state">
+    No reservation types found.
+  </div>
+</div>

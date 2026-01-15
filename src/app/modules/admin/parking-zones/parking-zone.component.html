@@ -1,0 +1,46 @@
+<div class="zones-container">
+  <h2>Parking Zones</h2>
+
+  <form [formGroup]="zoneForm" (ngSubmit)="saveZone()" class="zone-form">
+    <input type="text" formControlName="name" placeholder="Zone Name" />
+    <label>
+      <input type="checkbox" formControlName="isActive" /> Active
+    </label>
+    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
+  </form>
+
+  <div *ngIf="isLoading" class="loading-container">Loading zones...</div>
+
+  <table *ngIf="!isLoading && zones.length" class="zones-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Active</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let zone of zones">
+      <td>{{ zone.id }}</td>
+      <td>{{ zone.name }}</td>
+      <td>{{ zone.isActive ? 'Yes' : 'No' }}</td>
+      <td>
+        <button (click)="editZone(zone.id)">Edit</button>
+        <button (click)="deleteZone(zone.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="totalPages > 1" class="pagination-container">
+    <button *ngFor="let page of pageNumbers" (click)="onPageChange(page)" [class.active]="page === currentPage">
+      {{ page }}
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && !zones.length" class="empty-state">
+    No parking zones found.
+  </div>
+</div>

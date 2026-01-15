@@ -1,0 +1,47 @@
+.reservations-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.reservation-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.reservation-form input {
+  padding: 5px 10px;
+  flex: 1 1 150px;
+}
+
+.reservation-form button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reservations-table th,
+.reservations-table td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.reservations-table th {
+  background: #eee;
+}
+
+.reservations-table button {
+  margin-right: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+}

@@ -1,0 +1,245 @@
+<div class="admin-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">{{ 'ADMIN.LANGUAGES_MANAGEMENT' | translate }}</h1>
+        <p class="page-subtitle">{{ 'ADMIN.MANAGE_AND_VIEW_ALL_LANGUAGES' | translate }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshLanguages()" [disabled]="isLoading" [title]="'ADMIN.REFRESH_LANGUAGES' | translate">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"></path>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>{{ 'ADMIN.REFRESH' | translate }}</span>
+        </button>
+        <button class="add-btn" (click)="addLanguage()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>{{ 'ADMIN.ADD_LANGUAGE' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          class="search-input"
+          [placeholder]="'ADMIN.SEARCH_LANGUAGES_PLACEHOLDER' | translate"
+          (input)="applyFilter($event)"
+          [value]="searchQuery"
+        >
+      </div>
+    </div>
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-label">{{ 'ADMIN.TOTAL_LANGUAGES' | translate }}</span>
+        <span class="stat-value">{{ totalCount }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">{{ 'ADMIN.PAGE' | translate }}</span>
+        <span class="stat-value">{{ currentPage }} {{ 'ADMIN.OF' | translate }} {{ totalPages }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">{{ 'ADMIN.LOADING_LANGUAGES' | translate }}</p>
+  </div>
+
+  <!-- Table Container -->
+  <div *ngIf="!isLoading" class="table-container">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.LANGUAGE_NAME' | translate }}</span>
+                <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M7 12h10"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.NATIVE_NAME' | translate }}</span>
+                <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M7 12h10"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.CODE' | translate }}</span>
+                <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M7 12h10"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+
+                <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M7 12h10"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.STATUS' | translate }}</span>
+                <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18"></path>
+                  <path d="M7 12h10"></path>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell actions-header">
+              <span>{{ 'ADMIN.ACTIONS' | translate }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr *ngFor="let language of languages" class="table-row">
+            <td class="table-cell name-cell">
+              <div class="language-info">
+                <span class="language-name">{{ language.name }}</span>
+              </div>
+            </td>
+            <td class="table-cell native-name-cell">
+              <div class="language-native-name">
+                <span class="native-name-text">{{ language.nativeName || ('ADMIN.NO_NATIVE_NAME' | translate) }}</span>
+              </div>
+            </td>
+            <td class="table-cell code-cell">
+              <div class="language-code">
+                <span class="code-badge" *ngIf="language.code">{{ language.code }}</span>
+                <span class="no-code" *ngIf="!language.code">{{ 'ADMIN.NO_CODE' | translate }}</span>
+              </div>
+            </td>
+
+            <td class="table-cell status-cell">
+              <div class="status-badge" [class.active]="language.isActive" [class.inactive]="!language.isActive">
+                {{ language.isActive ? ('ADMIN.ACTIVE' | translate) : ('ADMIN.INACTIVE' | translate) }}
+              </div>
+            </td>
+            <td class="table-cell actions-cell">
+              <div class="action-buttons">
+                <button class="action-btn edit-btn" (click)="editLanguage(language.id)" [title]="'ADMIN.EDIT_LANGUAGE' | translate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete-btn" (click)="openDeleteConfirmDialog(language.id)" [title]="'ADMIN.DELETE_LANGUAGE' | translate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="M19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="languages.length === 0 && !isLoading" class="empty-state">
+      <svg class="empty-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+      </svg>
+      <h3 class="empty-title">{{ 'ADMIN.NO_LANGUAGES_FOUND' | translate }}</h3>
+      <p class="empty-description">
+        <span *ngIf="searchQuery">{{ 'ADMIN.NO_LANGUAGES_MATCH_SEARCH' | translate }}</span>
+        <span *ngIf="!searchQuery">{{ 'ADMIN.GET_STARTED_ADDING_FIRST_LANGUAGE' | translate }}</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && languages.length > 0" class="pagination-container">
+    <div class="pagination-info">
+      <p class="pagination-text">
+        {{ 'ADMIN.SHOWING' | translate }} {{ (currentPage - 1) * pageSize + 1 }} {{ 'ADMIN.TO' | translate }} {{ Math.min(currentPage * pageSize, totalCount) }} {{ 'ADMIN.OF' | translate }} {{ totalCount }} {{ 'ADMIN.TOTAL_LANGUAGES' | translate }}
+      </p>
+    </div>
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label class="page-size-label">{{ 'ADMIN.SHOW' | translate }}:</label>
+        <select
+          class="page-size-select"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizeChange($event)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+        <span class="page-size-text">{{ 'ADMIN.PER_PAGE' | translate }}</span>
+      </div>
+      <div class="page-navigation">
+        <button class="page-btn" (click)="onPageChange(1)" [disabled]="currentPage === 1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="11,17 6,12 11,7"></polyline>
+            <polyline points="18,17 13,12 18,7"></polyline>
+          </svg>
+          {{ 'ADMIN.FIRST' | translate }}
+        </button>
+        <button class="page-btn" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+          {{ 'ADMIN.PREVIOUS' | translate }}
+        </button>
+        <div class="page-numbers">
+          <button
+            *ngFor="let page of pageNumbers"
+            class="page-number-btn"
+            [class.active]="page === currentPage"
+            (click)="onPageChange(page)"
+          >
+            {{ page }}
+          </button>
+        </div>
+        <button class="page-btn" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">
+          {{ 'ADMIN.NEXT' | translate }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+        <button class="page-btn" (click)="onPageChange(totalPages)" [disabled]="currentPage === totalPages">
+          {{ 'ADMIN.LAST' | translate }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="13,17 18,12 13,7"></polyline>
+            <polyline points="6,17 11,12 6,7"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

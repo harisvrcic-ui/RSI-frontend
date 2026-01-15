@@ -1,0 +1,37 @@
+<!-- Modern Confirmation Dialog -->
+<div class="dialog-container">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <div class="header-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M12 16v-4"></path>
+        <path d="M12 8h.01"></path>
+      </svg>
+    </div>
+    <h2 class="dialog-title">{{ data.title }}</h2>
+  </div>
+
+  <!-- Dialog Content -->
+  <div class="dialog-content">
+    <p class="dialog-message">{{ data.message }}</p>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="onCancel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span>Cancel</span>
+    </button>
+    <button class="btn btn-confirm" (click)="onConfirm()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3,6 5,6 21,6"></polyline>
+        <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+      </svg>
+      <span>{{ data.confirmButtonText || 'Confirm' }}</span>
+    </button>
+  </div>
+</div>

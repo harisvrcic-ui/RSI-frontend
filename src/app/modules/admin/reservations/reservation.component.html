@@ -1,0 +1,44 @@
+<div class="reservations-container">
+  <h2>Reservations</h2>
+
+  <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()" class="reservation-form">
+    <input type="number" formControlName="carID" placeholder="Car ID" />
+    <input type="number" formControlName="parkingSpotID" placeholder="Parking Spot ID" />
+    <input type="number" formControlName="reservationTypeID" placeholder="Reservation Type ID" />
+    <input type="datetime-local" formControlName="startDate" placeholder="Start Date" />
+    <input type="datetime-local" formControlName="endDate" placeholder="End Date" />
+    <input type="number" formControlName="finalPrice" placeholder="Final Price" />
+    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
+  </form>
+
+  <table class="reservations-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Car ID</th>
+      <th>Parking Spot ID</th>
+      <th>Reservation Type ID</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Final Price</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let res of reservations">
+      <td>{{ res.id }}</td>
+      <td>{{ res.carID }}</td>
+      <td>{{ res.parkingSpotID }}</td>
+      <td>{{ res.reservationTypeID }}</td>
+      <td>{{ res.startDate | date:'short' }}</td>
+      <td>{{ res.endDate | date:'short' }}</td>
+      <td>{{ res.finalPrice }}</td>
+      <td>
+        <button (click)="editReservation(res.id)">Edit</button>
+        <button (click)="deleteReservation(res.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

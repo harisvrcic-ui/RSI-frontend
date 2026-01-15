@@ -1,0 +1,121 @@
+<app-my-page-progressbar></app-my-page-progressbar>
+
+<!-- Modern Navigation Bar-->
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- Left side: Logo and Navigation -->
+    <div class="nav-left">
+
+      <div class="nav-menu">
+        <a routerLink="/public/home" routerLinkActive="active" class="nav-link">
+          <span class="nav-text">{{ 'NAVIGATION.HOME' | translate }}</span>
+          <div class="nav-underline"></div>
+        </a>
+        <a class="nav-link">
+          <span class="nav-text">{{ 'NAVIGATION.RESERVATIONS' | translate }}</span>
+          <div class="nav-underline"></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right side: Auth and Language -->
+    <div class="nav-right">
+      <!-- Login Button / User Profile -->
+      <div class="auth-section">
+        <!-- Login Button (when not logged in) -->
+        <button *ngIf="!authService.isLoggedIn()" class="login-btn" (click)="navigateToLogin()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10,17 15,12 10,7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          <span>{{ 'NAVIGATION.LOGIN' | translate }}</span>
+        </button>
+
+        <!-- User Profile (when logged in) -->
+        <div *ngIf="authService.isLoggedIn()" class="user-profile" (click)="toggleUserDropdown()">
+          <div class="user-avatar">
+
+          </div>
+          <span class="user-name">{{ getUserDisplayName() }}</span>
+          <div class="dropdown-arrow" [class.rotated]="isUserDropdownOpen">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6,9 12,15 18,9"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        <!-- User Dropdown Menu -->
+        <div class="user-dropdown" [class.open]="isUserDropdownOpen">
+          <div class="user-info">
+            <div class="user-avatar-large">
+
+            </div>
+            <div class="user-details">
+              <span class="user-full-name">{{ getUserFullName() }}</span>
+              <span class="user-role">{{ getUserRole() }}</span>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-options">
+            <button class="dropdown-option" (click)="navigateToAdmin()" *ngIf="isAdmin()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3h18v18H3z"></path>
+                <path d="M9 9h6v6H9z"></path>
+                <path d="M3 9h6"></path>
+                <path d="M15 9h6"></path>
+                <path d="M3 15h6"></path>
+                <path d="M15 15h6"></path>
+              </svg>
+              <span>Admin Panel</span>
+            </button>
+            <button class="dropdown-option" (click)="logout()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16,17 21,12 16,7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span>{{ 'NAVIGATION.LOGOUT' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <div class="language-display" (click)="toggleLanguageDropdown()">
+          <img [src]="'/images/' + getCurrentLanguageIcon()" [alt]="getCurrentLanguageLabel()" class="current-flag">
+          <span class="current-language">{{ getCurrentLanguageLabel() }}</span>
+          <div class="dropdown-arrow" [class.rotated]="isLanguageDropdownOpen">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6,9 12,15 18,9"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        <div class="language-dropdown" [class.open]="isLanguageDropdownOpen">
+          <div
+            *ngFor="let lang of languages"
+            class="language-option"
+            (click)="selectLanguage(lang.code)"
+            [class.active]="lang.code === currentLanguage">
+            <img [src]="'/images/' + lang.icon" [alt]="lang.label" class="flag-icon">
+            <span>{{ lang.label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animated background elements -->
+  <div class="nav-bg-elements">
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+    <div class="bg-circle bg-circle-3"></div>
+  </div>
+</nav>
+
+<!-- Main Content Area -->
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

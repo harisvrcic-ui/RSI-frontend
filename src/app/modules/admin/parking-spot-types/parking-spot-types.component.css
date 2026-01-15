@@ -1,0 +1,46 @@
+.spot-type-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.spot-type-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.spot-type-form input {
+  padding: 5px 10px;
+}
+
+.spot-type-form button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.spot-type-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spot-type-table th,
+.spot-type-table td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.spot-type-table th {
+  background: #eee;
+}
+
+.spot-type-table button {
+  margin-right: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+}

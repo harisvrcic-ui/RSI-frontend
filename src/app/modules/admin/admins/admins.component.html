@@ -1,0 +1,257 @@
+<!-- Modern Admins Management Interface -->
+<div class="admin-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">{{ 'ADMIN.ADMINS_MANAGEMENT' | translate }}</h1>
+        <p class="page-subtitle">{{ 'ADMIN.VIEW_ALL_ADMINS' | translate }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshAdmins()" [disabled]="isLoading" [title]="'ADMIN.REFRESH_ADMINS' | translate">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"></path>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>{{ 'ADMIN.REFRESH' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          #searchInput
+          type="text"
+          class="search-input"
+          [placeholder]="'ADMIN.SEARCH_ADMINS_PLACEHOLDER' | translate"
+          (input)="applyFilter($event)"
+          [value]="searchQuery">
+      </div>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-label">{{ 'ADMIN.TOTAL_ADMINS' | translate }}</span>
+        <span class="stat-value">{{ totalCount }}</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">{{ 'ADMIN.PAGE' | translate }}</span>
+        <span class="stat-value">{{ currentPage }} {{ 'ADMIN.OF' | translate }} {{ totalPages }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">{{ 'ADMIN.LOADING_ADMINS' | translate }}</p>
+  </div>
+
+  <!-- Admins Table -->
+  <div *ngIf="!isLoading" class="table-container">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.USERNAME' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.FULL_NAME' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.EMAIL' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.PHONE' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.LOCATION' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.ROLE' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.STATUS' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+            <th class="table-header-cell">
+              <div class="header-content">
+                <span>{{ 'ADMIN.JOINED' | translate }}</span>
+                <svg class="sort-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="table-body">
+          <tr *ngFor="let admin of admins" class="table-row">
+            <td class="table-cell username-cell">
+              <div class="user-info">
+                <span class="username">{{ admin.username }}</span>
+              </div>
+            </td>
+            <td class="table-cell name-cell">
+              <div class="user-info">
+                <span class="full-name">{{ admin.fullName }}</span>
+                <span class="gender">{{ admin.genderName }}</span>
+              </div>
+            </td>
+            <td class="table-cell email-cell">
+              <div class="email-info">
+                <span class="email">{{ admin.email }}</span>
+              </div>
+            </td>
+            <td class="table-cell phone-cell">
+              <div class="phone-info">
+                <span class="phone">{{ admin.phoneNumber || ('ADMIN.NO_PHONE' | translate) }}</span>
+              </div>
+            </td>
+            <td class="table-cell location-cell">
+              <div class="location-info">
+                <span class="city">{{ admin.cityName }}</span>
+              </div>
+            </td>
+            <td class="table-cell role-cell">
+              <div class="role-info">
+                <span class="role-badge" [class]="getRoleBadgeClass(admin.isAdmin, admin.isUser)">
+                  {{ getRoleText(admin.isAdmin, admin.isUser) }}
+                </span>
+              </div>
+            </td>
+            <td class="table-cell status-cell">
+              <div class="status-info">
+                <span class="status-badge" [class.active]="admin.isActive" [class.inactive]="!admin.isActive">
+                  {{ admin.isActive ? ('ADMIN.ACTIVE' | translate) : ('ADMIN.INACTIVE' | translate) }}
+                </span>
+                <span *ngIf="admin.isLocked" class="locked-badge">{{ 'ADMIN.LOCKED' | translate }}</span>
+              </div>
+            </td>
+            <td class="table-cell date-cell">
+              <div class="date-info">
+                <span class="join-date">{{ formatDate(admin.createdAt) }}</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="admins.length === 0 && !isLoading" class="empty-state">
+      <div class="empty-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <h3 class="empty-title">{{ 'ADMIN.NO_ADMINS_FOUND' | translate }}</h3>
+      <p class="empty-description">
+        {{ searchQuery ? ('ADMIN.NO_ADMIN_MATCH_SEARCH' | translate) : ('ADMIN.NO_ADMINS_IN_SYSTEM' | translate) }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && admins.length > 0" class="pagination-container">
+    <div class="pagination-info">
+      <span class="pagination-text">
+        {{ 'ADMIN.SHOWING' | translate }} {{ (currentPage - 1) * pageSize + 1 }} {{ 'ADMIN.TO' | translate }} {{ Math.min(currentPage * pageSize, totalCount) }} {{ 'ADMIN.OF' | translate }} {{ totalCount }} {{ 'ADMIN.TOTAL_ADMINS' | translate }}
+      </span>
+    </div>
+
+    <div class="pagination-controls">
+      <!-- Page Size Selector -->
+      <div class="page-size-selector">
+        <label class="page-size-label">{{ 'ADMIN.SHOW' | translate }}:</label>
+        <select
+          class="page-size-select"
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizeChange($event)">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
+        <span class="page-size-text">{{ 'ADMIN.PER_PAGE' | translate }}</span>
+      </div>
+
+      <!-- Page Navigation -->
+      <div class="page-navigation">
+        <button
+          class="page-btn prev-btn"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+          <span>{{ 'ADMIN.PREVIOUS' | translate }}</span>
+        </button>
+
+        <div class="page-numbers">
+          <button
+            *ngFor="let page of pageNumbers"
+            class="page-number-btn"
+            [class.active]="page === currentPage"
+            (click)="onPageChange(page)">
+            {{ page }}
+          </button>
+        </div>
+
+        <button
+          class="page-btn next-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)">
+          <span>{{ 'ADMIN.NEXT' | translate }}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

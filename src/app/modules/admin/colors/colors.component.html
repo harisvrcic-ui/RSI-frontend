@@ -1,0 +1,42 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">Colors Management</h1>
+        <h1 class="page-subtitle"> Manage and view all colors in the system</h1>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshColors()" [disabled]="isLoading">Refresh</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search colors..." (input)="applyFilter($event)" [value]="searchQuery">
+    </div>
+  </div>
+
+  <div *ngIf="isLoading">Loading...</div>
+
+  <div *ngIf="!isLoading" class="table-container">
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Hex Code</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let color of colors">
+        <td>{{ color.id }}</td>
+        <td>{{ color.name }}</td>
+        <td>{{ color.hexCode }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>

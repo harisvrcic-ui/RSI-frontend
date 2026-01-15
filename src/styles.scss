@@ -1,0 +1,23 @@
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Modern Dialog Overlay Styles */
+.modern-dialog .mat-mdc-dialog-container {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.modern-dialog .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+

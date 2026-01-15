@@ -1,0 +1,194 @@
+<div class="admin-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">{{ isEditMode ? ('ADMIN.EDIT_LANGUAGE' | translate) : ('ADMIN.ADD_NEW_LANGUAGE' | translate) }}</h1>
+        <p class="page-subtitle">{{ isEditMode ? ('ADMIN.UPDATE_LANGUAGE_INFO' | translate) : ('ADMIN.CREATE_NEW_LANGUAGE' | translate) }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="cancel-btn" (click)="onCancel()" [disabled]="isSaving">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          <span>{{ 'ADMIN.CANCEL' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">{{ 'ADMIN.LOADING_LANGUAGE_DATA' | translate }}</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-container">
+    <div class="error-content">
+      <svg class="error-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+      <span class="error-text">{{ errorMessage }}</span>
+    </div>
+  </div>
+
+  <!-- Form Container -->
+  <div *ngIf="!isLoading" class="form-container">
+    <form [formGroup]="languageForm" (ngSubmit)="onSubmit()" class="language-form">
+      
+      <!-- Language Name -->
+      <div class="form-group">
+        <label for="languageName" class="form-label">
+          {{ 'ADMIN.LANGUAGE_NAME' | translate }} <span class="required-indicator">*</span>
+        </label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <input 
+            id="languageName" 
+            type="text" 
+            formControlName="name" 
+            class="form-input" 
+            placeholder="{{ 'ADMIN.ENTER_LANGUAGE_NAME' | translate }}"
+            [class.error]="languageForm.get('name')?.invalid && languageForm.get('name')?.touched"
+            [disabled]="isSaving"
+          >
+        </div>
+        <div *ngIf="languageForm.get('name')?.invalid && languageForm.get('name')?.touched" class="error-text">
+          {{ getErrorMessage('name') }}
+        </div>
+        <div class="input-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>{{ 'ADMIN.LANGUAGE_NAME_HINT' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Native Name -->
+      <div class="form-group">
+        <label for="nativeName" class="form-label">{{ 'ADMIN.NATIVE_NAME' | translate }}</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <input 
+            id="nativeName" 
+            type="text" 
+            formControlName="nativeName" 
+            class="form-input" 
+            placeholder="{{ 'ADMIN.ENTER_NATIVE_NAME' | translate }}"
+            [class.error]="languageForm.get('nativeName')?.invalid && languageForm.get('nativeName')?.touched"
+            [disabled]="isSaving"
+          >
+        </div>
+        <div *ngIf="languageForm.get('nativeName')?.invalid && languageForm.get('nativeName')?.touched" class="error-text">
+          {{ getErrorMessage('nativeName') }}
+        </div>
+        <div class="input-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>{{ 'ADMIN.NATIVE_NAME_HINT' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Language Code -->
+      <div class="form-group">
+        <label for="languageCode" class="form-label">{{ 'ADMIN.LANGUAGE_CODE' | translate }}</label>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <input 
+            id="languageCode" 
+            type="text" 
+            formControlName="code" 
+            class="form-input" 
+            placeholder="{{ 'ADMIN.ENTER_LANGUAGE_CODE' | translate }}"
+            [class.error]="languageForm.get('code')?.invalid && languageForm.get('code')?.touched"
+            [disabled]="isSaving"
+            maxlength="3"
+          >
+        </div>
+        <div *ngIf="languageForm.get('code')?.invalid && languageForm.get('code')?.touched" class="error-text">
+          {{ getErrorMessage('code') }}
+        </div>
+        <div class="input-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>{{ 'ADMIN.LANGUAGE_CODE_HINT' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Is Active -->
+      <div class="form-group">
+        <label class="form-label">
+          {{ 'ADMIN.STATUS' | translate }}
+        </label>
+        <div class="checkbox-wrapper">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="isActive"
+              class="checkbox-input"
+              [disabled]="isSaving">
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">{{ 'ADMIN.ACTIVE_LANGUAGE' | translate }}</span>
+          </label>
+        </div>
+        <div class="input-hint">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <span>{{ 'ADMIN.INACTIVE_LANGUAGES_HINT' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="cancel-btn-secondary" 
+          (click)="onCancel()" 
+          [disabled]="isSaving"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          <span>{{ 'ADMIN.CANCEL' | translate }}</span>
+        </button>
+        <button 
+          type="submit" 
+          class="submit-btn" 
+          [disabled]="!isFormValid" 
+          [class.loading]="isSaving"
+        >
+          <div *ngIf="isSaving" class="btn-spinner"></div>
+          <svg *ngIf="!isSaving" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17,21 17,13 7,13 7,21"></polyline>
+            <polyline points="7,3 7,8 15,8"></polyline>
+          </svg>
+          <span>{{ 'ADMIN.SAVE_LANGUAGE' | translate }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+<!-- Modern Brands Management Interface -->
+<div class="admin-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">{{ 'ADMIN.BRANDS_MANAGEMENT' | translate }}</h1>
+        <p class="page-subtitle">{{ 'ADMIN.MANAGE_AND_VIEW_ALL_BRANDS' | translate }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshBrands()" [disabled]="isLoading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"></path>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>{{ 'ADMIN.REFRESH' | translate }}</span>
+        </button>
+
+        <button class="add-btn" (click)="addBrand()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>{{ 'ADMIN.ADD_BRAND' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="{{ 'ADMIN.SEARCH_BRANDS_PLACEHOLDER' | translate }}"
+          (input)="applyFilter($event)"
+          [value]="searchQuery">
+      </div>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-label">{{ 'ADMIN.TOTAL_BRANDS' | translate }}</span>
+        <span class="stat-value">{{ totalCount }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">{{ 'ADMIN.LOADING' | translate }}</p>
+  </div>
+
+  <!-- Brands Table -->
+  <div *ngIf="!isLoading" class="table-container">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-header">
+        <tr>
+          <th class="table-header-cell">
+            <span>{{ 'ADMIN.LOGO' | translate }}</span>
+          </th>
+          <th class="table-header-cell">
+            <span>{{ 'ADMIN.BRAND_NAME' | translate }}</span>
+          </th>
+          <th class="table-header-cell">
+            <span>{{ 'ADMIN.STATUS' | translate }}</span>
+          </th>
+          <th class="table-header-cell actions-header">
+            <span>{{ 'ADMIN.ACTIONS' | translate }}</span>
+          </th>
+        </tr>
+        </thead>
+
+        <tbody class="table-body">
+        <tr *ngFor="let brand of brands" class="table-row">
+
+          <!-- Logo -->
+          <td class="table-cell image-cell">
+            <div class="brand-logo">
+              <img
+                [src]="getBrandLogo(brand.logo)"
+                alt="Brand logo"
+                class="brand-avatar"
+                [class.default-avatar]="!brand.logo">
+            </div>
+          </td>
+
+          <!-- Name -->
+          <td class="table-cell name-cell">
+            <span class="brand-name">{{ brand.name }}</span>
+          </td>
+
+          <!-- Status -->
+          <td class="table-cell status-cell">
+              <span class="status-badge"
+                    [class.active]="brand.isActive"
+                    [class.inactive]="!brand.isActive">
+                {{ brand.isActive ? 'Active' : 'Inactive' }}
+              </span>
+          </td>
+
+          <!-- Actions -->
+          <td class="table-cell actions-cell">
+            <div class="action-buttons">
+              <button class="action-btn edit-btn" (click)="editBrand(brand.id)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+
+              <button class="action-btn delete-btn"
+                      (click)="openDeleteConfirmDialog(brand.id)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3,6 5,6 21,6"></polyline>
+                  <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0 1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="brands.length === 0" class="empty-state">
+      <h3>No Brands Found</h3>
+      <p>{{ searchQuery ? 'No brands match your search.' : 'No brands in the system yet.' }}</p>
+    </div>
+  </div>
+</div>

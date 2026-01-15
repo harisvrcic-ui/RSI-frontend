@@ -1,0 +1,304 @@
+/* ===============================
+   PAGE WRAPPER
+================================ */
+.admin-page {
+  padding: 30px;
+  min-height: calc(100vh - 80px);
+  background: #f4f6f9;
+}
+
+/* ===============================
+   PAGE HEADER
+================================ */
+.page-header {
+  margin-bottom: 25px;
+  padding: 24px 28px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px 0;
+}
+
+.page-subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Header buttons */
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.refresh-btn,
+.add-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.add-btn {
+  background: #ffd700;
+  color: #111827;
+  border: none;
+}
+
+.add-btn:hover:not(:disabled) {
+  background: #facc15;
+}
+
+/* ===============================
+   SEARCH
+================================ */
+.search-section {
+  margin-bottom: 20px;
+}
+
+.search-container {
+  max-width: 360px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+  color: #111827;
+  background: #ffffff;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+/* ===============================
+   TABLE
+================================ */
+.table-container {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  background: #f9fafb;
+}
+
+.table-header-cell {
+  padding: 14px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.table-row {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s ease;
+}
+
+.table-row:hover {
+  background: #f9fafb;
+}
+
+.table-cell {
+  padding: 14px 16px;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+/* ===============================
+   CAR IMAGE
+================================ */
+.image-cell {
+  width: 180px;
+}
+
+.car-image {
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f3f4f6;
+}
+
+.default-car-avatar {
+  width: 160px;
+  height: 100px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===============================
+   STATUS
+================================ */
+.status-cell {
+  text-align: center;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===============================
+   ACTIONS
+================================ */
+.actions-cell {
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #fff7cc;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+}
+
+/* ===============================
+   LOADING & EMPTY
+================================ */
+.loading-container,
+.empty-state {
+  padding: 60px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #fde68a;
+  border-top: 3px solid #facc15;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.empty-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.empty-description {
+  font-size: 0.9rem;
+}
+
+/* ===============================
+   PAGINATION
+================================ */
+.pagination-container {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-size-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.page-btn,
+.page-number-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.page-number-btn.active {
+  background: #ffd700;
+  border-color: #ffd700;
+  font-weight: 600;
+}

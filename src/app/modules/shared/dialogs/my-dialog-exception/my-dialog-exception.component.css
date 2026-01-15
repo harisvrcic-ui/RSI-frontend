@@ -1,0 +1,270 @@
+/* Modern Exception Dialog Styles */
+.dialog-container {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  max-width: 498px;
+  width: 85vw;
+}
+
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 25px 30px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.header-icon.error {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  flex: 1;
+}
+
+/* Dialog Content */
+.dialog-content {
+  padding: 25px 30px;
+}
+
+.dialog-message {
+  color: #ecf0f1;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  opacity: 0.9;
+}
+
+/* Exception Details */
+.exception-details {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.details-header:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.details-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #ecf0f1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.toggle-btn.expanded svg {
+  transform: rotate(180deg);
+}
+
+.toggle-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.details-label {
+  color: #ffd700;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #ecf0f1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #ffd700;
+  color: #ffd700;
+  transform: translateY(-1px);
+}
+
+.details-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 20px;
+}
+
+.details-content.expanded {
+  max-height: 200px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.exception-text,
+.details-text {
+  color: #e74c3c;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: rgba(231, 76, 60, 0.1);
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 30px 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-close {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ecf0f1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dialog-container {
+    width: 95vw;
+    margin: 10px;
+  }
+
+  .dialog-header {
+    padding: 20px 25px 15px;
+  }
+
+  .dialog-title {
+    font-size: 1.3rem;
+  }
+
+  .dialog-content {
+    padding: 20px 25px;
+  }
+
+  .dialog-actions {
+    padding: 15px 25px 20px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog-header {
+    padding: 15px 20px 10px;
+  }
+
+  .header-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dialog-title {
+    font-size: 1.2rem;
+  }
+
+  .dialog-content {
+    padding: 15px 20px;
+  }
+
+  .dialog-actions {
+    padding: 10px 20px 15px;
+  }
+
+  .details-content {
+    padding: 15px;
+    max-height: 150px;
+  }
+
+  .exception-text,
+  .details-text {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+}

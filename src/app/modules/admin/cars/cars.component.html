@@ -1,0 +1,109 @@
+<div class="admin-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">Cars Management</h1>
+        <p class="page-subtitle">Manage all cars in the system</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshCars()" [disabled]="isLoading">
+          Refresh
+        </button>
+        <button class="add-btn" (click)="addCar()">
+          Add Car
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <input type="text" class="search-input" placeholder="Search cars..." (input)="applyFilter($event)" [value]="searchQuery">
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">z
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading cars...</div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container" *ngIf="!isLoading && cars.length > 0">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-header">
+        <tr>
+          <th class="table-header-cell">Picture</th>
+          <th class="table-header-cell">Brand</th>
+          <th class="table-header-cell">Model</th>
+          <th class="table-header-cell">License Plate</th>
+          <th class="table-header-cell">Year</th>
+          <th class="table-header-cell">Status</th>
+          <th class="table-header-cell actions-header">Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-body">
+        <tr *ngFor="let car of cars" class="table-row">
+          <td class="image-cell">
+            <img *ngIf="hasImage(car)" [src]="getImageUrl(car.picture)" class="car-image" alt="Car Image">
+            <div *ngIf="!hasImage(car)" class="default-car-avatar">🚗</div>
+          </td>
+          <td class="table-cell">{{ car.brandName }}</td>
+          <td class="table-cell">{{ car.model }}</td>
+          <td class="table-cell">{{ car.licensePlate }}</td>
+          <td class="table-cell">{{ car.yearOfManufacture }}</td>
+          <td class="table-cell status-cell">
+              <span class="status-badge" [ngClass]="car.isActive ? 'active' : 'inactive'">
+                {{ car.isActive ? 'Active' : 'Inactive' }}
+              </span>
+          </td>
+          <td class="table-cell actions-cell">
+            <div class="action-buttons">
+              <button class="action-btn edit-btn" (click)="editCar(car.id)">✏️</button>
+              <button class="action-btn delete-btn" (click)="openDeleteConfirmDialog(car.id)">🗑️</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && cars.length === 0" class="empty-state">
+    <div class="empty-icon">🚗</div>
+    <h3 class="empty-title">No Cars Found</h3>
+    <p class="empty-description">Add new cars to display them here.</p>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="totalCount > pageSize">
+    <div class="pagination-info">
+      <span class="pagination-text">
+        Showing page {{ currentPage }} of {{ totalPages }} (Total: {{ totalCount }})
+      </span>
+    </div>
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label class="page-size-label">Rows per page:</label>
+        <select class="page-size-select" [value]="pageSize" (change)="onPageSizeChange($any($event.target).value)">
+          <option *ngFor="let size of [5,10,25,50]" [value]="size">{{ size }}</option>
+        </select>
+      </div>
+      <div class="page-navigation">
+        <button class="page-btn" (click)="onPageChange(currentPage-1)" [disabled]="currentPage===1">Prev</button>
+        <div class="page-numbers">
+          <button *ngFor="let p of pageNumbers" class="page-number-btn" [ngClass]="{active: p===currentPage}" (click)="onPageChange(p)">
+            {{ p }}
+          </button>
+        </div>
+        <button class="page-btn" (click)="onPageChange(currentPage+1)" [disabled]="currentPage===totalPages">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

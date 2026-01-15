@@ -1,0 +1,52 @@
+<div class="spots-container">
+  <h2>Parking Spots</h2>
+
+  <form [formGroup]="spotForm" (ngSubmit)="saveSpot()" class="spot-form">
+    <input type="number" formControlName="parkingNumber" placeholder="Parking Number" />
+    <input type="number" formControlName="parkingSpotTypeId" placeholder="Parking Spot Type ID" />
+    <input type="number" formControlName="zoneId" placeholder="Zone ID" />
+    <label>
+      <input type="checkbox" formControlName="isActive" /> Active
+    </label>
+    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
+  </form>
+
+  <table class="spots-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Parking Number</th>
+      <th>Spot Type ID</th>
+      <th>Zone ID</th>
+      <th>Active</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let spot of spots">
+      <td>{{ spot.id }}</td>
+      <td>{{ spot.parkingNumber }}</td>
+      <td>{{ spot.parkingSpotTypeId }}</td>
+      <td>{{ spot.zoneId }}</td>
+      <td>{{ spot.isActive ? 'Yes' : 'No' }}</td>
+      <td>
+        <button (click)="editSpot(spot.id)">Edit</button>
+        <button (click)="deleteSpot(spot.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div *ngIf="totalPages > 1" class="pagination-container">
+    <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+
+    <button *ngFor="let p of pageNumbers"
+            [ngClass]="{'active': p === currentPage}"
+            (click)="onPageChange(p)">
+      {{ p }}
+    </button>
+
+    <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+</div>

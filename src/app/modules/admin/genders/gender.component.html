@@ -1,0 +1,42 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="header-text">
+      <h1 class="page-title">Genders Management</h1>
+      <h2 class="page-subtitle">Manage and view all genders in the system</h2>
+    </div>
+
+    <button class="refresh-btn"
+            (click)="refreshGenders()"
+            [disabled]="isLoading">
+      Refresh
+    </button>
+  </div>
+
+
+  <div class="search-section">
+    <input type="text" placeholder="Search genders..." (input)="applyFilter($event)" [value]="searchQuery">
+  </div>
+
+  <div *ngIf="isLoading">Loading...</div>
+
+  <table *ngIf="!isLoading && genders.length > 0" class="data-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let g of genders">
+      <td>{{ g.id }}</td>
+      <td>{{ g.name }}</td>
+      <td>{{ g.isActive ? 'Active' : 'Inactive' }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!isLoading && genders.length === 0">
+    No genders found.
+  </div>
+</div>

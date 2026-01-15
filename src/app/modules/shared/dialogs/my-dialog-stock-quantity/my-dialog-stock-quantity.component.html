@@ -1,0 +1,62 @@
+<!-- Modern Stock Quantity Dialog -->
+<div class="dialog-container">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <div class="header-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </div>
+    <h2 class="dialog-title">{{ data.title }}</h2>
+  </div>
+
+  <!-- Dialog Content -->
+  <div class="dialog-content">
+    <p class="dialog-message">Add stock quantity for:</p>
+
+
+    <form [formGroup]="stockForm" class="stock-form">
+      <div class="form-group">
+        <label for="quantity" class="form-label">Quantity to Add</label>
+        <input
+          type="number"
+          id="quantity"
+          formControlName="quantity"
+          class="form-input"
+          placeholder="Enter quantity..."
+          min="1"
+          max="1000"
+          autofocus
+        />
+        <div class="error-message" *ngIf="stockForm.get('quantity')?.invalid && stockForm.get('quantity')?.touched">
+          {{ quantityError }}
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="onCancel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      <span>Cancel</span>
+    </button>
+    <button
+      class="btn btn-confirm"
+      (click)="onConfirm()"
+      [disabled]="stockForm.invalid"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      <span>Add Stock</span>
+    </button>
+  </div>
+</div>

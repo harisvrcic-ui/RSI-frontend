@@ -1,0 +1,285 @@
+/* Light Admin Page Styles - Clean & Modern */
+.admin-page {
+  padding: 30px;
+  min-height: calc(100vh - 80px);
+  background: #f4f6f9; /* zadržana boja */
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 30px;
+  padding: 25px 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 400;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Buttons */
+.add-btn {
+  background: #ffd700;
+  color: #111827;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #e6c200;
+}
+
+.refresh-btn {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Search Section */
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+  color: #111827;
+  transition: all 0.2s ease;
+}
+
+
+.search-input:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #f59e0b;
+}
+
+/* Table Container */
+.table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.user-info { display: flex; flex-direction: column; gap: 4px; }
+
+.table-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-header-cell {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.table-body {
+  background: #ffffff;
+}
+
+.table-row {
+  transition: background 0.2s ease;
+}
+
+.table-row:hover {
+  background: #f9fafb;
+}
+
+.table-cell {
+  padding: 16px 20px;
+  color: #111827;
+  font-size: 0.9rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Role Badges */
+.role-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+
+
+.role-badge.user {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.role-badge.none {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+/* Pagination */
+.pagination-container {
+  margin-top: 25px;
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-number-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border-radius: 6px;
+  color: #111827;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-number-btn:hover {
+  background: #e5e7eb;
+}
+
+.page-number-btn.active {
+  background: #ffd700;
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 20px;
+  }
+
+  .page-header {
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-page {
+    padding: 15px;
+  }
+
+  .page-header {
+    padding: 15px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .table-cell {
+    padding: 12px 15px;
+  }
+}
+

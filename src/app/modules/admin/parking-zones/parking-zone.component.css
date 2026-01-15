@@ -1,0 +1,47 @@
+.zones-container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.zone-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.zone-form input[type="text"] {
+  flex: 1;
+  padding: 5px 10px;
+}
+
+.zone-form button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.zones-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.zones-table th,
+.zones-table td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.zones-table th {
+  background: #eee;
+}
+
+.zones-table button {
+  margin-right: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+}

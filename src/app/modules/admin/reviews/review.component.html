@@ -1,0 +1,38 @@
+<div class="reviews-container">
+  <h2>Reviews</h2>
+
+  <form [formGroup]="reviewForm" (ngSubmit)="saveReview()" class="review-form">
+    <input type="number" formControlName="userId" placeholder="User ID" />
+    <input type="number" formControlName="reservationId" placeholder="Reservation ID" />
+    <input type="number" formControlName="rating" placeholder="Rating (1-5)" />
+    <input type="text" formControlName="comment" placeholder="Comment" />
+    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
+    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
+  </form>
+
+  <table class="reviews-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>User ID</th>
+      <th>Reservation ID</th>
+      <th>Rating</th>
+      <th>Comment</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let review of reviews">
+      <td>{{ review.id }}</td>
+      <td>{{ review.userId }}</td>
+      <td>{{ review.reservationId }}</td>
+      <td>{{ review.rating }}</td>
+      <td>{{ review.comment }}</td>
+      <td>
+        <button (click)="editReview(review.id)">Edit</button>
+        <button (click)="deleteReview(review.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
