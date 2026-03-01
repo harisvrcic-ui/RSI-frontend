@@ -42,14 +42,27 @@
           [value]="searchQuery">
       </div>
     </div>
+    <div class="filters-row">
+      <label class="filter-label">{{ 'ADMIN.COUNTRY' | translate }}</label>
+      <select class="filter-select" [value]="filterCountryId ?? ''" (change)="filterCountryId = $any($event.target).value === '' ? null : +$any($event.target).value; onFilterChange()">
+        <option value="">— {{ 'ADMIN.ALL' | translate }} —</option>
+        <option *ngFor="let c of countries" [value]="c.id">{{ c.name }}</option>
+      </select>
+      <label class="filter-label">{{ 'ADMIN.STATUS' | translate }}</label>
+      <select class="filter-select" [value]="filterIsActive === null ? '' : filterIsActive" (change)="filterIsActive = $any($event.target).value === '' ? null : $any($event.target).value === 'true'; onFilterChange()">
+        <option value="">— {{ 'ADMIN.ALL' | translate }} —</option>
+        <option [value]="true">{{ 'ADMIN.ACTIVE' | translate }}</option>
+        <option [value]="false">{{ 'ADMIN.INACTIVE' | translate }}</option>
+      </select>
+    </div>
 
     <div class="stats-container">
       <div class="stat-item">
-        <span class="stat-label">{{ 'ADMIN.TOTAL_CITIES' | translate }}</span>
+        <span class="stat-label">{{ 'ADMIN.TOTAL_CITIES' | translate }}: </span>
         <span class="stat-value">{{ totalCount }}</span>
       </div>
       <div class="stat-item">
-        <span class="stat-label">{{ 'ADMIN.PAGE' | translate }}</span>
+        <span class="stat-label">{{ 'ADMIN.PAGE' | translate }}: </span>
         <span class="stat-value">{{ currentPage }} {{ 'ADMIN.OF' | translate }} {{ totalPages }}</span>
       </div>
     </div>
@@ -61,7 +74,7 @@
     <p class="loading-text">{{ 'ADMIN.LOADING_CITIES' | translate }}</p>
   </div>
 
-  <!-- Cities Table -->
+  <!-- Cities Table + Pagination (jedna jedinica – paginacija kao table footer) -->
   <div *ngIf="!isLoading" class="table-container">
     <div class="table-wrapper">
       <table class="data-table">
@@ -90,13 +103,15 @@
              </td>
              <td class="table-cell actions-cell">
                <div class="action-buttons">
-                 <button class="action-btn edit-btn" (click)="editCity(city.id)" [title]="'ADMIN.EDIT_CITY' | translate">
+                 <button class="action-btn edit-btn" (click)="editCity(city.id)"
+                        [title]="'ADMIN.EDIT_CITY' | translate" [attr.aria-label]="'ADMIN.EDIT_CITY' | translate">
                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                      <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                    </svg>
                  </button>
-                 <button class="action-btn delete-btn" (click)="openDeleteConfirmDialog(city.id)" [title]="'ADMIN.DELETE_CITY' | translate">
+                 <button class="action-btn delete-btn" (click)="openDeleteConfirmDialog(city.id)"
+                        [title]="'ADMIN.DELETE_CITY' | translate" [attr.aria-label]="'ADMIN.DELETE_CITY' | translate">
                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                      <polyline points="3,6 5,6 21,6"></polyline>
                      <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
@@ -107,6 +122,41 @@
            </tr>
          </tbody>
       </table>
+    </div>
+
+    <!-- Pagination – vizuelno dio iste tabele (footer) -->
+    <div *ngIf="cities.length > 0" class="pagination-container table-footer-pagination">
+      <div class="pagination-info">
+        <span class="pagination-text">
+          {{ 'ADMIN.SHOWING' | translate }} {{ (currentPage - 1) * pageSize + 1 }} {{ 'ADMIN.TO' | translate }} {{ Math.min(currentPage * pageSize, totalCount) }} {{ 'ADMIN.OF' | translate }} {{ totalCount }} {{ 'ADMIN.TOTAL_CITIES' | translate }}
+        </span>
+      </div>
+      <div class="pagination-controls">
+        <div class="page-size-selector">
+          <label class="page-size-label">{{ 'ADMIN.SHOW' | translate }}:</label>
+          <select class="page-size-select" [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+          <span class="page-size-text">{{ 'ADMIN.PER_PAGE' | translate }}</span>
+        </div>
+        <div class="page-navigation">
+          <button class="page-btn prev-btn" [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
+            <span>{{ 'ADMIN.PREVIOUS' | translate }}</span>
+          </button>
+          <div class="page-numbers">
+            <button *ngFor="let page of pageNumbers" class="page-number-btn" [class.active]="page === currentPage" (click)="onPageChange(page)">{{ page }}</button>
+          </div>
+          <button class="page-btn next-btn" [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+            <span>{{ 'ADMIN.NEXT' | translate }}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"></polyline></svg>
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Empty State -->
@@ -121,65 +171,6 @@
       <p class="empty-description">
         {{ searchQuery ? ('ADMIN.NO_CITIES_MATCH_SEARCH' | translate) : ('ADMIN.NO_CITIES_IN_SYSTEM' | translate) }}
       </p>
-    </div>
-  </div>
-
-  <!-- Pagination -->
-  <div *ngIf="!isLoading && cities.length > 0" class="pagination-container">
-    <div class="pagination-info">
-      <span class="pagination-text">
-        {{ 'ADMIN.SHOWING' | translate }} {{ (currentPage - 1) * pageSize + 1 }} {{ 'ADMIN.TO' | translate }} {{ Math.min(currentPage * pageSize, totalCount) }} {{ 'ADMIN.OF' | translate }} {{ totalCount }} {{ 'ADMIN.TOTAL_CITIES' | translate }}
-      </span>
-    </div>
-
-    <div class="pagination-controls">
-      <!-- Page Size Selector -->
-      <div class="page-size-selector">
-        <label class="page-size-label">{{ 'ADMIN.SHOW' | translate }}:</label>
-        <select
-        class="page-size-select"
-        [(ngModel)]="pageSize"
-        (ngModelChange)="onPageSizeChange($event)">
-        <option [value]="5">5</option>
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-        <option [value]="50">50</option>
-      </select>
-        <span class="page-size-text">{{ 'ADMIN.PER_PAGE' | translate }}</span>
-      </div>
-
-      <!-- Page Navigation -->
-      <div class="page-navigation">
-        <button
-          class="page-btn prev-btn"
-          [disabled]="currentPage === 1"
-          (click)="onPageChange(currentPage - 1)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15,18 9,12 15,6"></polyline>
-          </svg>
-          <span>{{ 'ADMIN.PREVIOUS' | translate }}</span>
-        </button>
-
-        <div class="page-numbers">
-          <button
-            *ngFor="let page of pageNumbers"
-            class="page-number-btn"
-            [class.active]="page === currentPage"
-            (click)="onPageChange(page)">
-            {{ page }}
-          </button>
-        </div>
-
-        <button
-          class="page-btn next-btn"
-          [disabled]="currentPage === totalPages"
-          (click)="onPageChange(currentPage + 1)">
-          <span>{{ 'ADMIN.NEXT' | translate }}</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9,18 15,12 9,6"></polyline>
-          </svg>
-        </button>
-      </div>
     </div>
   </div>
 </div>

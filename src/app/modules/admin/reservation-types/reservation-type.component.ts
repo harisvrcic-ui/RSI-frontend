@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReservationTypeGetAllEndpointService, ReservationTypeGetAllResponse } from '../../../endpoints/reservation-types-endpoints/reservation-type-get-all-endpoint.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ReservationTypeGetAllEndpointService, ReservationTypeGetAllResponse, ReservationTypeGetAllRequest } from '../../../endpoints/reservation-types-endpoints/reservation-type-get-all-endpoint.service';
 import { ReservationTypeUpdateOrInsertEndpointService, ReservationTypeUpdateOrInsertRequest } from '../../../endpoints/reservation-types-endpoints/reservation-type-update-or-insert-endpoint.service';
 import { ReservationTypeDeleteEndpointService } from '../../../endpoints/reservation-types-endpoints/reservation-type-delete-endpoint.service';
-import { MyPagedRequest } from '../../../helper/my-paged-request';
+import { MyDialogConfirmComponent } from '../../shared/dialogs/my-dialog-confirm/my-dialog-confirm.component';
 
 @Component({
   selector: 'app-reservation-type',
@@ -16,19 +17,20 @@ export class ReservationTypeComponent implements OnInit {
   reservationTypeForm: FormGroup;
   editId: number | null = null;
 
-  // Pagination
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 25;
   totalCount = 0;
   totalPages = 0;
-
+  searchQuery = '';
   isLoading = false;
+  Math = Math;
 
   constructor(
     private fb: FormBuilder,
     private getAllService: ReservationTypeGetAllEndpointService,
     private saveService: ReservationTypeUpdateOrInsertEndpointService,
-    private deleteService: ReservationTypeDeleteEndpointService
+    private deleteService: ReservationTypeDeleteEndpointService,
+    private dialog: MatDialog
   ) {
     this.reservationTypeForm = this.fb.group({
       name: ['', Validators.required],
@@ -41,29 +43,36 @@ export class ReservationTypeComponent implements OnInit {
     this.loadReservationTypes();
   }
 
-  // Load paginated reservation types
-  loadReservationTypes(page: number = 1, pageSize: number = 10) {
-    const request: MyPagedRequest = {
-      pageNumber: this.currentPage,
-      pageSize: this.pageSize
+  loadReservationTypes(page: number = 1, pageSize: number = this.pageSize): void {
+    const request: ReservationTypeGetAllRequest = {
+      pageNumber: page,
+      pageSize: pageSize,
+      q: this.searchQuery || undefined
     };
     this.isLoading = true;
     this.getAllService.handleAsync(request).subscribe({
       next: (res) => {
-        this.reservationTypes = res.dataItems; // MyPagedList -> dataItems
+        this.reservationTypes = res.dataItems ?? [];
         this.totalCount = res.totalCount;
-        this.totalPages = res.totalPages;
-        this.currentPage = res.currentPage;
+        this.currentPage = res.currentPage ?? page;
+        this.pageSize = res.pageSize ?? pageSize;
+        this.totalPages = Math.ceil(this.totalCount / this.pageSize) || 1;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error loading reservation types:', err);
-        this.isLoading = false;
-      }
+      error: () => { this.isLoading = false; }
     });
   }
 
-  // Pagination helpers
+  refreshReservationTypes(): void {
+    this.loadReservationTypes(this.currentPage, this.pageSize);
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.pageSize = newSize;
+    this.currentPage = 1;
+    this.loadReservationTypes(1, this.pageSize);
+  }
+
   onPageChange(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
@@ -109,7 +118,7 @@ export class ReservationTypeComponent implements OnInit {
 
     this.saveService.handleAsync(request).subscribe({
       next: () => {
-        this.reservationTypeForm.reset({ isActive: true, price: 0 });
+        this.reservationTypeForm.reset({ name: '', price: 0 });
         this.editId = null;
         this.loadReservationTypes(this.currentPage, this.pageSize);
       },
@@ -119,24 +128,32 @@ export class ReservationTypeComponent implements OnInit {
     });
   }
 
-  deleteReservationType(id: number) {
-    if (!confirm('Are you sure you want to delete this reservation type?')) return;
-
+  deleteReservationType(id: number): void {
     this.deleteService.handleAsync(id).subscribe({
       next: () => {
-        if (this.reservationTypes.length === 1 && this.currentPage > 1) {
-          this.currentPage--;
-        }
+        if (this.reservationTypes.length === 1 && this.currentPage > 1) this.currentPage--;
         this.loadReservationTypes(this.currentPage, this.pageSize);
       },
-      error: (err) => {
-        console.error('Error deleting reservation type:', err);
-      }
+      error: () => {}
     });
   }
 
-  cancelEdit() {
-    this.reservationTypeForm.reset({ isActive: true, price: 0 });
+  cancelEdit(): void {
+    this.reservationTypeForm.reset({ name: '', price: 0 });
     this.editId = null;
+  }
+
+  applyFilter(event: Event): void {
+    this.searchQuery = (event.target as HTMLInputElement).value.trim();
+    this.currentPage = 1;
+    this.loadReservationTypes(1, this.pageSize);
+  }
+
+  openDeleteConfirmDialog(id: number): void {
+    const dialogRef = this.dialog.open(MyDialogConfirmComponent, {
+      width: '450px',
+      data: { title: 'Confirm Delete', message: 'Are you sure you want to delete this reservation type?', confirmButtonText: 'Delete' }
+    });
+    dialogRef.afterClosed().subscribe(result => { if (result) this.deleteReservationType(id); });
   }
 }

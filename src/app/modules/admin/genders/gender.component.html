@@ -1,42 +1,69 @@
 <div class="admin-page">
   <div class="page-header">
-    <div class="header-text">
-      <h1 class="page-title">Genders Management</h1>
-      <h2 class="page-subtitle">Manage and view all genders in the system</h2>
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">{{ 'ADMIN.GENDERS' | translate }}</h1>
+        <p class="page-subtitle">{{ 'ADMIN.MANAGE_AND_VIEW_ALL_GENDERS' | translate }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" (click)="refreshGenders()" [disabled]="isLoading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"></path>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>{{ 'ADMIN.REFRESH' | translate }}</span>
+        </button>
+      </div>
     </div>
-
-    <button class="refresh-btn"
-            (click)="refreshGenders()"
-            [disabled]="isLoading">
-      Refresh
-    </button>
   </div>
-
 
   <div class="search-section">
-    <input type="text" placeholder="Search genders..." (input)="applyFilter($event)" [value]="searchQuery">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" class="search-input" placeholder="{{ 'ADMIN.SEARCH_GENDERS_PLACEHOLDER' | translate }}" (input)="applyFilter($event)" [value]="searchQuery">
+      </div>
+    </div>
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-label">{{ 'ADMIN.TOTAL_GENDERS' | translate }}: </span>
+        <span class="stat-value">{{ totalCount }}</span>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="isLoading">Loading...</div>
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">{{ 'ADMIN.LOADING' | translate }}</p>
+  </div>
 
-  <table *ngIf="!isLoading && genders.length > 0" class="data-table">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let g of genders">
-      <td>{{ g.id }}</td>
-      <td>{{ g.name }}</td>
-      <td>{{ g.isActive ? 'Active' : 'Inactive' }}</td>
-    </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="!isLoading && genders.length === 0">
-    No genders found.
+  <div *ngIf="!isLoading" class="table-container">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th class="table-header-cell">{{ 'ADMIN.NAME' | translate }}</th>
+            <th class="table-header-cell">{{ 'ADMIN.STATUS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr *ngFor="let g of genders" class="table-row">
+            <td class="table-cell name-cell">{{ g.name }}</td>
+            <td class="table-cell status-cell">
+              <span class="status-badge" [class.active]="g.isActive" [class.inactive]="!g.isActive">
+                {{ g.isActive ? ('ADMIN.ACTIVE' | translate) : ('ADMIN.INACTIVE' | translate) }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="genders.length === 0" class="empty-state">
+      <h3>{{ 'ADMIN.NO_GENDERS_FOUND' | translate }}</h3>
+      <p>{{ searchQuery ? ('ADMIN.NO_MATCH_SEARCH' | translate) : 'No genders in the system yet.' }}</p>
+    </div>
   </div>
 </div>

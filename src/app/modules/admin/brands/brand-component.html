@@ -47,7 +47,7 @@
 
     <div class="stats-container">
       <div class="stat-item">
-        <span class="stat-label">{{ 'ADMIN.TOTAL_BRANDS' | translate }}</span>
+        <span class="stat-label">{{ 'ADMIN.TOTAL_BRANDS' | translate }}: </span>
         <span class="stat-value">{{ totalCount }}</span>
       </div>
     </div>
@@ -66,10 +66,10 @@
         <thead class="table-header">
         <tr>
           <th class="table-header-cell">
-            <span>{{ 'ADMIN.LOGO' | translate }}</span>
+            <span>{{ 'ADMIN.BRAND_NAME' | translate }}</span>
           </th>
           <th class="table-header-cell">
-            <span>{{ 'ADMIN.BRAND_NAME' | translate }}</span>
+            <span>{{ 'ADMIN.LOGO' | translate }}</span>
           </th>
           <th class="table-header-cell">
             <span>{{ 'ADMIN.STATUS' | translate }}</span>
@@ -83,6 +83,11 @@
         <tbody class="table-body">
         <tr *ngFor="let brand of brands" class="table-row">
 
+          <!-- Name -->
+          <td class="table-cell name-cell">
+            <span class="brand-name">{{ brand.name }}</span>
+          </td>
+
           <!-- Logo -->
           <td class="table-cell image-cell">
             <div class="brand-logo">
@@ -92,11 +97,6 @@
                 class="brand-avatar"
                 [class.default-avatar]="!brand.logo">
             </div>
-          </td>
-
-          <!-- Name -->
-          <td class="table-cell name-cell">
-            <span class="brand-name">{{ brand.name }}</span>
           </td>
 
           <!-- Status -->
@@ -111,20 +111,25 @@
           <!-- Actions -->
           <td class="table-cell actions-cell">
             <div class="action-buttons">
-              <button class="action-btn edit-btn" (click)="editBrand(brand.id)">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                  <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                </svg>
-              </button>
+              <span class="action-tooltip-wrap">
+                <button type="button" class="action-btn edit-btn" (click)="editBrand(brand.id)" [attr.aria-label]="'ADMIN.EDIT' | translate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <span class="action-tooltip">{{ 'ADMIN.EDIT' | translate }}</span>
+              </span>
 
-              <button class="action-btn delete-btn"
-                      (click)="openDeleteConfirmDialog(brand.id)">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="3,6 5,6 21,6"></polyline>
-                  <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0 1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
-                </svg>
-              </button>
+              <span class="action-tooltip-wrap">
+                <button type="button" class="action-btn delete-btn" (click)="openDeleteConfirmDialog(brand.id)" [attr.aria-label]="'ADMIN.DELETE' | translate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0 1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                  </svg>
+                </button>
+                <span class="action-tooltip">{{ 'ADMIN.DELETE' | translate }}</span>
+              </span>
             </div>
           </td>
 

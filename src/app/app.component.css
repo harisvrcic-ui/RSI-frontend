@@ -74,6 +74,69 @@
   50% { transform: translateY(-20px) rotate(180deg); }
 }
 
+/* Hamburger – sakriven na desktopu */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 12px;
+}
+.nav-hamburger:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger-line:nth-child(1).open {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-line:nth-child(2).open {
+  opacity: 0;
+}
+.hamburger-line:nth-child(3).open {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.nav-mobile-brand {
+  display: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffd700;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+/* Desktop logo – isti izgled kao mobilni brand (eParking) */
+.nav-brand-desktop {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffd700;
+  text-decoration: none;
+  margin-right: 32px;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.nav-brand-desktop:hover {
+  color: #ffe44d;
+  opacity: 0.95;
+}
+
 /* Left side: Logo and Navigation */
 .nav-left {
   display: flex;
@@ -175,11 +238,17 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* Active state – jasno vidljiv (H1 Visibility of system status) */
 .nav-link.active {
-
-
-
-
+  color: #ffd700;
+  font-weight: 600;
+  background: rgba(255, 215, 0, 0.15);
+}
+.nav-link.active .nav-underline {
+  width: 100%;
+  height: 4px;
+  background: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
 }
 
 .nav-text {
@@ -193,15 +262,19 @@
   left: 50%;
   transform: translateX(-50%);
   width: 0;
-  height: 3px;
-  background: #ffffff;
+  height: 4px;
+  background: #ffd700;
   border-radius: 2px;
   transition: width 0.4s ease;
 }
 
-.nav-link:hover .nav-underline,
-.nav-link.active .nav-underline {
+.nav-link:hover .nav-underline {
   width: 80%;
+  background: rgba(255, 255, 255, 0.9);
+}
+.nav-link.active .nav-underline {
+  width: 100%;
+  background: #ffd700;
 }
 
 /* Right side: Auth and Language */
@@ -269,7 +342,11 @@
 .user-name {
   color: #ffffff;
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
 }
 
 /* User Dropdown */
@@ -309,18 +386,24 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-
+  background: rgba(255, 215, 0, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   color: #1a1a2e;
   font-size: 1.2rem;
-
+  flex-shrink: 0;
+}
+.user-avatar-large .user-initials {
+  color: #b8860b;
 }
 
 .user-details {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .user-full-name {
@@ -329,7 +412,9 @@
   font-size: 1rem;
   font-weight: 400;
   margin-bottom: 4px;
-  margin-left:-60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-role {
@@ -339,7 +424,9 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-left:-60px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-divider {
@@ -374,6 +461,16 @@
   color: #ffd700;
 }
 
+.dropdown-option-link {
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dropdown-option-link:focus {
+  outline: none;
+}
+
 .dropdown-option svg {
   transition: transform 0.3s ease;
 }
@@ -388,20 +485,29 @@
   z-index: 9999;
 }
 .user-avatar {
-  width: auto;       /* automatska širina prema sadržaju */
-  height: auto;      /* automatska visina */
-  border-radius: 0;  /* uklonjeno za svaki oblik */
-  box-shadow: none;  /* uklonjeno */
-  background: none;  /* uklonjeno */
-  display: flex;   /* da bude u liniji sa tekstom */
-  padding: 0;        /* uklanja eventualni unutrašnji razmak */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 215, 0, 0.25);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.user-initials {
   font-weight: 700;
-  color: #1a1a2e;
-  font-size: 0.9rem;
-  align-items: center; /* uklanja flex poravnanje */
-  justify-content: unset; /* uklanja flex poravnanje */
-  gap: 12px;
-  padding: 5px 2px;
+  color: #ffd700;
+  font-size: 0.85rem;
+}
+.user-role-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 .language-display {
   display: flex;
@@ -438,9 +544,13 @@
 
 .current-language {
   color: #ffffff;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-arrow {
@@ -517,13 +627,175 @@
   transform: scale(1.1);
 }
 
+/* Mobile menu overlay i panel */
+.nav-mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9997;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.nav-mobile-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+.nav-mobile-menu {
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  padding: 80px 0 24px;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.nav-mobile-menu.open {
+  transform: translateX(0);
+}
+.nav-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 12px;
+}
+.nav-mobile-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffd700;
+}
+.nav-mobile-close {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-mobile-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.nav-mobile-link {
+  display: block;
+  padding: 14px 20px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  border: none;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+}
+.nav-mobile-link:hover,
+.nav-mobile-link.active {
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+}
+.nav-mobile-link.active {
+  font-weight: 600;
+  border-left: 4px solid #ffd700;
+}
+.nav-mobile-btn {
+  font-family: inherit;
+}
+.nav-mobile-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  color: #fff;
+  font-size: 0.95rem;
+}
+.nav-mobile-user .user-role-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+}
+.nav-mobile-lang {
+  padding: 16px 20px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.nav-mobile-lang-label {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+.nav-mobile-lang-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nav-mobile-lang-btn {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.nav-mobile-lang-btn:hover,
+.nav-mobile-lang-btn.active {
+  background: rgba(255, 215, 0, 0.25);
+  color: #ffd700;
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
 /* Main Content Area */
 .main-content {
   margin-top: 80px;
   min-height: calc(100vh - 80px);
 }
 
-/* Responsive Design */
+/* Responsive – hamburger + mobilni izbornik ispod 900px */
+@media (max-width: 900px) {
+  .nav-desktop {
+    display: none !important;
+  }
+  .nav-brand-desktop {
+    display: none !important;
+  }
+  .nav-hamburger {
+    display: flex;
+  }
+  .nav-mobile-brand {
+    display: block;
+  }
+  .nav-container {
+    flex-wrap: nowrap;
+  }
+  .nav-mobile-overlay {
+    display: block;
+  }
+  .nav-mobile-menu {
+    display: flex;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     height: 70px;
@@ -554,6 +826,24 @@
     min-width: 120px;
     padding: 10px 15px;
   }
+  .current-language {
+    display: inline;
+    font-size: 13px;
+  }
+
+  .user-name {
+    max-width: 80px;
+    font-size: 0.85rem;
+  }
+  .user-role-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+  }
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
 
   .main-content {
     margin-top: 70px;
@@ -574,6 +864,7 @@
     height: 40px;
   }
 
+  /* Konzistentno: zastava + naziv jezika */
   .language-display {
     min-width: 100px;
     padding: 8px 12px;
@@ -581,11 +872,11 @@
 
   .current-language {
     font-size: 12px;
+    display: inline;
   }
 
-  /* Auth Section Mobile */
   .auth-section {
-    margin-right: 15px;
+    margin-right: 12px;
   }
 
   .login-btn {
@@ -598,13 +889,22 @@
   }
 
   .user-avatar {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .user-initials {
+    font-size: 0.7rem;
   }
 
   .user-name {
     font-size: 0.8rem;
+    max-width: 60px;
+  }
+
+  .user-role-badge {
+    font-size: 0.65rem;
+    padding: 1px 5px;
   }
 
   .user-dropdown {

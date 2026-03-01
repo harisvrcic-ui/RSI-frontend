@@ -1,44 +1,131 @@
-<div class="reservations-container">
-  <h2>Reservations</h2>
+<div class="admin-page">
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">{{ 'ADMIN.RESERVATIONS_MANAGEMENT' | translate }}</h1>
+        <p class="page-subtitle">{{ 'ADMIN.MANAGE_AND_VIEW_RESERVATIONS' | translate }}</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="refresh-btn" (click)="refreshReservations()" [disabled]="isLoading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"></path><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          <span>{{ 'ADMIN.REFRESH' | translate }}</span>
+        </button>
+        <button type="button" class="add-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
+        <button type="button" class="add-btn" routerLink="/client/reservation" *ngIf="!editId">{{ 'ADMIN.ADD_RESERVATION' | translate }}</button>
+      </div>
+    </div>
+  </div>
 
-  <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()" class="reservation-form">
-    <input type="number" formControlName="carID" placeholder="Car ID" />
-    <input type="number" formControlName="parkingSpotID" placeholder="Parking Spot ID" />
-    <input type="number" formControlName="reservationTypeID" placeholder="Reservation Type ID" />
-    <input type="datetime-local" formControlName="startDate" placeholder="Start Date" />
-    <input type="datetime-local" formControlName="endDate" placeholder="End Date" />
-    <input type="number" formControlName="finalPrice" placeholder="Final Price" />
-    <button type="submit">{{ editId ? 'Update' : 'Add' }}</button>
-    <button type="button" (click)="cancelEdit()" *ngIf="editId">Cancel</button>
-  </form>
+  <div class="form-card">
+    <h3 class="form-card-title">{{ editId ? ('ADMIN.EDIT' | translate) : ('ADMIN.ADD_RESERVATION' | translate) }}</h3>
+    <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()" class="inline-form">
+      <input type="number" formControlName="carID" class="form-input" placeholder="Car ID" />
+      <input type="number" formControlName="parkingSpotID" class="form-input" placeholder="Parking Spot ID" />
+      <input type="number" formControlName="reservationTypeID" class="form-input" placeholder="Reservation Type ID" />
+      <input type="datetime-local" formControlName="startDate" class="form-input" />
+      <input type="datetime-local" formControlName="endDate" class="form-input" />
+      <input type="number" formControlName="finalPrice" class="form-input" placeholder="Final Price" min="0" />
+      <button type="submit" class="add-btn" [disabled]="reservationForm.invalid">{{ editId ? ('ADMIN.SAVE' | translate) : ('ADMIN.ADD' | translate) }}</button>
+      <button type="button" class="refresh-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
+    </form>
+  </div>
 
-  <table class="reservations-table">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Car ID</th>
-      <th>Parking Spot ID</th>
-      <th>Reservation Type ID</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Final Price</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let res of reservations">
-      <td>{{ res.id }}</td>
-      <td>{{ res.carID }}</td>
-      <td>{{ res.parkingSpotID }}</td>
-      <td>{{ res.reservationTypeID }}</td>
-      <td>{{ res.startDate | date:'short' }}</td>
-      <td>{{ res.endDate | date:'short' }}</td>
-      <td>{{ res.finalPrice }}</td>
-      <td>
-        <button (click)="editReservation(res.id)">Edit</button>
-        <button (click)="deleteReservation(res.id)">Delete</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        <input type="text" class="search-input" [placeholder]="'ADMIN.SEARCH_RESERVATIONS_PLACEHOLDER' | translate" (input)="applyFilter($event)" [value]="searchQuery">
+      </div>
+    </div>
+    <div class="stats-container">
+      <div class="stat-item"><span class="stat-label">{{ 'ADMIN.TOTAL_RESERVATIONS' | translate }}:</span> <span class="stat-value">{{ totalCount }}</span></div>
+      <div class="stat-item"><span class="stat-label">{{ 'ADMIN.PAGE' | translate }}:</span> <span class="stat-value">{{ currentPage }} {{ 'ADMIN.OF' | translate }} {{ totalPages }}</span></div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">{{ 'ADMIN.LOADING_RESERVATIONS' | translate }}</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="table-container">
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead class="table-header">
+          <tr>
+            <th class="table-header-cell">ID</th>
+            <th class="table-header-cell">Car ID</th>
+            <th class="table-header-cell">Parking Spot ID</th>
+            <th class="table-header-cell">Reservation Type ID</th>
+            <th class="table-header-cell">Start</th>
+            <th class="table-header-cell">End</th>
+            <th class="table-header-cell">Final Price</th>
+            <th class="table-header-cell actions-header">{{ 'ADMIN.ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr *ngFor="let res of reservations" class="table-row">
+            <td class="table-cell">{{ res.id }}</td>
+            <td class="table-cell">{{ res.carID }}</td>
+            <td class="table-cell">{{ res.parkingSpotID }}</td>
+            <td class="table-cell">{{ res.reservationTypeID }}</td>
+            <td class="table-cell">{{ res.startDate | date:'short' }}</td>
+            <td class="table-cell">{{ res.endDate | date:'short' }}</td>
+            <td class="table-cell">{{ res.finalPrice }}</td>
+            <td class="table-cell actions-cell">
+              <div class="action-buttons">
+                <span class="action-tooltip-wrap">
+                  <button type="button" class="action-btn edit-btn" (click)="editReservation(res.id)" [attr.aria-label]="'ADMIN.EDIT' | translate">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  </button>
+                  <span class="action-tooltip">{{ 'ADMIN.EDIT' | translate }}</span>
+                </span>
+                <span class="action-tooltip-wrap">
+                  <button type="button" class="action-btn delete-btn" (click)="openDeleteConfirmDialog(res.id)" [attr.aria-label]="'ADMIN.DELETE' | translate">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"></polyline><path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path></svg>
+                  </button>
+                  <span class="action-tooltip">{{ 'ADMIN.DELETE' | translate }}</span>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="reservations.length > 0" class="pagination-container table-footer-pagination">
+      <div class="pagination-info">
+        <span class="pagination-text">{{ 'ADMIN.SHOWING' | translate }} {{ (currentPage - 1) * pageSize + 1 }} {{ 'ADMIN.TO' | translate }} {{ Math.min(currentPage * pageSize, totalCount) }} {{ 'ADMIN.OF' | translate }} {{ totalCount }}</span>
+      </div>
+      <div class="pagination-controls">
+        <div class="page-size-selector">
+          <label class="page-size-label">{{ 'ADMIN.SHOW' | translate }}:</label>
+          <select class="page-size-select" [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+          <span class="page-size-text">{{ 'ADMIN.PER_PAGE' | translate }}</span>
+        </div>
+        <div class="page-navigation">
+          <button type="button" class="page-btn prev-btn" [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
+            <span>{{ 'ADMIN.PREVIOUS' | translate }}</span>
+          </button>
+          <div class="page-numbers">
+            <button type="button" *ngFor="let page of pageNumbers" class="page-number-btn" [class.active]="page === currentPage" (click)="onPageChange(page)">{{ page }}</button>
+          </div>
+          <button type="button" class="page-btn next-btn" [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+            <span>{{ 'ADMIN.NEXT' | translate }}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="reservations.length === 0 && !isLoading" class="empty-state">
+      <div class="empty-icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+      <h3 class="empty-title">{{ 'ADMIN.NO_RESERVATIONS_FOUND' | translate }}</h3>
+    </div>
+  </div>
 </div>

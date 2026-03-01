@@ -68,7 +68,7 @@ export class AdminsComponent implements OnInit, AfterViewInit {
     this.fetchAdmins();
   }
 
-  fetchAdmins(): void {
+  fetchAdmins(bypassCache = false): void {
     this.isLoading = true;
 
     const request: UserGetAllRequest = {
@@ -79,7 +79,7 @@ export class AdminsComponent implements OnInit, AfterViewInit {
       // Removed isActive filter to show both active and inactive users
     };
 
-    this.userGetAllService.handleAsync(request, true).subscribe({
+    this.userGetAllService.handleAsync(request, !bypassCache).subscribe({
       next: (response: MyPagedList<UserGetAllResponse>) => {
         this.admins = response.dataItems;
         this.totalCount = response.totalCount;
@@ -135,10 +135,10 @@ export class AdminsComponent implements OnInit, AfterViewInit {
   refreshAdmins(): void {
     this.currentPage = 1;
     this.searchQuery = '';
-    if (this.searchInput) {
+    if (this.searchInput?.nativeElement) {
       this.searchInput.nativeElement.value = '';
     }
-    this.fetchAdmins();
+    this.fetchAdmins(true);
   }
 
   formatDate(dateString: string): string {

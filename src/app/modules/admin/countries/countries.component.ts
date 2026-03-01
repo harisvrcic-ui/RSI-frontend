@@ -13,6 +13,7 @@ import { debounceTime } from 'rxjs/operators';
   standalone: false
 })
 export class CountriesComponent implements OnInit {
+  Math = Math;
   countries: CountryGetAllResponse[] = [];
   searchQuery: string = '';
   searchSubject: Subject<string> = new Subject<string>();

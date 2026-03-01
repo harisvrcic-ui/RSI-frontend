@@ -4,9 +4,10 @@ export function buildHttpParams<T extends Record<string, any>>(requestObject: T)
   let params = new HttpParams();
 
   Object.entries(requestObject).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      params = params.set(key, value.toString());
-    }
+    if (value === undefined || value === null) return;
+    const s = value.toString();
+    if (s === '') return;
+    params = params.set(key, s);
   });
 
   return params;

@@ -1,0 +1,30 @@
+.settings-page {
+  padding: 24px;
+}
+.settings-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+.settings-subtitle {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+.settings-section {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.lang-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 500;
+}
+.lang-btn:hover {
+  background: #f3f4f6;
+  border-color: #ffd700;
+}

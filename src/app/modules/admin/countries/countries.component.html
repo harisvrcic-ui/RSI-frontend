@@ -3,12 +3,24 @@
   <div class="page-header">
     <div class="header-content">
       <div class="header-left">
-        <h1 class="page-title">Countries Management</h1>
-        <h1 class="page-subtitle"> Manage and view all brands in the system</h1>
+        <h1 class="page-title">{{ 'ADMIN.COUNTRIES' | translate }}</h1>
+        <p class="page-subtitle">{{ 'ADMIN.MANAGE_AND_VIEW_ALL_COUNTRIES' | translate }}</p>
       </div>
       <div class="header-actions">
-        <button class="refresh-btn" (click)="refreshCountries()" [disabled]="isLoading">Refresh</button>
-        <button class="add-btn" (click)="addCountry()">Add Country</button>
+        <button class="refresh-btn" (click)="refreshCountries()" [disabled]="isLoading">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"></path>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>{{ 'ADMIN.REFRESH' | translate }}</span>
+        </button>
+        <button class="add-btn" (click)="addCountry()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>{{ 'ADMIN.ADD_COUNTRY' | translate }}</span>
+        </button>
       </div>
     </div>
   </div>
@@ -16,16 +28,18 @@
   <!-- Search -->
   <div class="search-section">
     <div class="search-container">
-      <input type="text" class="search-input" placeholder="Search countries..." (input)="applyFilter($event)" [value]="searchQuery">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" class="search-input" placeholder="{{ 'ADMIN.SEARCH_COUNTRIES_PLACEHOLDER' | translate }}" (input)="applyFilter($event)" [value]="searchQuery">
+      </div>
     </div>
     <div class="stats-container">
       <div class="stat-item">
-        <span class="stat-label">Total Countries</span>
+        <span class="stat-label">{{ 'ADMIN.TOTAL_COUNTRIES' | translate }}: </span>
         <span class="stat-value">{{ totalCount }}</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Page</span>
-        <span class="stat-value">{{ currentPage }} of {{ totalPages }}</span>
       </div>
     </div>
   </div>
@@ -33,57 +47,80 @@
   <!-- Loading -->
   <div *ngIf="isLoading" class="loading-container">
     <div class="loading-spinner"></div>
-    <p class="loading-text">Loading...</p>
+    <p class="loading-text">{{ 'ADMIN.LOADING' | translate }}</p>
   </div>
 
   <!-- Table -->
-  <div *ngIf="!isLoading && countries.length > 0" class="table-container">
+  <div *ngIf="!isLoading" class="table-container">
     <div class="table-wrapper">
       <table class="data-table">
         <thead class="table-header">
-        <tr>
-          <th class="table-header-cell">Name</th>
-          <th class="table-header-cell">Status</th>
-          <th class="table-header-cell actions-header">Actions</th>
-        </tr>
+          <tr>
+            <th class="table-header-cell">{{ 'ADMIN.NAME' | translate }}</th>
+            <th class="table-header-cell">{{ 'ADMIN.STATUS' | translate }}</th>
+            <th class="table-header-cell actions-header">{{ 'ADMIN.ACTIONS' | translate }}</th>
+          </tr>
         </thead>
         <tbody class="table-body">
-        <tr *ngFor="let country of countries" class="table-row">
-          <td class="table-cell">{{ country.name }}</td>
-          <td class="table-cell">
-              <span [class.active]="country.isActive" [class.inactive]="!country.isActive">
-                {{ country.isActive ? 'Active' : 'Inactive' }}
+          <tr *ngFor="let country of countries" class="table-row">
+            <td class="table-cell name-cell">{{ country.name }}</td>
+            <td class="table-cell status-cell">
+              <span class="status-badge" [class.active]="country.isActive" [class.inactive]="!country.isActive">
+                {{ country.isActive ? ('ADMIN.ACTIVE' | translate) : ('ADMIN.INACTIVE' | translate) }}
               </span>
-          </td>
-          <td class="table-cell actions-cell">
-            <button class="action-btn edit-btn" (click)="editCountry(country)">Edit</button>
-            <button class="action-btn delete-btn" (click)="deleteCountry(country.id)">Delete</button>
-          </td>
-        </tr>
+            </td>
+            <td class="table-cell actions-cell">
+              <div class="action-buttons">
+                <button class="action-btn edit-btn" (click)="editCountry(country)" [title]="'ADMIN.EDIT' | translate" [attr.aria-label]="'ADMIN.EDIT' | translate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <button class="action-btn delete-btn" (click)="deleteCountry(country.id)" [title]="'ADMIN.DELETE' | translate" [attr.aria-label]="'ADMIN.DELETE' | translate">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"></polyline>
+                    <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
-  </div>
-
-  <!-- Empty -->
-  <div *ngIf="!isLoading && countries.length === 0" class="empty-state">
-    <p>No countries found.</p>
+    <div *ngIf="countries.length === 0" class="empty-state">
+      <h3>{{ 'ADMIN.NO_COUNTRIES_FOUND' | translate }}</h3>
+      <p>{{ searchQuery ? ('ADMIN.NO_MATCH_SEARCH' | translate) : ('ADMIN.NO_COUNTRIES_YET' | translate) }}</p>
+    </div>
   </div>
 
   <!-- Pagination -->
-  <div *ngIf="totalCount > pageSize" class="pagination-container">
-    <div class="pagination-controls">
-      <button class="page-btn" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
-      <button *ngFor="let p of pageNumbers" class="page-number-btn" [class.active]="p === currentPage" (click)="onPageChange(p)">
-        {{ p }}
-      </button>
-      <button class="page-btn" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  <div *ngIf="totalCount > pageSize && !isLoading" class="pagination-container table-footer-pagination">
+    <div class="pagination-info">
+      <span class="pagination-text">{{ 'ADMIN.SHOWING' | translate }} {{ (currentPage - 1) * pageSize + 1 }} {{ 'ADMIN.TO' | translate }} {{ Math.min(currentPage * pageSize, totalCount) }} {{ 'ADMIN.OF' | translate }} {{ totalCount }}</span>
     </div>
-    <div class="page-size-selector">
-      <label>Rows per page:</label>
-      <select [value]="pageSize" (change)="onPageSizeChange($any($event.target).value)">
-        <option *ngFor="let size of [5,10,20,50]" [value]="size">{{ size }}</option>
-      </select>
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label class="page-size-label">{{ 'ADMIN.SHOW' | translate }}:</label>
+        <select class="page-size-select" [value]="pageSize" (change)="onPageSizeChange($any($event.target).value)">
+          <option *ngFor="let size of [5,10,20,50]" [value]="size">{{ size }}</option>
+        </select>
+        <span class="page-size-text">{{ 'ADMIN.PER_PAGE' | translate }}</span>
+      </div>
+      <div class="page-navigation">
+        <button type="button" class="page-btn prev-btn" [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"></polyline></svg>
+          <span>{{ 'ADMIN.PREVIOUS' | translate }}</span>
+        </button>
+        <div class="page-numbers">
+          <button type="button" *ngFor="let p of pageNumbers" class="page-number-btn" [class.active]="p === currentPage" (click)="onPageChange(p)">{{ p }}</button>
+        </div>
+        <button type="button" class="page-btn next-btn" [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+          <span>{{ 'ADMIN.NEXT' | translate }}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"></polyline></svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -2,10 +2,14 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Router, NavigationEnd} from '@angular/router';
 import {CityGetAllEndpointService, CityGetAllResponse} from '../../../endpoints/city-endpoints/city-get-all-endpoint.service';
 import {CityDeleteEndpointService} from '../../../endpoints/city-endpoints/city-delete-endpoint.service';
+import {CountryGetAllEndpointService, CountryGetAllResponse} from '../../../endpoints/country-endpoints/country-get-all-endpoint.service';
 import {MyDialogConfirmComponent} from '../../shared/dialogs/my-dialog-confirm/my-dialog-confirm.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MyCacheService} from '../../../services/cache-service/my-cache.service';
 import {debounceTime, distinctUntilChanged, Subject, filter} from 'rxjs';
+import {
+  CityUpdateOrInsertEndpointService
+} from '../../../endpoints/city-endpoints/city-update-or-insert-endpoint.service';
 
 @Component({
   selector: 'app-cities',
@@ -17,32 +21,41 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name'];
   cities: CityGetAllResponse[] = [];
 
-  // Pagination
+  // Pagination – default 10 za admin efikasnost (Material/standard)
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 10;
   totalCount = 0;
 
-  // Search
   searchQuery = '';
+  filterCountryId: number | null = null;
+  filterIsActive: boolean | null = null;
   isLoading = false;
+  countries: CountryGetAllResponse[] = [];
 
-  // Math for template
   Math = Math;
-
   private searchSubject: Subject<string> = new Subject();
 
   constructor(
     private cityGetService: CityGetAllEndpointService,
     private cityDeleteService: CityDeleteEndpointService,
+    private countryGetService: CountryGetAllEndpointService,
     private router: Router,
     private dialog: MatDialog,
-    private cacheService: MyCacheService
+    private cacheService: MyCacheService,
+
   ) {}
 
   ngOnInit(): void {
     this.initSearchListener();
     this.initRouteListener();
+    this.loadCountries();
     this.fetchCities();
+  }
+
+  loadCountries(): void {
+    this.countryGetService.handleAsync({ pageNumber: 1, pageSize: 500 }).subscribe({
+      next: (data) => this.countries = data.dataItems ?? []
+    });
   }
 
   ngAfterViewInit(): void {
@@ -54,7 +67,7 @@ export class CitiesComponent implements OnInit, AfterViewInit {
       debounceTime(300),
       distinctUntilChanged(),
     ).subscribe((filterValue) => {
-      this.currentPage = 1; // Reset to first page on search
+      this.currentPage = 1;
       this.fetchCities(filterValue, this.currentPage, this.pageSize);
     });
   }
@@ -81,14 +94,15 @@ export class CitiesComponent implements OnInit, AfterViewInit {
     this.searchSubject.next(filterValue);
   }
 
-  fetchCities(filter: string = '', page: number = 1, pageSize: number = 5, useCache: boolean = true): void {
+  fetchCities(filter: string = '', page: number = 1, pageSize: number = 10, useCache: boolean = true): void {
     this.isLoading = true;
-
     this.cityGetService.handleAsync(
       {
-        q: filter,
+        q: filter || undefined,
         pageNumber: page,
-        pageSize: pageSize
+        pageSize: pageSize,
+        countryId: this.filterCountryId ?? undefined,
+        isActive: this.filterIsActive ?? undefined
       },
       useCache, // Use cache parameter
       300000 // 5 minutes cache TTL
@@ -117,6 +131,12 @@ export class CitiesComponent implements OnInit, AfterViewInit {
     this.fetchCities(this.searchQuery, this.currentPage, this.pageSize);
   }
 
+  onFilterChange(): void {
+    this.currentPage = 1;
+    this.cacheService.clearCitiesCache();
+    this.fetchCities(this.searchQuery, 1, this.pageSize, false);
+  }
+
   get totalPages(): number {
     return Math.ceil(this.totalCount / this.pageSize);
   }
@@ -124,20 +144,20 @@ export class CitiesComponent implements OnInit, AfterViewInit {
     get pageNumbers(): number[] {
     const pages: number[] = [];
     const maxPages = Math.min(5, this.totalPages);
-    
+
     // Calculate the start page to show
     let startPage = Math.max(1, this.currentPage - Math.floor(maxPages / 2));
-    
+
     // Adjust start page if we're near the end
     if (startPage + maxPages - 1 > this.totalPages) {
       startPage = Math.max(1, this.totalPages - maxPages + 1);
     }
-    
+
     // Generate page numbers
     for (let i = 0; i < maxPages && startPage + i <= this.totalPages; i++) {
       pages.push(startPage + i);
     }
-    
+
     return pages;
   }
 

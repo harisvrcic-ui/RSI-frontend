@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
+import {RouterModule} from '@angular/router';
 import {AdminRoutingModule} from './admin-routing.module';
 import {AdminLayoutComponent} from './admin-layout/admin-layout.component';
 import {AdminErrorPageComponent} from './admin-error-page/admin-error-page.component';
@@ -24,6 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatCard} from '@angular/material/card';
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { CitiesComponent } from './cities/cities.component';
 import { CitiesEditComponent } from './cities/cities-edit/cities-edit.component';
 
@@ -36,7 +38,8 @@ import { AdminsComponent } from './admins/admins.component';
 
 
 
-import {TranslatePipe} from "@ngx-translate/core";
+import {TranslateModule} from '@ngx-translate/core';
+import {AdminTranslatePipe} from './admin-translate.pipe';
 import { BrandsComponent } from './brands/brand-component';
 import { CarsComponent } from './cars/cars.component';
 import {ColorsComponent} from './colors/colors.component';
@@ -48,11 +51,14 @@ import {ParkingZoneComponent} from './parking-zones/parking-zone.component';
 import {ReservationsComponent} from './reservations/reservation.component';
 import {ReservationTypeComponent} from './reservation-types/reservation-type.component';
 import {ReviewsComponent} from './reviews/review.component';
-
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {SettingsComponent} from './settings/settings.component';
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
+    DashboardComponent,
+    SettingsComponent,
     AdminErrorPageComponent,
     CitiesComponent,
     CitiesEditComponent,
@@ -74,14 +80,17 @@ import {ReviewsComponent} from './reviews/review.component';
     ParkingZoneComponent,
     ReservationsComponent,
     ReservationTypeComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    AdminTranslatePipe
   ],
     imports: [
         CommonModule,
+        RouterModule,
         AdminRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         SharedModule,
+        TranslateModule.forChild(),
         MatButton,
         MatTable,
         MatHeaderCell,
@@ -100,7 +109,7 @@ import {ReviewsComponent} from './reviews/review.component';
         MatOption,
         MatCard,
         MatProgressSpinner,
-        TranslatePipe,
+        MatTooltipModule,
         // Omogućava pristup svemu što je eksportovano iz SharedModule
     ],
   providers: []

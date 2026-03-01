@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build and cache
+.angular/
+dist/
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and env
+*.log
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db

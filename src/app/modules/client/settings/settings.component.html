@@ -1,0 +1,36 @@
+<div class="client-settings-page">
+  <h1 class="client-settings-title">{{ 'CLIENT.SETTINGS_TITLE' | translate }}</h1>
+
+  <section class="client-settings-section profile-section">
+    <h2 class="section-title">{{ 'CLIENT.SETTINGS_PROFILE' | translate }}</h2>
+    <div class="profile-card">
+      <div class="profile-row">
+        <span class="profile-label">{{ 'CLIENT.SETTINGS_NAME' | translate }}</span>
+        <span class="profile-value">{{ getDisplayName() }}</span>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">{{ 'CLIENT.SETTINGS_USERNAME' | translate }}</span>
+        <span class="profile-value">{{ getUsername() }}</span>
+      </div>
+      <div class="profile-row" *ngIf="getRole()">
+        <span class="profile-label">{{ 'CLIENT.SETTINGS_ROLE' | translate }}</span>
+        <span class="profile-value role-badge">{{ getRole() }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="client-settings-section">
+    <h2 class="section-title">{{ 'NAVIGATION.LANGUAGE' | translate }}</h2>
+    <div class="language-buttons">
+      <button type="button" class="lang-btn" [class.active]="getCurrentLang() === 'en'" (click)="setLanguage('en')">
+        English
+      </button>
+      <button type="button" class="lang-btn" [class.active]="getCurrentLang() === 'bs'" (click)="setLanguage('bs')">
+        Bosanski
+      </button>
+      <button type="button" class="lang-btn" [class.active]="getCurrentLang() === 'sp'" (click)="setLanguage('sp')">
+        Español
+      </button>
+    </div>
+  </section>
+</div>

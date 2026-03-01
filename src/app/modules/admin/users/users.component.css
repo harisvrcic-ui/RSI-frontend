@@ -87,14 +87,13 @@
 
 .search-input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 14px 12px 44px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   font-size: 0.9rem;
   color: #111827;
   transition: all 0.2s ease;
 }
-
 
 .search-input:focus {
   border-color: #ffd700;

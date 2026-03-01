@@ -1,0 +1,102 @@
+.client-settings-page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.client-settings-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f1f1f;
+  margin: 0 0 24px 0;
+}
+
+.client-settings-section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  margin: 0 0 12px 0;
+}
+
+.profile-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-row:last-child {
+  border-bottom: none;
+}
+
+.profile-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.profile-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1f1f1f;
+}
+
+.profile-value.role-badge {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #b8860b;
+  font-size: 0.85rem;
+}
+
+.language-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lang-btn {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+  border-color: #ffd700;
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.lang-btn.active {
+  border-color: #ffd700;
+  background: rgba(255, 215, 0, 0.2);
+  color: #1f1f1f;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .client-settings-page {
+    padding: 16px;
+  }
+  .profile-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

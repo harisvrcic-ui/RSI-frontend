@@ -26,8 +26,13 @@
     </div>
   </div>
 
+  <!-- Number of results (odvojeno od search bara) -->
+  <div *ngIf="!isLoading" class="results-count-wrap">
+    <span class="results-count">{{ totalCount }} {{ totalCount === 1 ? 'result' : 'results' }}</span>
+  </div>
+
   <!-- Loading State -->
-  <div *ngIf="isLoading" class="loading-container">z
+  <div *ngIf="isLoading" class="loading-container">
     <div class="loading-spinner"></div>
     <div class="loading-text">Loading cars...</div>
   </div>
@@ -49,7 +54,7 @@
         </thead>
         <tbody class="table-body">
         <tr *ngFor="let car of cars" class="table-row">
-          <td class="image-cell">
+          <td class="table-cell image-cell">
             <img *ngIf="hasImage(car)" [src]="getImageUrl(car.picture)" class="car-image" alt="Car Image">
             <div *ngIf="!hasImage(car)" class="default-car-avatar">🚗</div>
           </td>
@@ -64,8 +69,14 @@
           </td>
           <td class="table-cell actions-cell">
             <div class="action-buttons">
-              <button class="action-btn edit-btn" (click)="editCar(car.id)">✏️</button>
-              <button class="action-btn delete-btn" (click)="openDeleteConfirmDialog(car.id)">🗑️</button>
+              <span class="action-tooltip-wrap">
+                <button type="button" class="action-btn edit-btn" (click)="editCar(car.id)">✏️</button>
+                <span class="action-tooltip">{{ 'ADMIN.EDIT' | translate }}</span>
+              </span>
+              <span class="action-tooltip-wrap">
+                <button type="button" class="action-btn delete-btn" (click)="openDeleteConfirmDialog(car.id)">🗑️</button>
+                <span class="action-tooltip">{{ 'ADMIN.DELETE' | translate }}</span>
+              </span>
             </div>
           </td>
         </tr>
@@ -77,8 +88,8 @@
   <!-- Empty State -->
   <div *ngIf="!isLoading && cars.length === 0" class="empty-state">
     <div class="empty-icon">🚗</div>
-    <h3 class="empty-title">No Cars Found</h3>
-    <p class="empty-description">Add new cars to display them here.</p>
+    <h3 class="empty-title">{{ searchQuery ? '0 results' : 'No Cars Found' }}</h3>
+    <p class="empty-description">{{ searchQuery ? 'No cars match your search. Try a different term.' : 'Add new cars to display them here.' }}</p>
   </div>
 
   <!-- Pagination -->

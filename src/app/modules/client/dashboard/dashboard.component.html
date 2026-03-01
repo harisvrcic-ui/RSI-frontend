@@ -1,0 +1,54 @@
+<div class="client-dashboard-page">
+  <h1 class="client-dashboard-title">{{ 'CLIENT.DASHBOARD_TITLE' | translate }}</h1>
+  <p class="client-dashboard-subtitle">{{ 'CLIENT.DASHBOARD_SUBTITLE' | translate }}</p>
+
+  <div *ngIf="isLoading" class="dashboard-loading">
+    <div class="loading-spinner"></div>
+    <p>{{ 'CLIENT.DASHBOARD_LOADING' | translate }}</p>
+  </div>
+
+  <div *ngIf="errorMessage && !isLoading" class="dashboard-error">
+    <p>{{ errorMessage | translate }}</p>
+  </div>
+
+  <section *ngIf="!isLoading && !errorMessage" class="dashboard-section">
+    <div class="dashboard-header">
+      <h2 class="section-title">{{ 'CLIENT.MY_ACTIVE_RESERVATIONS' | translate }}</h2>
+      <button type="button" class="btn-new-reservation" (click)="goToNewReservation()">
+        {{ 'CLIENT.NEW_RESERVATION' | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="reservations.length === 0" class="empty-state">
+      <p class="empty-text">{{ 'CLIENT.NO_ACTIVE_RESERVATIONS' | translate }}</p>
+      <button type="button" class="btn-new-reservation" (click)="goToNewReservation()">
+        {{ 'CLIENT.NEW_RESERVATION' | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="reservations.length > 0" class="reservations-list">
+      <div *ngFor="let r of reservations" class="reservation-card">
+        <div class="reservation-row">
+          <span class="reservation-label">{{ 'CLIENT.RESERVATION_ID' | translate }}</span>
+          <span class="reservation-value">#{{ r.id }}</span>
+        </div>
+        <div class="reservation-row">
+          <span class="reservation-label">{{ 'CLIENT.START_DATE' | translate }}</span>
+          <span class="reservation-value">{{ formatDate(r.startDate) }}</span>
+        </div>
+        <div class="reservation-row">
+          <span class="reservation-label">{{ 'CLIENT.END_DATE' | translate }}</span>
+          <span class="reservation-value">{{ formatDate(r.endDate) }}</span>
+        </div>
+        <div class="reservation-row">
+          <span class="reservation-label">{{ 'CLIENT.PARKING_SPOT' | translate }}</span>
+          <span class="reservation-value">{{ 'CLIENT.SPOT_ID' | translate }} {{ r.parkingSpotID }}</span>
+        </div>
+        <div class="reservation-row">
+          <span class="reservation-label">{{ 'CLIENT.FINAL_PRICE' | translate }}</span>
+          <span class="reservation-value price">{{ r.finalPrice | number:'1.2-2' }} KM</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

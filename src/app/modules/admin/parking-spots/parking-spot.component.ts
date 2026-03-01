@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import {
   ParkingSpotsGetAllEndpointService,
   ParkingSpotsGetAllRequest,
@@ -8,6 +9,7 @@ import {
 import { ParkingSpotsGetByIdEndpointService } from '../../../endpoints/parking-spot-endpoints/parking-spot-get-by-id-endpoint.service';
 import { ParkingSpotsUpdateOrInsertEndpointService, ParkingSpotsUpdateOrInsertRequest } from '../../../endpoints/parking-spot-endpoints/parking-spot-update-or-insert-endpoint.service';
 import { ParkingSpotsDeleteEndpointService } from '../../../endpoints/parking-spot-endpoints/parking-spot-delete-endpoint.service';
+import { MyDialogConfirmComponent } from '../../shared/dialogs/my-dialog-confirm/my-dialog-confirm.component';
 
 @Component({
   selector: 'app-parking-spots',
@@ -20,18 +22,21 @@ export class ParkingSpotsComponent implements OnInit {
   spotForm: FormGroup;
   editId: number | null = null;
 
-  // 🔹 Pagination
   currentPage = 1;
   pageSize = 10;
   totalCount = 0;
   totalPages = 0;
+  searchQuery = '';
+  isLoading = false;
+  Math = Math;
 
   constructor(
     private fb: FormBuilder,
     private getAllService: ParkingSpotsGetAllEndpointService,
     private getByIdService: ParkingSpotsGetByIdEndpointService,
     private saveService: ParkingSpotsUpdateOrInsertEndpointService,
-    private deleteService: ParkingSpotsDeleteEndpointService
+    private deleteService: ParkingSpotsDeleteEndpointService,
+    private dialog: MatDialog
   ) {
     this.spotForm = this.fb.group({
       parkingNumber: [1, [Validators.required, Validators.min(1)]],
@@ -45,20 +50,35 @@ export class ParkingSpotsComponent implements OnInit {
     this.loadSpots();
   }
 
-  loadSpots(page: number = 1, pageSize: number = this.pageSize, filter: string = '') {
+  loadSpots(page: number = 1, pageSize: number = this.pageSize, filter: string = this.searchQuery) {
+    this.isLoading = true;
     const request: ParkingSpotsGetAllRequest = {
       pageNumber: page,
       pageSize: pageSize,
-      q: filter
+      q: filter || undefined
     };
 
-    this.getAllService.handleAsync(request).subscribe(res => {
-      this.spots = res.dataItems;       // Array of spots
-      this.totalCount = res.totalCount;
-      this.currentPage = res.currentPage;
-      this.pageSize = res.pageSize;
-      this.totalPages = res.totalPages;
+    this.getAllService.handleAsync(request).subscribe({
+      next: res => {
+        this.spots = res.dataItems ?? [];
+        this.totalCount = res.totalCount;
+        this.currentPage = res.currentPage ?? page;
+        this.pageSize = res.pageSize ?? pageSize;
+        this.totalPages = Math.ceil(this.totalCount / this.pageSize) || 1;
+        this.isLoading = false;
+      },
+      error: () => { this.isLoading = false; }
     });
+  }
+
+  refreshSpots(): void {
+    this.loadSpots(this.currentPage, this.pageSize);
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.pageSize = newSize;
+    this.currentPage = 1;
+    this.loadSpots(1, this.pageSize);
   }
 // ParkingSpotsComponent.ts (nastavak)
   saveSpot() {
@@ -87,14 +107,9 @@ export class ParkingSpotsComponent implements OnInit {
     });
   }
 
-  deleteSpot(id: number) {
-    if (!confirm('Are you sure you want to delete this parking spot?')) return;
-
+  deleteSpot(id: number): void {
     this.deleteService.handleAsync(id).subscribe(() => {
-      // Ako smo na zadnjoj stranici i obrišemo zadnji element, spusti stranicu
-      if (this.spots.length === 1 && this.currentPage > 1) {
-        this.currentPage--;
-      }
+      if (this.spots.length === 1 && this.currentPage > 1) this.currentPage--;
       this.loadSpots(this.currentPage, this.pageSize);
     });
   }
@@ -119,40 +134,34 @@ export class ParkingSpotsComponent implements OnInit {
     const pages: number[] = [];
     const maxPages = Math.min(5, this.totalPages);
     let startPage = Math.max(1, this.currentPage - Math.floor(maxPages / 2));
-
     if (startPage + maxPages - 1 > this.totalPages) {
       startPage = Math.max(1, this.totalPages - maxPages + 1);
     }
-
     for (let i = 0; i < maxPages && startPage + i <= this.totalPages; i++) {
       pages.push(startPage + i);
     }
-
     return pages;
   }
-  applyFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value.trim();
+
+  applyFilter(event: Event): void {
+    this.searchQuery = (event.target as HTMLInputElement).value.trim();
     this.currentPage = 1;
-    this.loadSpots(1, this.pageSize, value);
-  }
-  currentSpotIndex = 0;
-
-  getCurrentSpot() {
-    return this.spots[this.currentSpotIndex];
+    this.loadSpots(1, this.pageSize);
   }
 
-  previousSpot() {
-    if (this.currentSpotIndex > 0) this.currentSpotIndex--;
+  openDeleteConfirmDialog(id: number): void {
+    const dialogRef = this.dialog.open(MyDialogConfirmComponent, {
+      width: '450px',
+      data: {
+        title: 'Confirm Delete',
+        message: 'Are you sure you want to delete this parking spot?',
+        confirmButtonText: 'Delete'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) this.deleteSpot(id);
+    });
   }
-
-  nextSpot() {
-    if (this.currentSpotIndex < this.spots.length - 1) this.currentSpotIndex++;
-  }
-
-  goToSpot(i: number) {
-    if (i >= 0 && i < this.spots.length) this.currentSpotIndex = i;
-  }
-
 }
 
 

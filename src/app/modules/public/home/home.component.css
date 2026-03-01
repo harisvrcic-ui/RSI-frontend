@@ -1,17 +1,17 @@
 /* Home Component Styles - Matching Public Layout Design Language */
 
-/* Hero Section */
+/* Hero Section – kompaktno da ostane više prostora za mapu */
 .hero-section {
-  min-height: 10vh;
+  min-height: auto;
   background: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: left;
-  padding: 35px 20px 60px;
+  padding: 20px 20px 24px;
   position: relative;
   overflow: hidden;
   margin-top: -80px;
-  padding-top: 115px;
+  padding-top: 50px;
 }
 
 .hero-section::before {
@@ -27,7 +27,7 @@
 
 .hero-content {
   text-align: left;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
   z-index: 2;
   position: relative;
 }
@@ -53,12 +53,21 @@
 }
 
 /* Carousel */
+.parking-carousel {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: -80px;
+}
 .carousel-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 40px;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.carousel-spacer {
+  flex: 1;
+  min-width: 16px;
 }
 
 .carousel-btn {
@@ -127,10 +136,121 @@
 .indicator-dot:hover { background: rgba(255,255,255,0.5); transform: scale(1.2); }
 .indicator-dot.active { background: #ffd700; transform: scale(1.3); box-shadow: 0 0 20px rgba(255,215,0,0.5); }
 
-/* Loading & Empty States */
+/* Filter section – mobile-first, responsive */
+.parking-filters {
+  margin-bottom: 20px;
+  z-index: 2;
+  position: relative;
+}
+.parking-filters .filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.parking-filters .filter-row:last-child { margin-bottom: 0; }
+.parking-filters .filter-field {
+  flex: 1 1 auto;
+  min-width: 140px;
+}
+.parking-filters .filter-search { min-width: 180px; max-width: 280px; }
+.parking-filters .filter-zone { max-width: 200px; }
+.parking-filters .filter-sort { max-width: 220px; }
+.parking-filters .filter-toggles {
+  align-items: center;
+  gap: 20px;
+}
+.parking-filters .mat-mdc-form-field { width: 100%; }
+.parking-filters .mat-mdc-slide-toggle { margin-right: 8px; }
+
+@media (max-width: 768px) {
+  .parking-filters .filter-row { flex-direction: column; gap: 8px; }
+  .parking-filters .filter-field,
+  .parking-filters .filter-search,
+  .parking-filters .filter-zone,
+  .parking-filters .filter-sort { max-width: none; min-width: 0; width: 100%; }
+  .parking-filters .filter-toggles { flex-direction: column; align-items: flex-start; }
+}
+
+/* Legacy search (kept for any refs) */
+.parking-search-wrap { margin-bottom: 20px; max-width: 400px; z-index: 2; position: relative; }
+.parking-search-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 2px solid rgba(0,0,0,0.15); font-size: 1rem; }
+.parking-search-input:focus { outline: none; border-color: #ffd700; }
+
+/* Available count – samo h3, bez pozadine, poravnato lijevo sa naslovom i search barom */
+.parking-count-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 2px 0;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+  z-index: 2;
+  position: relative;
+}
+
+/* Loading / Empty / Error stanja */
+.parking-state { text-align: center; padding: 32px 20px; z-index: 2; position: relative; color: #333; }
+.parking-loading p, .parking-empty p { margin: 12px 0 0; font-size: 1.05rem; }
+.parking-error p { color: #c0392b; font-weight: 500; }
+.parking-loading .loading-spinner { width: 48px; height: 48px; border: 4px solid rgba(0,0,0,0.1); border-top-color: #ffd700; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Parking display kartica (Available / 1 of 1 available) – kompaktno */
+.parking-display {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.parking-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 12px 20px;
+  min-width: 200px;
+  text-align: center;
+}
+.spot-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.availability-status {
+  margin: 0;
+}
+.availability-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.availability-badge.available {
+  background: rgba(76, 175, 80, 0.15);
+  color: #166534;
+}
+.availability-badge.full {
+  background: rgba(239, 68, 68, 0.15);
+  color: #991b1b;
+}
+.availability-count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+}
+.spot-actions {
+  margin-top: 6px;
+}
+
+/* Loading & Empty States (legacy) */
 .loading-state, .empty-state { text-align: center; color: #ffffff; z-index: 2; position: relative; }
 .loading-spinner { width:60px;height:60px;border:4px solid rgba(255,255,255,0.1);border-top:4px solid #ffd700;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px; }
-@keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
 
 /* Content Section */
 .content-section {
@@ -164,20 +284,33 @@
 
 .features-grid { display: grid; grid-template-columns: 1fr; gap:40px; justify-items:start; }
 
-.feature-card { position: relative; transform-style: preserve-3d; transition: all 0.6s cubic-bezier(0.4,0,0.2,1); }
-.feature-card:hover { transform: translateY(-20px) rotateX(5deg); }
+.feature-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  outline: none;
+}
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+.feature-card:focus-visible {
+  outline: 2px solid #ffd700;
+  outline-offset: 2px;
+}
 
 .feature-card-inner {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
-  border: 2px solid #888888;  /* stalni zlatni border */
-  border-radius: 25px;
-  padding: 50px 40px;
-  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 16px;
+  padding: 12px 16px 20px;
+  text-align: left;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s ease;
-  z-index: 1; /* da ::before pseudo-element ne prekriva border */
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  z-index: 1;
 }
 
 
@@ -185,10 +318,20 @@
   content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,215,0,0.1),transparent); transition:left 0.6s ease;
 }
 
-.feature-card:hover .feature-card-inner::before { left:100%; }
-.feature-card:hover .feature-card-inner { background: rgba(255,255,255,0.08); border-color: rgba(255,215,0,0.3); box-shadow: 0 25px 80px rgba(255,215,0,0.2); }
+.feature-card:hover .feature-card-inner::before { left: 100%; }
+.feature-card:hover .feature-card-inner {
+  border-color: #ffd700;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.25);
+}
+.feature-card.selected .feature-card-inner {
+  border-color: #ffd700;
+  border-width: 3px;
+  background: rgba(255, 215, 0, 0.08);
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+}
 
-.feature-icon-wrapper { position: relative; margin-bottom:30px; }
+.feature-icon-wrapper { position: relative; margin-bottom: 6px; }
 .feature-icon {
   width:100px; height:100px; background:linear-gradient(135deg,#ffd700 0%,#ffa500 100%); border-radius:50%;
   display:flex;align-items:center;justify-content:center;margin:0 auto;color:#1a1a2e;font-weight:bold;position:relative; z-index:2; transition: all 0.4s ease; box-shadow:0 10px 30px rgba(255,215,0,0.3);
@@ -198,50 +341,205 @@
 .icon-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:120px; height:120px; background:radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%); border-radius:50%; animation: iconPulse 2s ease-in-out infinite; }
 @keyframes iconPulse { 0%,100%{transform:translate(-50%,-50%) scale(1); opacity:0.5;}50%{transform:translate(-50%,-50%) scale(1.2); opacity:0.8;} }
 
-.feature-content h3 { font-size:1.6rem; font-weight:700; color:#000000; margin-bottom:20px; transition: all 0.3s ease; }
-.feature-card:hover .feature-content h3 { color:#ffd700; transform: scale(1.05); }
-.feature-content p { color:#000000; line-height:1.8; font-size:1.1rem; opacity:0.9; transition: all 0.3s ease; }
-.feature-card:hover .feature-content p { opacity:1; }
+.feature-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+  transition: color 0.25s ease;
+}
+.feature-card:hover .feature-content h3 { color: #b8860b; }
+.feature-content p {
+  color: #444;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  transition: opacity 0.25s ease;
+}
+.feature-card:hover .feature-content p { opacity: 1; }
 
-.feature-decoration { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:10px; }
-.decoration-line { width:60px; height:2px; background:linear-gradient(90deg,transparent,#ffd700,transparent); border-radius:1px; animation: lineGlow 2s ease-in-out infinite; }
-@keyframes lineGlow { 0%,100%{opacity:0.5;}50%{opacity:1;} }
-.decoration-dots { display:flex; gap:8px; }
-.decoration-dots span { width:6px; height:6px; background:#ffd700; border-radius:50%; animation: dotPulse 1.5s ease-in-out infinite; }
-.decoration-dots span:nth-child(1){animation-delay:0s;} span:nth-child(2){animation-delay:0.2s;} span:nth-child(3){animation-delay:0.4s;}
-@keyframes dotPulse { 0%,100%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.3);opacity:1;} }
+/* Akcije u jednom redu: Get directions lijevo, Reserve (glavni CTA) desno */
+.feature-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.feature-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-align: center;
+}
+.feature-cta .cta-icon {
+  flex-shrink: 0;
+}
+/* Primarni CTA – zlatna puna boja, jasno vidljiv */
+.feature-cta-primary {
+  background: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
+  color: #1a1a2e;
+  border-color: #d4af37;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+.feature-cta-primary:hover {
+  background: linear-gradient(135deg, #ffe44d 0%, #ffd700 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
+}
+/* Sekundarni CTA – outline, Rezerviši */
+.feature-cta-secondary {
+  background: transparent;
+  color: #1a1a2e;
+  border-color: #888;
+}
+.feature-cta-secondary:hover {
+  border-color: #ffd700;
+  color: #b8860b;
+  background: rgba(255, 215, 0, 0.08);
+}
+.feature-click-hint {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: #666;
+  font-style: italic;
+}
+.feature-card:hover .feature-click-hint { color: #888; }
 
-/* Features + Map Layout */
+.feature-spots-count {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #166534;
+}
+.feature-card:hover .feature-spots-count { color: #15803d; }
+
+/* Features + Map Layout – MAPA DOMINANTNA (parking = GDJE) */
 .features-map-wrapper {
   display: flex;
-  gap: 40px;           /* razmak između kartica i mape */
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;      /* za mobilne uređaje */
+  gap: 20px;
+  align-items: stretch;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+  min-height: 70vh;
+  padding: 0 20px 24px;
+  box-sizing: border-box;
 }
 
 .features-grid {
-  flex: 1;              /* lijeva strana uzima polovicu */
-  max-width: 50%;
+  flex: 0 0 280px;
+  max-width: 320px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 12px;
+  align-content: start;
 }
 
 .map-container {
-  flex: 1;              /* desna strana uzima polovicu */
-  max-width: 50%;
-  height: 500px;        /* možeš prilagoditi */
+  flex: 1;
+  min-width: 0;
+  min-height: 65vh;
+  height: 70vh;
+}
+
+@media (max-width: 960px) {
+  .features-map-wrapper {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .features-grid {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+    order: 2;
+  }
+  .map-container {
+    width: 100%;
+    min-height: 55vh;
+    height: 60vh;
+    order: 1;
+  }
+}
+
+/* BreakpointObserver – na mobilnom/tabletu mapa ispod, ali i dalje visoka */
+.features-map-wrapper.layout-handset,
+.features-map-wrapper.layout-tablet {
+  flex-direction: column;
+  flex-wrap: wrap;
+  min-height: auto;
+  gap: 16px;
+}
+.features-map-wrapper.layout-handset .features-grid,
+.features-map-wrapper.layout-handset .map-container,
+.features-map-wrapper.layout-tablet .features-grid,
+.features-map-wrapper.layout-tablet .map-container {
+  max-width: 100%;
+  min-width: 100%;
+  flex: none;
+}
+.features-map-wrapper.layout-handset .features-grid,
+.features-map-wrapper.layout-tablet .features-grid {
+  max-width: 100%;
+  order: 2;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  justify-items: stretch;
+}
+.features-map-wrapper.layout-handset .map-container,
+.features-map-wrapper.layout-tablet .map-container {
+  min-height: 50vh;
+  height: 55vh;
+  order: 1;
 }
 
 @media (max-width: 768px) {
   .features-map-wrapper {
-    flex-direction: column; /* na mobitelu kartice i mapa jedna ispod druge */
+    flex-direction: column;
+    gap: 16px;
+    min-height: auto;
+    padding: 0 15px 20px;
   }
 
   .features-grid,
   .map-container {
     max-width: 100%;
+    min-width: 100%;
+  }
+
+  .map-container {
+    min-height: 50vh;
+    height: 55vh;
+    order: 1;
+  }
+
+  .features-grid {
+    order: 2;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    justify-items: stretch;
+  }
+
+  .map-wrapper {
+    min-height: 50vh;
+    height: 100%;
   }
 }
 
@@ -251,7 +549,7 @@
 .location-title { font-size:2.5rem; font-weight:700; color:#000000; margin-bottom:15px; background:linear-gradient(135deg,#ffffff 0%,#000000 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .location-subtitle { font-size:1.1rem; color:#000000; opacity:0.8; margin:0; }
 
-.map-wrapper { position:relative; height:500px; width:100%; }
+.map-wrapper { position:relative; height:100%; min-height:65vh; width:100%; }
 .map-overlay { position:absolute; top:20px; left:20px; z-index:10; pointer-events:none; }
 .map-info { background:rgb(200,200,200); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.1); border-radius:15px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.3); max-width:300px; pointer-events:auto; }
 .map-info-content { display:flex; align-items:flex-start; gap:15px; }
@@ -261,34 +559,133 @@
 .location-actions { margin-top:15px; }
 .map-action-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 16px; background: rgba(255, 255, 255, 0.85); color:#1a1a2e; text-decoration:none; border-radius:25px; font-size:0.9rem; font-weight:600; transition: all 0.3s ease; box-shadow:0 4px 15px rgba(255,215,0,0.3);}
 .map-action-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(255,215,0,0.4); color:#1a1a2e; text-decoration:none; }
-.map-iframe-container { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:20px; overflow:hidden; }
+.map-iframe-container { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:20px; overflow:hidden; display:block; }
+.map-iframe-container ::ng-deep google-map { display:block; width:100%; height:100%; }
+.map-iframe-container ::ng-deep .gm-style { min-height:100%; }
+.leaflet-map-container { min-height: 100%; }
+.leaflet-map-container.leaflet-map-container { z-index: 1; }
+
+/* Custom marker – pin kao prije (klasična map-pin ikona) */
+:host ::ng-deep .leaflet-custom-marker {
+  background: none;
+  border: none;
+}
+:host ::ng-deep .leaflet-custom-marker .marker-pin {
+  display: block;
+  width: 30px;
+  height: 42px;
+  margin-left: -15px;
+  margin-top: -42px;
+  background: #ffd700;
+  border: 2px solid #e6c200;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+}
+:host ::ng-deep .leaflet-custom-marker .marker-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -15px;
+  margin-top: -36px;
+  background: #fff;
+  border: 2px solid #e6c200;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Male bijele kartice na mapi (Leaflet popup) */
+:host ::ng-deep .leaflet-popup-custom {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18), 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-width: 180px;
+  max-width: 260px;
+}
+:host ::ng-deep .leaflet-popup-content-wrapper.leaflet-popup-custom {
+  background: #fff;
+  border-radius: 12px;
+}
+:host ::ng-deep .leaflet-popup-content {
+  margin: 0;
+  min-width: 180px;
+  max-width: 260px;
+}
+:host ::ng-deep .map-popup-card {
+  padding: 14px 16px;
+  font-family: inherit;
+  background: #fff;
+}
+:host ::ng-deep .map-popup-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+}
+:host ::ng-deep .map-popup-desc {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+:host ::ng-deep .map-popup-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
+  color: #1a1a2e;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(230, 194, 0, 0.35);
+}
+:host ::ng-deep .map-popup-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(230, 194, 0, 0.45);
+  color: #1a1a2e;
+}
+
 .map-iframe { width:100%; height:100%; border:none; border-radius:20px; filter:grayscale(20%) contrast(1.1) brightness(0.9); transition:all 0.3s ease; }
 .map-iframe:hover { filter:grayscale(0%) contrast(1) brightness(1); }
 
 .map-container:hover .map-overlay { opacity:0.9; }
 .map-container:hover .map-info { transform:translateY(-2px); box-shadow:0 15px 40px rgba(0,0,0,0.4); }
 
-/* Responsive */
+/* Responsive – mobilna: 32px razmak između search bara, available sekcije i mape */
 @media (max-width:768px) {
   .hero-section { padding:95px 15px 40px; margin-top:-70px; }
   .hero-title { font-size:2.5rem; }
   .hero-subtitle { font-size:1.1rem; }
-  .carousel-container { flex-direction:column; gap:20px; }
-  .carousel-btn { width:50px; height:50px; }
-  .features-grid { grid-template-columns:1fr; gap:30px; }
+  .parking-search-wrap { margin-bottom: 32px; }
+  .parking-carousel { margin-bottom: -140px; }
+  .parking-count-heading { font-size: 1.25rem; margin-bottom: 2px; color: #000 !important; -webkit-text-fill-color: #000; }
+  .carousel-container { flex-direction: column; gap: 16px; }
+  .carousel-btn { width: 50px; height: 50px; }
+  .features-grid { grid-template-columns: 1fr; gap: 16px; justify-items: stretch; }
   .section-title { font-size:2.5rem; }
-  .feature-card-inner { padding:40px 30px; }
+  .feature-card-inner { padding: 10px 14px 16px; }
   .feature-icon { width:80px; height:80px; }
   .icon-glow { width:100px; height:100px; }
 }
 
 @media (max-width:480px) {
-  .hero-section { margin-top:-70px; padding-top:90px; }
+  .hero-section { margin-top:-70px; padding-top:90px; padding-bottom:16px; }
   .hero-title { font-size:2rem; }
   .carousel-btn { width:45px; height:45px; }
   .location-section { margin-top:60px; padding:0 15px; }
   .location-title { font-size:2rem; }
-  .map-wrapper { height:400px; }
+  .map-wrapper { min-height:45vh; height:100%; }
+  .map-container { min-height:45vh; height:50vh; }
   .map-overlay { top:15px; left:15px; right:15px; }
   .map-info { max-width:none; padding:15px; }
   .map-info-content { gap:12px; }

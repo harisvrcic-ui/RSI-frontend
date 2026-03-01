@@ -10,7 +10,13 @@ import { MyCacheService } from '../../services/cache-service/my-cache.service';
 
 export interface ParkingSpotsGetAllRequest extends MyPagedRequest {
   q?: string;
+  name?: string;
+  /** 1 = Zona 1 (Vijećnica, Baščaršija), 2 = Zona 2 (Aria) */
+  zoneGroup?: number;
   zoneId?: number;
+  onlyAvailable?: boolean;
+  openNow?: boolean;
+  sortBy?: string;
   parkingSpotTypeId?: number;
   isActive?: boolean;
 }
@@ -20,8 +26,11 @@ export interface ParkingSpotsGetAllResponse {
   parkingNumber: number;
   parkingSpotTypeId: number;
   zoneId: number;
+  zoneName?: string;
+  /** Naziv lokacije iz baze (Aria mall, Vijećnica, Baščaršija) – za pretragu i prikaz. */
+  displayName?: string | null;
   isActive: boolean;
-  latitude?: number;   // dodaj ovo
+  latitude?: number;
   longitude?: number;
 }
 
@@ -38,7 +47,13 @@ export class ParkingSpotsGetAllEndpointService
   handleAsync(
     request: ParkingSpotsGetAllRequest
   ) {
-    const params = buildHttpParams(request);
+    let params = buildHttpParams(request);
+    if (request.zoneGroup != null && request.zoneGroup !== undefined) {
+      params = params.set('zoneGroup', String(request.zoneGroup));
+    }
+    if (request.name != null && request.name !== undefined && String(request.name).trim() !== '') {
+      params = params.set('name', String(request.name).trim());
+    }
     return this.httpClient.get<MyPagedList<ParkingSpotsGetAllResponse>>(this.apiUrl, { params });
   }
 }

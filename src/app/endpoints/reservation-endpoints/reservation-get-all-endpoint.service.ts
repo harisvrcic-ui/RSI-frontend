@@ -6,7 +6,9 @@ import { MyPagedList } from '../../helper/my-paged-list';
 import { buildHttpParams } from '../../helper/http-params.helper';
 
 export interface ReservationsGetAllRequest extends MyPagedRequest {
-  q?: string; // optional search/filter
+  q?: string;
+  userId?: number;
+  onlyActive?: boolean;
 }
 
 export interface ReservationsGetAllResponse {

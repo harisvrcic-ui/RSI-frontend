@@ -2,47 +2,66 @@
 <div class="hero-section">
   <div class="hero-content">
     <h1 class="hero-title">{{ 'HOME.HERO_TITLE' | translate }}</h1>
-    <p class="hero-subtitle">{{ 'HOME.HERO_SUBTITLE' | translate }}</p>
+    
+  </div>
+
+  <!-- Filter section: search, zone, availability, open now, sort -->
+  <div class="parking-filters" [formGroup]="filterForm">
+    <div class="filter-row">
+      <mat-form-field appearance="outline" class="filter-field filter-search">
+        <mat-label>{{ 'HOME.SEARCH_PARKING_PLACEHOLDER' | translate }}</mat-label>
+        <input matInput formControlName="name" type="text" [placeholder]="'HOME.SEARCH_PARKING_PLACEHOLDER' | translate">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="filter-field filter-zone">
+        <mat-label>{{ 'HOME.FILTER_ZONE' | translate }}</mat-label>
+        <mat-select formControlName="zoneGroup" (selectionChange)="onZoneFilterChange()">
+          <mat-option *ngFor="let g of zoneGroups" [value]="g.value">{{ g.labelKey | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="filter-field filter-sort">
+        <mat-label>{{ 'HOME.SORT_BY' | translate }}</mat-label>
+        <mat-select formControlName="sortBy">
+          <mat-option *ngFor="let opt of sortOptions" [value]="opt.value">{{ opt.key | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="filter-row filter-toggles">
+      <mat-slide-toggle formControlName="onlyAvailable" color="primary">
+        {{ 'HOME.ONLY_AVAILABLE' | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle formControlName="openNow" color="primary">
+        {{ 'HOME.OPEN_NOW' | translate }}
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="parking-state parking-loading">
+    <div class="loading-spinner"></div>
+    <p>{{ 'HOME.LOADING_PARKING' | translate }}</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" class="parking-state parking-error">
+    <p>{{ 'HOME.' + errorMessage | translate }}</p>
   </div>
 
   <!-- Parking Spots Carousel -->
-  <div class="parking-carousel" *ngIf="(parkingSpots?.dataItems?.length ?? 0) > 0">
+  <div class="parking-carousel" *ngIf="!isLoading && !errorMessage && getSpotItems().length > 0">
+    <h3 class="parking-count-heading">{{ getTotalParkingCount() }} {{ 'HOME.PARKING_LOTS_FOUND' | translate }}</h3>
     <div class="carousel-container">
 
       <!-- Previous Button -->
       <button class="carousel-btn carousel-btn-prev" (click)="previousSpot()"
-              [disabled]="(parkingSpots?.dataItems?.length ?? 0) <= 1">
+              [disabled]="getSpotItems().length <= 1">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="15,18 9,12 15,6"></polyline>
         </svg>
       </button>
-
-      <!-- Current Parking Spot Display -->
-      <div class="parking-display" *ngIf="getCurrentSpot() as currentSpot">
-        <div class="parking-card">
-          <div class="spot-info">
-            <div class="availability-status">
-              <span class="availability-badge"
-                    [class.available]="currentSpot.isActive"
-                    [class.full]="!currentSpot.isActive">
-                {{ currentSpot.isActive ? ('HOME.AVAILABLE' | translate) : ('HOME.FULL' | translate) }}
-              </span>
-            </div>
-
-            <div class="spot-actions" *ngIf="currentSpot.latitude && currentSpot.longitude">
-              <a [href]="'https://www.google.com/maps/search/?api=1&query=' + currentSpot.latitude + ',' + currentSpot.longitude"
-                 target="_blank"
-                 class="map-action-btn">
-                {{ 'HOME.OPEN_IN_MAPS' | translate }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <div class="carousel-spacer"></div>
       <!-- Next Button -->
       <button class="carousel-btn carousel-btn-next" (click)="nextSpot()"
-              [disabled]="(parkingSpots?.dataItems?.length ?? 0) <= 1">
+              [disabled]="getSpotItems().length <= 1">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="9,18 15,12 9,6"></polyline>
         </svg>
@@ -51,119 +70,72 @@
     </div>
 
     <!-- Carousel Indicators -->
-    <div class="carousel-indicators" *ngIf="(parkingSpots?.dataItems?.length ?? 0) > 1">
+    <div class="carousel-indicators" *ngIf="getSpotItems().length > 1">
       <button
-        *ngFor="let spot of (parkingSpots?.dataItems ?? []); let i = index"
+        *ngFor="let spot of getSpotItems(); let i = index"
         class="indicator-dot"
         [class.active]="i === currentSpotIndex"
         (click)="goToSpot(i)">
       </button>
     </div>
   </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!isLoading && !errorMessage && parkingSpots && getSpotItems().length === 0" class="parking-state parking-empty">
+    <p>{{ 'HOME.NO_PARKING_ZONES' | translate }}</p>
+  </div>
 </div>
 
-<!-- Features + Map Section -->
-<div class="features-map-wrapper">
+<!-- Features + Map Section (BreakpointObserver: layout changes on handset/tablet) -->
+<div class="features-map-wrapper" [class.layout-handset]="isHandset" [class.layout-tablet]="isTablet">
 
-  <!-- Feature Cards (Left) -->
+  <!-- Feature Cards (Left) – prikazuju samo parkinge iz API-ja (prema filteru zone) -->
   <div class="features-grid">
-    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+    <div class="feature-card" *ngFor="let spot of getSpotItems(); let i = index"
+         [class.selected]="selectedFeatureIndex === i"
+         (mouseenter)="hoverFeature(i)" (mouseleave)="leaveFeatureCard()"
+         (click)="selectFeature(i)"
+         role="button" tabindex="0" [attr.aria-label]="'HOME.HOVER_CARD_HINT' | translate"
+         (keydown.enter)="selectFeature(i)" (keydown.space)="selectFeature(i); $event.preventDefault()"
+         [attr.data-aos]="'fade-up'" [attr.data-aos-delay]="100 + i * 100">
       <div class="feature-card-inner">
-        <div class="feature-icon-wrapper">
-
-
-        </div>
+        <div class="feature-icon-wrapper"></div>
         <div class="feature-content">
-          <h3>{{ 'HOME.FEATURE_1_TITLE' | translate }}</h3>
-          <p>{{ 'HOME.FEATURE_1_DESC' | translate }}</p>
-        </div>
-        <div class="feature-decoration">
-          <div class="decoration-line"></div>
-          <div class="decoration-dots">
-            <span></span><span></span><span></span>
+          <h3>{{ getFeatureTitleKey(spot) | translate }}</h3>
+          <p>{{ getFeatureDescKey(spot) | translate }}</p>
+          <div class="feature-actions">
+            <a [href]="getMapsUrlForSpot(spot)" target="_blank" rel="noopener noreferrer"
+               class="feature-cta feature-cta-secondary" (click)="$event.stopPropagation()">{{ 'HOME.GET_DIRECTIONS' | translate }}</a>
+            <a routerLink="/client/reservation" class="feature-cta feature-cta-primary" (click)="$event.stopPropagation()">{{ 'HOME.RESERVE' | translate }}</a>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-      <div class="feature-card-inner">
-        <div class="feature-icon-wrapper">
-        </div>
-        <div class="feature-content">
-          <h3>{{ 'HOME.FEATURE_2_TITLE' | translate }}</h3>
-          <p>{{ 'HOME.FEATURE_2_DESC' | translate }}</p>
-        </div>
-        <div class="feature-decoration">
-          <div class="decoration-line"></div>
-          <div class="decoration-dots">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-      <div class="feature-card-inner">
-        <div class="feature-icon-wrapper">
-        </div>
-        <div class="feature-content">
-          <h3>{{ 'HOME.FEATURE_3_TITLE' | translate }}</h3>
-          <p>{{ 'HOME.FEATURE_3_DESC' | translate }}</p>
-        </div>
-        <div class="feature-decoration">
-          <div class="decoration-line"></div>
-          <div class="decoration-dots">
-            <span></span><span></span><span></span>
-          </div>
+          <span class="feature-spots-count">{{ 'HOME.SPOTS_AVAILABLE' | translate:{ count: getAvailableSpotsForSpot(spot) } }}</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Map (Right) -->
-  <div class="map-container">
+  <!-- Map (Right) – bez overlay kartice; hover na karticu lijevo prikaže pin na mapi -->
+  <div class="map-container" id="map">
     <div class="map-wrapper">
-      <div class="map-overlay">
-        <div class="map-info">
-          <div class="map-info-content">
-            <div class="location-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-            </div>
-            <div class="location-details">
-              <h4>{{ 'HOME.LOCATION_NAME' | translate }}</h4>
-              <p>{{ 'HOME.LOCATION_ADDRESS' | translate }}</p>
-              <div class="location-actions">
-                <a href="https://www.google.com/maps/place/Gara%C5%BEa+ARIA+mall/@43.858152,18.4165706,19.5z/data=!4m6!3m5!1s0x4758c900585eaeb9:0xca3446b046b27af8!8m2!3d43.858134!4d18.4169251!16s%2Fg%2F11vwnqmtld?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
-                   target="_blank"
-                   class="map-action-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                  </svg>
-                  {{ 'HOME.OPEN_IN_MAPS' | translate }}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="map-iframe-container">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d508.5667363909776!2d18.41657058236005!3d43.85815201976615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4758c900585eaeb9%3A0xca3446b046b27af8!2sGara%C5%BEa%20ARIA%20mall!5e0!3m2!1sen!2sba!4v1767541800367!5m2!1sen!2sba"
+      <!-- Google Maps JavaScript API (with API key in index.html) -->
+      <div class="map-iframe-container" *ngIf="mapApiLoaded">
+        <google-map
+          [center]="mapCenter"
+          [zoom]="mapZoom"
           width="100%"
           height="100%"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          class="map-iframe">
-        </iframe>
+          (mapInitialized)="mapApiLoaded = true">
+          <map-marker
+            *ngFor="let loc of getMarkerPositionsForCurrentSpots(); let i = index"
+            [position]="{ lat: loc.lat, lng: loc.lng }"
+            [title]="getMarkerTitle(i)"
+            (mapClick)="onMarkerClick(i)">
+          </map-marker>
+          <map-info-window></map-info-window>
+        </google-map>
       </div>
+      <!-- Leaflet (OpenStreetMap) – radi bez API ključa -->
+      <div #leafletMap class="map-iframe-container leaflet-map-container" *ngIf="!mapApiLoaded"></div>
     </div>
   </div>
 

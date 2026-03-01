@@ -1,7 +1,6 @@
-<!-- Modern Admin Layout with Sidebar -->
-<div class="admin-layout">
-  <!-- Sidebar -->
-  <aside class="admin-sidebar">
+<!-- Modern Admin Layout with Sidebar (BreakpointObserver: responsive sidebar) -->
+<div class="admin-layout" [class.layout-handset]="isHandset">
+  <aside class="admin-sidebar" [class.sidebar-closed]="!sidebarOpen && isHandset">
     <div class="sidebar-header">
       <div class="logo-section">
 
@@ -12,11 +11,17 @@
     <nav class="sidebar-nav">
 
 
+      <div class="nav-section">
+        <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.DASHBOARD' | translate }}</span>
+        </a>
+        <a routerLink="/admin/settings" routerLinkActive="active" class="nav-item">
+          <span>{{ 'ADMIN.SETTINGS' | translate }}</span>
+        </a>
+      </div>
       <!-- Content Management Section -->
       <div class="nav-section">
         <h3 class="nav-section-title">{{ 'ADMIN.CONTENT_MANAGEMENT' | translate }}</h3>
-
-
         <a routerLink="/admin/brands" routerLinkActive="active" class="nav-item">
           <span>{{ 'ADMIN.BRANDS' | translate }}</span>
         </a>
@@ -88,6 +93,9 @@
   <main class="admin-main">
     <header class="admin-header">
       <div class="header-content">
+        <button type="button" class="menu-toggle" *ngIf="isHandset" (click)="toggleSidebar()" [attr.aria-label]="'Toggle menu'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
         <h1 class="page-title">{{ 'ADMIN.DASHBOARD' | translate }}</h1>
         <div class="header-actions">
           <div class="user-info">

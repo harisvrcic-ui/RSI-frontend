@@ -1,1 +1,82 @@
-<p>reservation works!</p>
+<div class="reservation-page">
+  <div class="reservation-card">
+    <header class="reservation-header">
+      <h1>{{ 'CLIENT.RESERVATION_TITLE' | translate }}</h1>
+      <p class="reservation-subtitle">{{ 'CLIENT.RESERVATION_SUBTITLE' | translate }}</p>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="reservation-form">
+      <div class="form-row">
+        <label class="form-label">{{ 'CLIENT.CAR' | translate }}</label>
+        <select formControlName="carID" class="form-select">
+          <option [ngValue]="null">{{ 'CLIENT.SELECT_CAR' | translate }}</option>
+          <option *ngFor="let car of cars" [ngValue]="car.id">
+            {{ car.brandName }} {{ car.model }} ({{ car.licensePlate }})
+          </option>
+        </select>
+        <span class="form-error" *ngIf="form.get('carID')?.invalid && form.get('carID')?.touched">
+          {{ 'CLIENT.REQUIRED' | translate }}
+        </span>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">{{ 'CLIENT.PARKING_SPOT' | translate }}</label>
+        <select formControlName="parkingSpotID" class="form-select">
+          <option [ngValue]="null">{{ 'CLIENT.SELECT_PARKING_SPOT' | translate }}</option>
+          <option *ngFor="let spot of parkingSpots" [ngValue]="spot.id">
+            #{{ spot.parkingNumber }} ({{ 'CLIENT.ZONE' | translate }} {{ spot.zoneId }})
+          </option>
+        </select>
+        <span class="form-error" *ngIf="form.get('parkingSpotID')?.invalid && form.get('parkingSpotID')?.touched">
+          {{ 'CLIENT.REQUIRED' | translate }}
+        </span>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">{{ 'CLIENT.RESERVATION_TYPE' | translate }}</label>
+        <select formControlName="reservationTypeID" class="form-select">
+          <option [ngValue]="null">{{ 'CLIENT.SELECT_TYPE' | translate }}</option>
+          <option *ngFor="let type of reservationTypes" [ngValue]="type.id">
+            {{ type.name }} – {{ type.price }} {{ 'CLIENT.PER_HOUR' | translate }}
+          </option>
+        </select>
+        <span class="form-error" *ngIf="form.get('reservationTypeID')?.invalid && form.get('reservationTypeID')?.touched">
+          {{ 'CLIENT.REQUIRED' | translate }}
+        </span>
+      </div>
+
+      <div class="form-row double">
+        <div class="form-group">
+          <label class="form-label">{{ 'CLIENT.START_DATE' | translate }}</label>
+          <input type="datetime-local" formControlName="startDate" class="form-input">
+          <span class="form-error" *ngIf="form.get('startDate')?.invalid && form.get('startDate')?.touched">
+            {{ 'CLIENT.REQUIRED' | translate }}
+          </span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">{{ 'CLIENT.END_DATE' | translate }}</label>
+          <input type="datetime-local" formControlName="endDate" class="form-input">
+          <span class="form-error" *ngIf="form.get('endDate')?.invalid && form.get('endDate')?.touched">
+            {{ 'CLIENT.REQUIRED' | translate }}
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">{{ 'CLIENT.FINAL_PRICE' | translate }}</label>
+        <input type="number" formControlName="finalPrice" class="form-input form-input--price" min="0" step="0.01" readonly>
+      </div>
+
+      <p class="form-message error" *ngIf="errorMessage">{{ errorMessage | translate }}</p>
+      <p class="form-message success" *ngIf="successMessage">{{ successMessage | translate }}</p>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="goBack()">{{ 'CLIENT.BACK' | translate }}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoadingSubmit">
+          <span *ngIf="!isLoadingSubmit">{{ 'CLIENT.SUBMIT_RESERVATION' | translate }}</span>
+          <span *ngIf="isLoadingSubmit">{{ 'CLIENT.SAVING' | translate }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

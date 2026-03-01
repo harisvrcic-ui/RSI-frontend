@@ -11,11 +11,15 @@ import {tap} from 'rxjs/operators';
 
 export interface CityGetAllRequest extends MyPagedRequest {
   q?: string;
+  countryId?: number;
+  isActive?: boolean;
 }
 
 export interface CityGetAllResponse {
   id: number;
   name: string;
+  countryId?: number;
+  countryName?: string;
 }
 
 @Injectable({
@@ -29,7 +33,7 @@ export class CityGetAllEndpointService implements MyBaseEndpointAsync<CityGetAll
 
   handleAsync(request: CityGetAllRequest, useCache: boolean = false, cacheTTL: number = 300000) {
 
-    const cacheKey = `${request.q || ''}-${request.pageNumber || 1}-${request.pageSize || 10}`;
+    const cacheKey = `${request.q ?? ''}-${request.countryId ?? ''}-${request.isActive ?? ''}-${request.pageNumber ?? 1}-${request.pageSize ?? 10}`;
     // Provjeri da li postoji keširana verzija
     if (useCache && this.cacheService.has(cacheKey)) {
       let data = this.cacheService.get<MyPagedList<CityGetAllResponse>>(cacheKey)!;

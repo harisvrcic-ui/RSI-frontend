@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:mobile": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -16,6 +17,7 @@
     "@angular/compiler": "^19.0.1",
     "@angular/core": "^19.0.1",
     "@angular/forms": "^19.0.1",
+    "@angular/google-maps": "^19.2.19",
     "@angular/material": "^19.0.1",
     "@angular/platform-browser": "^19.0.1",
     "@angular/platform-browser-dynamic": "^19.0.1",
@@ -23,6 +25,8 @@
     "@microsoft/signalr": "^8.0.7",
     "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^16.0.0",
+    "@types/leaflet": "^1.9.21",
+    "leaflet": "^1.9.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

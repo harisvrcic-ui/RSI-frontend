@@ -8,7 +8,10 @@ import {
 import {
   CityUpdateOrInsertEndpointService, CityUpdateOrInsertRequest
 } from '../../../../endpoints/city-endpoints/city-update-or-insert-endpoint.service';
-
+import {
+  CountryGetAllEndpointService,
+  CountryGetAllResponse
+} from '../../../../endpoints/country-endpoints/country-get-all-endpoint.service';
 
 @Component({
   selector: 'app-cities-edit',
@@ -23,24 +26,28 @@ export class CitiesEditComponent implements OnInit {
   isLoading = false;
   isSaving = false;
   errorMessage = '';
+  countries: CountryGetAllResponse[] = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private cityGetByIdService: CityGetByIdEndpointService,
-    private cityUpdateOrInsertService: CityUpdateOrInsertEndpointService
+    private cityUpdateOrInsertService: CityUpdateOrInsertEndpointService,
+    private countryGetAllService: CountryGetAllEndpointService
   ) {
     this.cityForm = this.fb.group({
       name: ['', [
         Validators.required,
         Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/),
         Validators.maxLength(100)
-      ]]
+      ]],
+      countryId: [null as number | null, Validators.required]
     });
   }
 
   ngOnInit(): void {
+    this.loadCountries();
     this.route.params.subscribe(params => {
       const id = params['id'];
       if (id && id !== 'new') {
@@ -54,6 +61,12 @@ export class CitiesEditComponent implements OnInit {
     });
   }
 
+  loadCountries(): void {
+    this.countryGetAllService.handleAsync({ pageNumber: 1, pageSize: 500, isActive: true }, false).subscribe({
+      next: (data) => this.countries = data.dataItems ?? []
+    });
+  }
+
   loadCity(id: number): void {
     this.isLoading = true;
     this.errorMessage = '';
@@ -61,7 +74,8 @@ export class CitiesEditComponent implements OnInit {
     this.cityGetByIdService.handleAsync(id).subscribe({
       next: (city: CityGetByIdResponse) => {
         this.cityForm.patchValue({
-          name: city.name
+          name: city.name,
+          countryId: city.countryId
         });
         this.isLoading = false;
       },
@@ -81,7 +95,8 @@ export class CitiesEditComponent implements OnInit {
       const formData = this.cityForm.value;
       const request: CityUpdateOrInsertRequest = {
         id: this.isEditMode ? this.cityId : null,
-        name: formData.name.trim()
+        name: formData.name.trim(),
+        countryId: +formData.countryId
       };
 
       this.cityUpdateOrInsertService.handleAsync(request).subscribe({
@@ -115,7 +130,8 @@ export class CitiesEditComponent implements OnInit {
     const control = this.cityForm.get(fieldName);
 
     if (control?.hasError('required')) {
-      return `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+      const label = fieldName === 'countryId' ? 'Country' : fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+      return `${label} is required`;
     }
 
     if (control?.hasError('pattern')) {

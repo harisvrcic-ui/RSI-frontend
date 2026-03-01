@@ -32,13 +32,13 @@ export class ReservationTypeGetAllEndpointService {
 
   handleAsync(request: ReservationTypeGetAllRequest) {
     let params = new HttpParams()
-      .set('pageNumber', request.pageNumber)
-      .set('pageSize', request.pageSize);
+      .set('pageNumber', String(request.pageNumber))
+      .set('pageSize', String(request.pageSize));
 
     if (request.q) {
       params = params.set('q', request.q);
     }
 
-    return this.http.get<MyPagedList<ReservationTypeGetAllResponse>>(this.apiUrl);
+    return this.http.get<MyPagedList<ReservationTypeGetAllResponse>>(this.apiUrl, { params });
   }
 }

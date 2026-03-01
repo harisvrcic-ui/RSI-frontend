@@ -20,7 +20,7 @@ export class CarsComponent implements OnInit, AfterViewInit {
   cars: CarsGetAllResponse[] = [];
 
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 10;
   totalCount = 0;
 
   searchQuery = '';
@@ -28,7 +28,6 @@ export class CarsComponent implements OnInit, AfterViewInit {
 
   Math = Math;
   private searchSubject: Subject<string> = new Subject();
-  private carsService: any;
 
   constructor(
     private carsGetService: CarsGetAllEndpointService,
@@ -154,20 +153,8 @@ export class CarsComponent implements OnInit, AfterViewInit {
   }
 
   refreshCars(): void {
-    this.isLoading = true;
-
-    this.carsService.handleAsync({ q: this.searchQuery, pageNumber: this.currentPage, pageSize: this.pageSize })
-      .subscribe({
-        next: (data: MyPagedList<CarsGetAllResponse>) => {
-          this.cars = data.dataItems;
-          this.totalCount = data.totalCount;
-          // this.totalPages = Math.ceil(this.totalCount / this.pageSize); <-- ukloni
-          this.isLoading = false;
-        },
-        error: () => {
-          this.isLoading = false;
-        }
-      });
+    this.cacheService.clearCarsCache?.();
+    this.fetchCars(this.searchQuery, this.currentPage, this.pageSize, false);
   }
 
 }

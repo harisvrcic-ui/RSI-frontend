@@ -67,9 +67,11 @@ export class GenderComponent implements OnInit {
     this.genderGetService.handleAsync().subscribe({
       next: data => {
         // Ako backend vrati običan niz
-        this.genders = data.dataItems.filter(g =>
-          g.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-        );
+        const q = this.searchQuery.toLowerCase();
+        this.genders = data.dataItems.filter(g => {
+          const name = (g.name ?? '').toLowerCase();
+          return name === q || name.startsWith(q);
+        });
 
         this.totalCount = this.genders.length;
         this.totalPages = 1; // jednostavna paginacija

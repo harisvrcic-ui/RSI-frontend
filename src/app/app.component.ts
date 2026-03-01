@@ -23,6 +23,7 @@ export class AppComponent {
   currentLanguage = 'en';
   isLanguageDropdownOpen = false;
   isUserDropdownOpen = false;
+  mobileMenuOpen = false;
 
   constructor(
     private translate: TranslateService,
@@ -45,6 +46,7 @@ export class AppComponent {
 
   selectLanguage(lang: string): void {
     this.changeLanguage(lang);
+    this.closeMobileMenu();
   }
 
   toggleLanguageDropdown(): void {
@@ -70,11 +72,33 @@ export class AppComponent {
     if (!target.closest('.auth-section')) {
       this.isUserDropdownOpen = false;
     }
+    if (!target.closest('.navbar') || target.closest('.nav-mobile-close')) {
+      this.mobileMenuOpen = false;
+    }
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    this.updateBodyScrollLock();
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenuOpen = false;
+    this.updateBodyScrollLock();
+  }
+
+  private updateBodyScrollLock(): void {
+    if (this.mobileMenuOpen) {
+      document.body.classList.add('nav-mobile-open');
+    } else {
+      document.body.classList.remove('nav-mobile-open');
+    }
   }
 
   // Authentication Methods
   navigateToLogin(): void {
     this.router.navigate(['/auth/login']);
+    this.closeMobileMenu();
   }
 
   toggleUserDropdown(): void {
@@ -125,9 +149,11 @@ export class AppComponent {
   navigateToAdmin(): void {
     this.router.navigate(['/admin']);
     this.isUserDropdownOpen = false;
+    this.closeMobileMenu();
   }
 
   logout(): void {
+    this.closeMobileMenu();
     this.authLogoutEndpoint.handleAsync().subscribe({
       next: () => {
         this.authService.setLoggedInUser(null);

@@ -42,6 +42,28 @@
   <!-- Form Container -->
   <div *ngIf="!isLoading" class="form-container">
     <form [formGroup]="cityForm" (ngSubmit)="onSubmit()" class="city-form">
+      <!-- Country Field -->
+      <div class="form-group">
+        <label for="cityCountry" class="form-label">
+          {{ 'ADMIN.COUNTRY' | translate }}
+          <span class="required-indicator">*</span>
+        </label>
+        <div class="input-wrapper">
+          <select
+            id="cityCountry"
+            formControlName="countryId"
+            class="form-input form-select"
+            [class.error]="cityForm.get('countryId')?.invalid && cityForm.get('countryId')?.touched"
+            [disabled]="isSaving">
+            <option [ngValue]="null" disabled>{{ 'ADMIN.SELECT_COUNTRY' | translate }}</option>
+            <option *ngFor="let c of countries" [ngValue]="c.id">{{ c.name }}</option>
+          </select>
+        </div>
+        <div *ngIf="cityForm.get('countryId')?.invalid && cityForm.get('countryId')?.touched" class="error-text">
+          {{ getErrorMessage('countryId') }}
+        </div>
+      </div>
+
       <!-- City Name Field -->
       <div class="form-group">
         <label for="cityName" class="form-label">

@@ -26,14 +26,17 @@ import {ParkingZoneComponent} from './parking-zones/parking-zone.component';
 import {ReservationsComponent} from './reservations/reservation.component';
 import {ReservationTypeComponent} from './reservation-types/reservation-type.component';
 import {ReviewsComponent} from './reviews/review.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {SettingsComponent} from './settings/settings.component';
 
-//komentar
 const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
     children: [
-      {path: '', redirectTo: 'brands', pathMatch: 'full'},
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'settings', component: SettingsComponent},
       {path: 'cities', component: CitiesComponent},
       {path: 'cities/edit/new', component: CitiesEditComponent},
       {path: 'cities/edit/:id', component: CitiesEditComponent},

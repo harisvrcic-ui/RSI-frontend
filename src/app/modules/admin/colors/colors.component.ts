@@ -17,12 +17,16 @@ import { MyDialogConfirmComponent } from '../../shared/dialogs/my-dialog-confirm
 })
 export class ColorsComponent implements OnInit, AfterViewInit {
 
+  Math = Math;
   colors: ColorsGetAllResponse[] = [];
   searchQuery = '';
   isLoading = false;
   pageSize = 5;
   currentPage = 1;
   totalCount = 0;
+  get totalPages(): number {
+    return Math.ceil(this.totalCount / this.pageSize) || 1;
+  }
   private searchSubject: Subject<string> = new Subject();
 
   constructor(
