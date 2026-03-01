@@ -108,7 +108,7 @@
                class="feature-cta feature-cta-secondary" (click)="$event.stopPropagation()">{{ 'HOME.GET_DIRECTIONS' | translate }}</a>
             <a routerLink="/client/reservation" class="feature-cta feature-cta-primary" (click)="$event.stopPropagation()">{{ 'HOME.RESERVE' | translate }}</a>
           </div>
-          <span class="feature-spots-count">{{ 'HOME.SPOTS_AVAILABLE' | translate:{ count: getAvailableSpotsForSpot(spot) } }}</span>
+          <span class="feature-spots-count" [class.spots-zero]="getAvailableSpotsForSpot(spot) === 0">{{ 'HOME.SPOTS_AVAILABLE' | translate:{ count: getAvailableSpotsForSpot(spot) } }}</span>
         </div>
       </div>
     </div>

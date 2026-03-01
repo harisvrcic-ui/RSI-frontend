@@ -265,7 +265,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getFilteredSpotItems(): ParkingSpotsGetAllResponse[] {
-    return this.parkingSpots?.dataItems ?? [];
+    let items = this.parkingSpots?.dataItems ?? [];
+    const onlyAvailable = this.filterForm?.get('onlyAvailable')?.value === true;
+    if (onlyAvailable) {
+      items = items.filter(spot => this.getAvailableSpotsForSpot(spot) > 0);
+    }
+    return items;
   }
 
   getAvailableCount(): number {
@@ -346,11 +351,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return spot ? this.getMapsUrlForSpot(spot) : (this.openInMapsUrls[index] ?? this.openInMapsUrls[0]);
   }
 
-  /** Broj slobodnih mjesta za prikaz na kartici: Aria=3, Baščaršija=5, Vijećnica=10. */
+  /** Broj slobodnih mjesta za prikaz na kartici: Aria Mall=0, Baščaršija=5, Vijećnica=10. */
   getAvailableSpotsForSpot(spot: ParkingSpotsGetAllResponse): number {
     if (!spot?.isActive) return 0;
     const idx = this.getFeatureIndexForSpot(spot);
-    const counts: number[] = [2, 5, 10]; // 0=Aria, 1=Baščaršija, 2=Vijećnica
+    const counts: number[] = [0, 5, 10]; // 0=Aria Mall, 1=Baščaršija, 2=Vijećnica
     return counts[idx] ?? 0;
   }
 

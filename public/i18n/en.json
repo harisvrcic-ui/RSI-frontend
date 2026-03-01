@@ -29,7 +29,7 @@
     "HERO_SUBTITLE": "Parking zones",
     "AVAILABLE": "Available",
     "FULL": "Full",
-    "AUTHOR_NAME": "Author Name",
+
 
     "CATEGORY": "Category",
     "SUBCATEGORY": "Subcategory",
@@ -158,10 +158,10 @@
     "REVIEW_BUYS": "Review Buys",
     "REVIEW_RENTS": "Review Rents",
     "STOCK_MANAGEMENT": "Stock Management",
-    "PUBLISHERS": "Publishers",
+
     "CATEGORIES": "Categories",
     "SUBCATEGORIES": "Subcategories",
-    "AUTHORS": "Authors",
+
     "LANGUAGES": "Languages",
     "USERS": "Users",
     "ADMINS": "Admins",
@@ -189,7 +189,7 @@
     "ACTIONS": "Actions",
     "COVER": "Cover",
     "TITLE": "Title",
-    "AUTHOR": "Author",
+
     "CATEGORY": "Category",
     "PRICE": "Price",
     "STOCK": "Stock",
@@ -260,18 +260,8 @@
     "RENTALS": "rentals",
     "NO_ANALYTICS_DATA": "No Analytics Data",
     "UNABLE_TO_LOAD_ANALYTICS": "Unable to load analytics data. Please try refreshing the page.",
-    "AUTHORS_MANAGEMENT": "Authors Management",
-    "MANAGE_AND_VIEW_ALL_AUTHORS": "Manage and view all authors in the system",
-    "REFRESH_AUTHORS": "Refresh Authors",
-    "ADD_AUTHOR": "Add Author",
-    "SEARCH_AUTHORS_PLACEHOLDER": "Search authors by name, biography, or nationality...",
-    "TOTAL_AUTHORS": "Total Authors",
-    "PUBLISHERS_MANAGEMENT": "Publishers Management",
-    "MANAGE_AND_VIEW_ALL_PUBLISHERS": "Manage and view all publishers in the system",
-    "REFRESH_PUBLISHERS": "Refresh Publishers",
-    "ADD_PUBLISHER": "Add Publisher",
-    "SEARCH_PUBLISHERS_PLACEHOLDER": "Search publishers by name, description, website, or address...",
-    "TOTAL_PUBLISHERS": "Total Publishers",
+
+
     "CATEGORIES_MANAGEMENT": "Categories Management",
     "MANAGE_AND_VIEW_ALL_CATEGORIES": "Manage and view all categories in the system",
 
@@ -292,9 +282,9 @@
     "TOTAL_SUBCATEGORIES": "Total Subcategories",
 
     "REFRESH_STOCKS": "Refresh Stocks",
-    "LOADING_AUTHOR_DATA": "Loading author data...",
+
     "LOADING_CATEGORY_DATA": "Loading category data...",
-    "LOADING_PUBLISHER_DATA": "Loading publisher data...",
+
     "LOADING_SUBCATEGORIES": "Loading subcategories...",
     "LOADING_USERS": "Loading users...",
     "SUBCATEGORY": "Subcategory",
@@ -314,42 +304,30 @@
     "NO_LANGUAGES_IN_SYSTEM": "Get started by adding your first language to the system.",
     "NO_STOCKS_MATCH_SEARCH": "No stock records match your current search criteria.",
 
-    "NO_AUTHORS_MATCH_SEARCH": "No authors match your search criteria.",
-    "NO_AUTHORS_IN_SYSTEM": "There are no authors in the system yet.",
-    "NO_PUBLISHERS_MATCH_SEARCH": "No publishers match your search criteria.",
-    "NO_PUBLISHERS_IN_SYSTEM": "There are no publishers in the system yet.",
+
+
     "NO_CATEGORIES_MATCH_SEARCH": "No categories match your search criteria.",
     "NO_CATEGORIES_IN_SYSTEM": "There are no categories in the system yet.",
 
-    "UPDATE_AUTHOR_INFORMATION": "Update author information",
-    "ADD_NEW_AUTHOR": "Add a new author to the system",
+
     "UPDATE_CATEGORY_INFORMATION": "Update category information",
     "ADD_NEW_CATEGORY": "Add a new category to the system",
-    "UPDATE_PUBLISHER_INFORMATION": "Update publisher information",
-    "ADD_NEW_PUBLISHER": "Add a new publisher to the system",
     "BASIC_INFORMATION": "Basic Information",
     "CATEGORY_CLASSIFICATION": "Category & Classification",
     "RELEASE_YEAR": "Release Year",
     "PAGES": "Pages",
     "SELECT_SUBCATEGORY": "Select subcategory",
     "NO_SERIES": "No series",
-    "NO_AUTHOR": "No author",
-    "NO_PUBLISHER": "No publisher",
     "NO_LANGUAGE": "No language",
 
-    "ENTER_PUBLISHER_PHONE": "+1 (555) 123-4567",
-    "ENTER_PUBLISHER_EMAIL": "contact@publisher.com",
+
     "ENTER_FIRST_NAME": "Enter first name",
     "ENTER_LAST_NAME": "Enter last name",
-    "ENTER_AUTHOR_BIOGRAPHY": "Enter author biography...",
     "ENTER_NATIONALITY": "Enter nationality",
-    "AUTHOR_IMAGE": "Author Image",
     "CLICK_TO_UPLOAD_IMAGE": "Click to upload image",
 
-    "ACTIVE_AUTHOR": "Active Author",
-    "INACTIVE_AUTHORS_HINT": "Inactive authors won't appear in public listings.",
+
     "UNCHECK_TO_DEACTIVATE_CATEGORY": "Uncheck to deactivate this category.",
-    "UNCHECK_TO_DEACTIVATE_PUBLISHER": "Uncheck to deactivate this publisher.",
     "ONLY_LETTERS_SPACES_HINT": "Only letters and spaces are allowed. Maximum 100 characters.",
     "OPTIONAL_MAX_200_CHARS": "Optional field. Maximum 200 characters.",
     "LETTERS_NUMBERS_SPACES_HINT": "Letters, numbers, spaces, and common punctuation allowed. Maximum 100 characters.",
@@ -358,7 +336,6 @@
     "OPTIONAL_MAX_200_CHARS_ADDRESS": "Optional field. Maximum 200 characters.",
     "OPTIONAL_PHONE_FORMAT_HINT": "Optional field. Numbers, spaces, hyphens, parentheses, and + allowed.",
     "OPTIONAL_VALID_EMAIL_HINT": "Optional field. Must be a valid email address.",
-    "OPTIONAL_FOUNDED_DATE_HINT": "Optional field. When was this publisher founded?",
     "OPTIONAL_MAX_1000_CHARS": "Optional. Maximum 1000 characters.",
     "PNG_JPG_UP_TO_5MB": "PNG, JPG up to 5MB",
     "JPG_PNG_UP_TO_5MB": "JPG, PNG up to 5MB",
@@ -370,7 +347,6 @@
     "SUBCATEGORY_NAME": "Subcategory Name",
 
     "COUNT_BADGE": "Count Badge",
-    "PUBLISHER": "Publisher",
     "SERIES": "Series",
     "STOCK_STATUS_MEDIUM_STOCK": "Medium Stock",
     "REVIEW_BUYS_MANAGEMENT": "Review Buys Management",
@@ -406,18 +382,7 @@
     "MEDIUM_STOCK": "Medium Stock",
     "OUT_OF_STOCK": "Out of Stock",
     "NO_WEBSITE": "No website",
-    "EDIT_PUBLISHER": "Edit Publisher",
-    "DELETE_PUBLISHER": "Delete Publisher",
-    "DELETE_PUBLISHER_CONFIRMATION": "Are you sure you want to delete this publisher? This action cannot be undone.",
-    "DELETE_PUBLISHER_BUTTON": "Delete Publisher",
-    "PUBLISHER_NAME_HINT": "Letters, numbers, spaces, and common punctuation allowed. Maximum 100 characters.",
-    "PUBLISHER_DESCRIPTION_HINT": "Optional field. Maximum 500 characters.",
-    "PUBLISHER_WEBSITE_HINT": "Optional field. Must be a valid URL starting with http:// or https://",
-    "PUBLISHER_ADDRESS_HINT": "Optional field. Maximum 200 characters.",
-    "PUBLISHER_PHONE_HINT": "Optional field. Numbers, spaces, hyphens, parentheses, and + allowed.",
-    "PUBLISHER_EMAIL_HINT": "Optional field. Must be a valid email address.",
-    "PUBLISHER_FOUNDED_DATE_HINT": "Optional field. When was this publisher founded?",
-    "PUBLISHER_ACTIVE_HINT": "Uncheck to deactivate this publisher.",
+
     "CATEGORY_NAME_HINT": "Letters, numbers, spaces, and common punctuation allowed. Maximum 100 characters.",
     "CATEGORY_DESCRIPTION_HINT": "Optional field. Maximum 500 characters.",
     "INACTIVE_CATEGORIES_HINT": "Uncheck to deactivate this category.",
@@ -447,19 +412,8 @@
     "ENTER_CATEGORY_DESCRIPTION": "Enter category description",
     "ACTIVE_CATEGORY": "Active Category",
     "SAVE_CATEGORY": "Save Category",
-    "ADD_NEW_PUBLISHER": "Add New Publisher",
-    "UPDATE_PUBLISHER_INFO": "Update publisher information",
-    "CREATE_NEW_PUBLISHER": "Create new publisher",
-    "LOADING_PUBLISHER_DATA": "Loading publisher data...",
-    "ENTER_PUBLISHER_NAME": "Enter publisher name",
-    "ENTER_PUBLISHER_DESCRIPTION": "Enter publisher description",
-    "ENTER_PUBLISHER_WEBSITE": "Enter publisher website",
-    "ENTER_PUBLISHER_ADDRESS": "Enter publisher address",
-    "ENTER_PUBLISHER_EMAIL": "Enter publisher email",
-    "ACTIVE_PUBLISHER": "Active Publisher",
-    "SAVE_PUBLISHER": "Save Publisher",
-    "ADD_NEW_AUTHOR": "Add New Author",
-    "EDIT_AUTHOR": "Edit Author",
+
+
     "LANGUAGES_MANAGEMENT": "Languages Management",
     "MANAGE_AND_VIEW_ALL_LANGUAGES": "Manage and view all languages in the system",
     "REFRESH_LANGUAGES": "Refresh Languages",
@@ -551,7 +505,7 @@
     "UPDATE": "Update",
     "SAVING": "Saving...",
     "LOGOUT": "Logout",
-    "META_LABEL_PUBLISHER": "Publisher",
+
     "META_LABEL_SERIES":"Series",
     "LOCATIONS": "Locations",
     "PARKING_MANAGEMENT" : "Parking Management",

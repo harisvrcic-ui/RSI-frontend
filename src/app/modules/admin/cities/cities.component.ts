@@ -81,8 +81,8 @@ export class CitiesComponent implements OnInit, AfterViewInit {
         // Force fresh data when returning from edit/add operations
         // Add a small delay to ensure the component is fully initialized
         setTimeout(() => {
-          this.cacheService.clearCitiesCache();
-          this.fetchCities(this.searchQuery, this.currentPage, this.pageSize, false);
+          // this.cacheService.clearCitiesCache();
+          this.fetchCities(this.searchQuery, this.currentPage, this.pageSize, true);
         }, 200);
       }
     });
