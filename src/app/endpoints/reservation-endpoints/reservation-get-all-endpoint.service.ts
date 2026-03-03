@@ -13,13 +13,15 @@ export interface ReservationsGetAllRequest extends MyPagedRequest {
 
 export interface ReservationsGetAllResponse {
   id: number;
+  userId: number;
   carID: number;
   parkingSpotID: number;
+  /** Ime lokacije (npr. Aria mall, Vijećnica, Baščaršija) */
+  parkingSpotDisplayName?: string | null;
   reservationTypeID: number;
-  startDate: string; // ili Date, zavisi šta backend vraća
+  startDate: string;
   endDate: string;
   finalPrice: number;
-
 }
 
 @Injectable({

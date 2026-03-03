@@ -16,15 +16,7 @@
     </div>
   </div>
 
-  <div class="form-card">
-    <h3 class="form-card-title">{{ editId ? ('ADMIN.EDIT' | translate) : ('ADMIN.ADD_PARKING_ZONE' | translate) }}</h3>
-    <form [formGroup]="zoneForm" (ngSubmit)="saveZone()" class="inline-form">
-      <input type="text" formControlName="name" class="form-input" placeholder="Zone name" />
-      <label class="form-checkbox"><input type="checkbox" formControlName="isActive" /> {{ 'ADMIN.ACTIVE' | translate }}</label>
-      <button type="submit" class="add-btn" [disabled]="zoneForm.invalid">{{ editId ? ('ADMIN.SAVE' | translate) : ('ADMIN.ADD' | translate) }}</button>
-      <button type="button" class="refresh-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
-    </form>
-  </div>
+
 
   <div class="search-section">
     <div class="search-container">

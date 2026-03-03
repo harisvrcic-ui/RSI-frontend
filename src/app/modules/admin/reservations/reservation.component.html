@@ -11,24 +11,12 @@
           <span>{{ 'ADMIN.REFRESH' | translate }}</span>
         </button>
         <button type="button" class="add-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
-        <button type="button" class="add-btn" routerLink="/client/reservation" *ngIf="!editId">{{ 'ADMIN.ADD_RESERVATION' | translate }}</button>
+        <button type="button" class="add-btn" (click)="navigateToAddReservation()" *ngIf="!editId">{{ 'ADMIN.ADD_RESERVATION' | translate }}</button>
       </div>
     </div>
   </div>
 
-  <div class="form-card">
-    <h3 class="form-card-title">{{ editId ? ('ADMIN.EDIT' | translate) : ('ADMIN.ADD_RESERVATION' | translate) }}</h3>
-    <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()" class="inline-form">
-      <input type="number" formControlName="carID" class="form-input" placeholder="Car ID" />
-      <input type="number" formControlName="parkingSpotID" class="form-input" placeholder="Parking Spot ID" />
-      <input type="number" formControlName="reservationTypeID" class="form-input" placeholder="Reservation Type ID" />
-      <input type="datetime-local" formControlName="startDate" class="form-input" />
-      <input type="datetime-local" formControlName="endDate" class="form-input" />
-      <input type="number" formControlName="finalPrice" class="form-input" placeholder="Final Price" min="0" />
-      <button type="submit" class="add-btn" [disabled]="reservationForm.invalid">{{ editId ? ('ADMIN.SAVE' | translate) : ('ADMIN.ADD' | translate) }}</button>
-      <button type="button" class="refresh-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
-    </form>
-  </div>
+
 
   <div class="search-section">
     <div class="search-container">
@@ -54,6 +42,7 @@
         <thead class="table-header">
           <tr>
             <th class="table-header-cell">ID</th>
+            <th class="table-header-cell">{{ 'ADMIN.USER_ID' | translate }}</th>
             <th class="table-header-cell">Car ID</th>
             <th class="table-header-cell">Parking Spot ID</th>
             <th class="table-header-cell">Reservation Type ID</th>
@@ -66,6 +55,7 @@
         <tbody class="table-body">
           <tr *ngFor="let res of reservations" class="table-row">
             <td class="table-cell">{{ res.id }}</td>
+            <td class="table-cell">{{ res.userId }}</td>
             <td class="table-cell">{{ res.carID }}</td>
             <td class="table-cell">{{ res.parkingSpotID }}</td>
             <td class="table-cell">{{ res.reservationTypeID }}</td>

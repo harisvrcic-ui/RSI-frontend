@@ -65,7 +65,7 @@
     "FEATURE_1_TITLE": "ARIA Mall",
     "FEATURE_1_DESC": "Trg djece Sarajeva • Zona 2 • 00-24",
     "FEATURE_2_TITLE": "Bascarsija",
-    "FEATURE_2_DESC": "Sagrdžije 29a • Zona 1 • 00-24",
+    "FEATURE_2_DESC": "Sagrdžije 29a • Zona 1 • 08-23",
     "FEATURE_3_TITLE": "Vijecnica",
     "FEATURE_3_DESC": "Avdage Šahinagića • Zona 1 • 00-24",
     "LOCATION_TITLE": "Nuestra ubicación",
@@ -107,7 +107,9 @@
     "NO_ACTIVE_RESERVATIONS": "No tiene reservas activas.",
     "NEW_RESERVATION": "Nueva reserva",
     "RESERVATION_ID": "Reserva",
-    "SPOT_ID": "Plaza"
+    "SPOT_ID": "Plaza",
+    "ACTIVE": "Activa",
+    "ENDED": "Finalizada"
   },
   "ADMIN": {
     "BRANDS": "Marcas",
@@ -146,6 +148,7 @@
     "REVIEWS": "Reseñas",
     "PANEL": "Panel de Administración",
     "DASHBOARD": "Tablero",
+    "QUICK_LINKS": "Enlaces rápidos",
     "SETTINGS": "Ajustes",
     "BACK_TO_SITE": "Volver al Sitio",
     "LOGOUT": "Cerrar Sesión",
@@ -187,6 +190,7 @@
     "NO_RESERVATIONS_FOUND": "No se encontraron reservas",
     "SEARCH_RESERVATIONS_PLACEHOLDER": "Buscar por ID o plaza...",
     "ADD_RESERVATION": "Añadir reserva",
+    "USER_ID": "ID de usuario",
     "RESERVATION_TYPES_MANAGEMENT": "Gestión de tipos de reserva",
     "MANAGE_AND_VIEW_RESERVATION_TYPES": "Gestionar y ver tipos de reserva",
     "TOTAL_RESERVATION_TYPES": "Total tipos",

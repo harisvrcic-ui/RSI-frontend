@@ -119,6 +119,33 @@
   border-bottom: none;
 }
 
+.reservation-row--header {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reservation-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.reservation-badge--active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.reservation-badge--past {
+  background: #f5f5f5;
+  color: #757575;
+}
+
+.reservation-card.reservation-past {
+  opacity: 0.92;
+}
+
 .reservation-label {
   font-size: 0.9rem;
   color: #666;

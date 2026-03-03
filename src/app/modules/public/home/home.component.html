@@ -48,7 +48,7 @@
 
   <!-- Parking Spots Carousel -->
   <div class="parking-carousel" *ngIf="!isLoading && !errorMessage && getSpotItems().length > 0">
-    <h3 class="parking-count-heading">{{ getTotalParkingCount() }} {{ 'HOME.PARKING_LOTS_FOUND' | translate }}</h3>
+    <h3 class="parking-count-heading">{{ getSpotItems().length }} {{ 'HOME.PARKING_LOTS_FOUND' | translate }}</h3>
     <div class="carousel-container">
 
       <!-- Previous Button -->

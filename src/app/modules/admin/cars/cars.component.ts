@@ -16,7 +16,7 @@ import { MyPagedList } from '../../../helper/my-paged-list';
   styleUrls: ['./cars.component.css']
 })
 export class CarsComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['picture', 'brand', 'model', 'licensePlate', 'year', 'isActive', 'actions'];
+  displayedColumns: string[] = ['picture', 'brand', 'model', 'licensePlate', 'year', 'userId', 'isActive', 'actions'];
   cars: CarsGetAllResponse[] = [];
 
   currentPage = 1;
@@ -69,13 +69,15 @@ export class CarsComponent implements OnInit, AfterViewInit {
     this.searchSubject.next(filterValue);
   }
 
-  fetchCars(filter: string = '', page: number = 1, pageSize: number = 5, useCache: boolean = true): void {
+  fetchCars(filter: string = '', page: number = 1, pageSize: number = 10, useCache: boolean = false): void {
     this.isLoading = true;
+    // Admin: ne šaljemo userId da vidimo sve automobile; cache isključen da se uvijek vidi ažuran popis
     this.carsGetService.handleAsync({ q: filter, pageNumber: page, pageSize: pageSize }, useCache, 300000)
       .subscribe({
         next: data => {
-          this.cars = data.dataItems;
-          this.totalCount = data.totalCount;
+          const raw = data as { dataItems?: CarsGetAllResponse[]; DataItems?: CarsGetAllResponse[]; totalCount?: number; TotalCount?: number };
+          this.cars = raw.dataItems ?? raw.DataItems ?? [];
+          this.totalCount = raw.totalCount ?? raw.TotalCount ?? 0;
           this.currentPage = page;
           this.pageSize = pageSize;
           this.isLoading = false;
@@ -141,7 +143,9 @@ export class CarsComponent implements OnInit, AfterViewInit {
     return `data:image/jpeg;base64,${imageData}`;
   }
 
-  hasImage(car: CarsGetAllResponse): boolean { return car.picture !== undefined && car.picture.length > 0; }
+  hasImage(car: CarsGetAllResponse): boolean {
+    return (car.picture?.length ?? 0) > 0;
+  }
 
   private showExceptionDialog(title: string, message: string, error: any): void {
     this.dialog.open(MyDialogExceptionComponent, {

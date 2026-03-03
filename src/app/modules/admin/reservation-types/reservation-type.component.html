@@ -16,15 +16,6 @@
     </div>
   </div>
 
-  <div class="form-card">
-    <h3 class="form-card-title">{{ editId ? ('ADMIN.EDIT' | translate) : ('ADMIN.ADD_RESERVATION_TYPE' | translate) }}</h3>
-    <form [formGroup]="reservationTypeForm" (ngSubmit)="saveReservationType()" class="inline-form">
-      <input type="text" formControlName="name" class="form-input" [placeholder]="'ADMIN.NAME' | translate" />
-      <input type="number" formControlName="price" class="form-input" placeholder="Price" min="0" />
-      <button type="submit" class="add-btn" [disabled]="reservationTypeForm.invalid">{{ editId ? ('ADMIN.SAVE' | translate) : ('ADMIN.ADD' | translate) }}</button>
-      <button type="button" class="refresh-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
-    </form>
-  </div>
 
   <div class="search-section">
     <div class="search-container">

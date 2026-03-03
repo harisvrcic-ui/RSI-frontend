@@ -472,10 +472,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.getFilteredSpotItems();
   }
 
-  /** Broj pronađenih parking mjesta za prikaz u naslovu (koristi totalCount iz API-ja ako postoji). */
+  /** Broj prikazanih parking mjesta – mora odgovarati broju kartica (nakon filtra Only available / Open now). */
   getTotalParkingCount(): number {
-    const total = this.parkingSpots?.totalCount;
-    if (total != null && total >= 0) return total;
     return this.getSpotItems().length;
   }
 

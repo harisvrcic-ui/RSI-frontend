@@ -27,7 +27,6 @@ import {ReservationsComponent} from './reservations/reservation.component';
 import {ReservationTypeComponent} from './reservation-types/reservation-type.component';
 import {ReviewsComponent} from './reviews/review.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {SettingsComponent} from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -36,7 +35,6 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', component: DashboardComponent},
-      {path: 'settings', component: SettingsComponent},
       {path: 'cities', component: CitiesComponent},
       {path: 'cities/edit/new', component: CitiesEditComponent},
       {path: 'cities/edit/:id', component: CitiesEditComponent},

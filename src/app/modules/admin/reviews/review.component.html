@@ -16,17 +16,7 @@
     </div>
   </div>
 
-  <div class="form-card">
-    <h3 class="form-card-title">{{ editId ? ('ADMIN.EDIT' | translate) : ('ADMIN.ADD_REVIEW' | translate) }}</h3>
-    <form [formGroup]="reviewForm" (ngSubmit)="saveReview()" class="inline-form">
-      <input type="number" formControlName="userId" class="form-input" placeholder="User ID" />
-      <input type="number" formControlName="reservationId" class="form-input" placeholder="Reservation ID" />
-      <input type="number" formControlName="rating" class="form-input" placeholder="Rating (1-5)" min="1" max="5" />
-      <input type="text" formControlName="comment" class="form-input" placeholder="Comment" />
-      <button type="submit" class="add-btn" [disabled]="reviewForm.invalid">{{ editId ? ('ADMIN.SAVE' | translate) : ('ADMIN.ADD' | translate) }}</button>
-      <button type="button" class="refresh-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
-    </form>
-  </div>
+
 
   <div class="search-section">
     <div class="search-container">

@@ -48,6 +48,7 @@
           <th class="table-header-cell">Model</th>
           <th class="table-header-cell">License Plate</th>
           <th class="table-header-cell">Year</th>
+          <th class="table-header-cell">User ID</th>
           <th class="table-header-cell">Status</th>
           <th class="table-header-cell actions-header">Actions</th>
         </tr>
@@ -62,6 +63,7 @@
           <td class="table-cell">{{ car.model }}</td>
           <td class="table-cell">{{ car.licensePlate }}</td>
           <td class="table-cell">{{ car.yearOfManufacture }}</td>
+          <td class="table-cell">{{ car.userId }}</td>
           <td class="table-cell status-cell">
               <span class="status-badge" [ngClass]="car.isActive ? 'active' : 'inactive'">
                 {{ car.isActive ? 'Active' : 'Inactive' }}

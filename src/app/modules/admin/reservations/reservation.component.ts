@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ReservationsGetAllEndpointService, ReservationsGetAllResponse, ReservationsGetAllRequest } from '../../../endpoints/reservation-endpoints/reservation-get-all-endpoint.service';
 import { ReservationsGetByIdEndpointService } from '../../../endpoints/reservation-endpoints/reservation-get-by-id-endpoint.service';
@@ -28,6 +29,7 @@ export class ReservationsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private getAllService: ReservationsGetAllEndpointService,
     private getByIdService: ReservationsGetByIdEndpointService,
     private saveService: ReservationsUpdateOrInsertEndpointService,
@@ -139,6 +141,10 @@ export class ReservationsComponent implements OnInit {
   cancelEdit(): void {
     this.reservationForm.reset({ carID: 1, parkingSpotID: 1, reservationTypeID: 1, finalPrice: 0 });
     this.editId = null;
+  }
+
+  navigateToAddReservation(): void {
+    this.router.navigate(['/client/reservation'], { state: { fromAdmin: true } });
   }
 
   applyFilter(event: Event): void {

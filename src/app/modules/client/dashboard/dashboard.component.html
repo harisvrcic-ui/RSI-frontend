@@ -27,10 +27,13 @@
     </div>
 
     <div *ngIf="reservations.length > 0" class="reservations-list">
-      <div *ngFor="let r of reservations" class="reservation-card">
-        <div class="reservation-row">
+      <div *ngFor="let r of reservations" class="reservation-card" [class.reservation-past]="!isActiveReservation(r)">
+        <div class="reservation-row reservation-row--header">
           <span class="reservation-label">{{ 'CLIENT.RESERVATION_ID' | translate }}</span>
           <span class="reservation-value">#{{ r.id }}</span>
+          <span class="reservation-badge" [class.reservation-badge--active]="isActiveReservation(r)" [class.reservation-badge--past]="!isActiveReservation(r)">
+            {{ isActiveReservation(r) ? ('CLIENT.ACTIVE' | translate) : ('CLIENT.ENDED' | translate) }}
+          </span>
         </div>
         <div class="reservation-row">
           <span class="reservation-label">{{ 'CLIENT.START_DATE' | translate }}</span>
@@ -42,7 +45,7 @@
         </div>
         <div class="reservation-row">
           <span class="reservation-label">{{ 'CLIENT.PARKING_SPOT' | translate }}</span>
-          <span class="reservation-value">{{ 'CLIENT.SPOT_ID' | translate }} {{ r.parkingSpotID }}</span>
+          <span class="reservation-value">{{ r.parkingSpotDisplayName || ('CLIENT.SPOT_ID' | translate) + ' ' + r.parkingSpotID }}</span>
         </div>
         <div class="reservation-row">
           <span class="reservation-label">{{ 'CLIENT.FINAL_PRICE' | translate }}</span>

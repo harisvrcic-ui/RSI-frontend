@@ -13,6 +13,7 @@ export interface CarsGetAllRequest extends MyPagedRequest {
   q?: string;
   brandId?: number;
   isActive?: boolean;
+  userId?: number;
 }
 
 export interface CarsGetAllResponse {
@@ -32,12 +33,12 @@ export interface CarsGetAllResponse {
   providedIn: 'root'
 })
 export class CarsGetAllEndpointService implements MyBaseEndpointAsync<CarsGetAllRequest, MyPagedList<CarsGetAllResponse>> {
-  private apiUrl = `${MyConfig.api_address}/cars/filter`;
+  private apiUrl = `${MyConfig.api_address}/Cars/filter`;
 
   constructor(private httpClient: HttpClient, private cacheService: MyCacheService) {}
 
   handleAsync(request: CarsGetAllRequest, useCache: boolean = false, cacheTTL: number = 300000) {
-    const cacheKey = `${request.q || ''}-${request.brandId || ''}-${request.pageNumber || 1}-${request.pageSize || 10}`;
+    const cacheKey = `cars-${request.q ?? ''}-${request.brandId ?? ''}-${request.pageNumber ?? 1}-${request.pageSize ?? 10}`;
 
     if (useCache && this.cacheService.has(cacheKey)) {
       const data = this.cacheService.get<MyPagedList<CarsGetAllResponse>>(cacheKey)!;

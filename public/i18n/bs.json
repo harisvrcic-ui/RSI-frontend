@@ -65,7 +65,7 @@
     "FEATURE_1_TITLE": "Aria mall",
     "FEATURE_1_DESC": "Trg djece Sarajeva • Zona 2 • 00-24",
     "FEATURE_2_TITLE": "Baščaršija",
-    "FEATURE_2_DESC": "Sagrdžije 29a • Zona 1 • 00-24",
+    "FEATURE_2_DESC": "Sagrdžije 29a • Zona 1 • 08-23",
     "FEATURE_3_TITLE": "Vijećnica",
     "FEATURE_3_DESC": "Avdage Šahinagića • Zona 1 • 00-24",
     "LOCATION_TITLE": "Naša lokacija",
@@ -107,7 +107,9 @@
     "NO_ACTIVE_RESERVATIONS": "Nemate aktivnih rezervacija.",
     "NEW_RESERVATION": "Nova rezervacija",
     "RESERVATION_ID": "Rezervacija",
-    "SPOT_ID": "Mjesto"
+    "SPOT_ID": "Mjesto",
+    "ACTIVE": "Aktivna",
+    "ENDED": "Završena"
   },
   "ADMIN": {
     "BRANDS": "Brendovi",
@@ -145,6 +147,7 @@
     "REVIEWS": "Recenzije",
     "PANEL": "Admin Panel",
     "DASHBOARD": "Kontrolna tabla",
+    "QUICK_LINKS": "Brzi linkovi",
     "SETTINGS": "Postavke",
     "BACK_TO_SITE": "Nazad na sajt",
     "LOGOUT": "Odjava",
@@ -582,6 +585,7 @@
     "NO_RESERVATIONS_FOUND": "Nema pronađenih rezervacija",
     "SEARCH_RESERVATIONS_PLACEHOLDER": "Pretraga po ID ili mjestu...",
     "ADD_RESERVATION": "Dodaj rezervaciju",
+    "USER_ID": "ID korisnika",
     "RESERVATION_TYPES_MANAGEMENT": "Upravljanje tipovima rezervacija",
     "MANAGE_AND_VIEW_RESERVATION_TYPES": "Upravljajte i pregledajte tipove rezervacija",
     "TOTAL_RESERVATION_TYPES": "Ukupno tipova",

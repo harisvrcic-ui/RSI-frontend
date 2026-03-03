@@ -65,7 +65,7 @@
     "FEATURE_1_TITLE": "Aria mall",
     "FEATURE_1_DESC": "Trg djece Sarajeva • Zone 2 • 00-24",
     "FEATURE_2_TITLE": "Baščaršija",
-    "FEATURE_2_DESC": "Sagrdžije 29a • Zone 1 • 00-24",
+    "FEATURE_2_DESC": "Sagrdžije 29a • Zone 1 • 08-23",
     "FEATURE_3_TITLE": "Vijećnica",
     "FEATURE_3_DESC": "Avdage Šahinagića • Zone 1 • 00-24",
     "LOCATION_TITLE": "Our Location",
@@ -107,7 +107,9 @@
     "NO_ACTIVE_RESERVATIONS": "You have no active reservations.",
     "NEW_RESERVATION": "New reservation",
     "RESERVATION_ID": "Reservation",
-    "SPOT_ID": "Spot"
+    "SPOT_ID": "Spot",
+    "ACTIVE": "Active",
+    "ENDED": "Ended"
   },
   "ADMIN": {
     "BRANDS": "Brands",
@@ -146,6 +148,7 @@
     "ADDITIONAL_MANAGEMENT": "Management",
     "PANEL": "Admin Panel",
     "DASHBOARD": "Dashboard",
+    "QUICK_LINKS": "Quick links",
     "SETTINGS": "Settings",
     "BACK_TO_SITE": "Back to Site",
     "ADMIN": "Admin",
@@ -537,6 +540,7 @@
     "NO_RESERVATIONS_FOUND": "No Reservations Found",
     "SEARCH_RESERVATIONS_PLACEHOLDER": "Search by ID or spot...",
     "ADD_RESERVATION": "Add Reservation",
+    "USER_ID": "User ID",
     "RESERVATION_TYPES_MANAGEMENT": "Reservation Types Management",
     "MANAGE_AND_VIEW_RESERVATION_TYPES": "Manage and view all reservation types",
     "TOTAL_RESERVATION_TYPES": "Total Types",

@@ -17,20 +17,7 @@
     </div>
   </div>
 
-  <!-- Add/Edit form card -->
-  <div class="form-card">
-    <h3 class="form-card-title">{{ editId ? ('ADMIN.EDIT' | translate) : ('ADMIN.ADD_PARKING_SPOT' | translate) }}</h3>
-    <form [formGroup]="spotForm" (ngSubmit)="saveSpot()" class="inline-form">
-      <input type="number" formControlName="parkingNumber" class="form-input" placeholder="Parking Number" />
-      <input type="number" formControlName="parkingSpotTypeId" class="form-input" placeholder="Spot Type ID" />
-      <input type="number" formControlName="zoneId" class="form-input" placeholder="Zone ID" />
-      <label class="form-checkbox">
-        <input type="checkbox" formControlName="isActive" /> {{ 'ADMIN.ACTIVE' | translate }}
-      </label>
-      <button type="submit" class="add-btn" [disabled]="spotForm.invalid">{{ editId ? ('ADMIN.SAVE' | translate) : ('ADMIN.ADD' | translate) }}</button>
-      <button type="button" class="refresh-btn" (click)="cancelEdit()" *ngIf="editId">{{ 'ADMIN.CANCEL' | translate }}</button>
-    </form>
-  </div>
+
 
   <div class="search-section">
     <div class="search-container">

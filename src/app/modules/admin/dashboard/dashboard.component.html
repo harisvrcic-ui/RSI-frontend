@@ -1,18 +1,47 @@
-<div class="dashboard-page">
-  <h1 class="dashboard-title">{{ 'ADMIN.DASHBOARD' | translate }}</h1>
-  <p class="dashboard-subtitle">{{ 'ADMIN.OVERVIEW' | translate }}</p>
-  <div class="dashboard-cards">
-    <div class="dashboard-card">
-      <span class="card-label">{{ 'ADMIN.CITIES' | translate }}</span>
-      <span class="card-hint">{{ 'ADMIN.CITIES_MANAGEMENT' | translate }}</span>
-    </div>
-    <div class="dashboard-card">
-      <span class="card-label">{{ 'ADMIN.PARKING_ZONES' | translate }}</span>
-      <span class="card-hint">{{ 'ADMIN.PARKING_MANAGEMENT' | translate }}</span>
-    </div>
-    <div class="dashboard-card">
-      <span class="card-label">{{ 'ADMIN.USERS' | translate }}</span>
-      <span class="card-hint">{{ 'ADMIN.USER_MANAGEMENT' | translate }}</span>
-    </div>
+<div class="dashboard-quick-links">
+  <h2 class="dashboard-title">{{ 'ADMIN.QUICK_LINKS' | translate }}</h2>
+  <div class="quick-links-grid">
+    <a routerLink="/admin/users" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.USERS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/admins" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.ADMINS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/reservations" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.RESERVATIONS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/parking-spots" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.PARKING_SPOTS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/parking-zones" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.PARKING_ZONES' | translate }}</span>
+    </a>
+    <a routerLink="/admin/parking-spot-types" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.PARKING_SPOT_TYPES' | translate }}</span>
+    </a>
+    <a routerLink="/admin/reservation-types" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.RESERVATION_TYPES' | translate }}</span>
+    </a>
+    <a routerLink="/admin/reviews" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.REVIEWS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/brands" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.BRANDS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/cars" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.CARS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/colors" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.COLORS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/genders" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.GENDERS' | translate }}</span>
+    </a>
+    <a routerLink="/admin/cities" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.CITIES' | translate }}</span>
+    </a>
+    <a routerLink="/admin/countries" class="quick-link-card">
+      <span class="quick-link-label">{{ 'ADMIN.COUNTRIES' | translate }}</span>
+    </a>
   </div>
 </div>

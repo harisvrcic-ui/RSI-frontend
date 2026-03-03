@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MyAuthService } from '../../../services/auth-services/my-auth.service';
 import { ParkingSpotsGetAllEndpointService, ParkingSpotsGetAllResponse } from '../../../endpoints/parking-spot-endpoints/parking-spot-get-all-endpoint.service';
 import { ReservationTypeGetAllEndpointService, ReservationTypeGetAllResponse } from '../../../endpoints/reservation-types-endpoints/reservation-type-get-all-endpoint.service';
 import { CarsGetAllEndpointService, CarsGetAllResponse } from '../../../endpoints/car-endpoints/car-get-all-endpoint.service';
@@ -24,23 +25,42 @@ export class ReservationComponent implements OnInit {
   isLoadingSubmit = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  /** True when opened from admin reservations (Add new reservation); Back/Cancel should return to admin. */
+  private fromAdmin = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private authService: MyAuthService,
     private carsService: CarsGetAllEndpointService,
     private parkingSpotsService: ParkingSpotsGetAllEndpointService,
     private reservationTypesService: ReservationTypeGetAllEndpointService,
     private reservationSaveService: ReservationsUpdateOrInsertEndpointService
   ) {
+    const nav = this.router.getCurrentNavigation();
+    this.fromAdmin = (nav?.extras?.state as { fromAdmin?: boolean })?.fromAdmin === true;
+    const now = new Date();
+    const startStr = ReservationComponent.toDatetimeLocal(now);
+    const endDefault = new Date(now.getTime() + 60 * 60 * 1000);
+    const endStr = ReservationComponent.toDatetimeLocal(endDefault);
     this.form = this.fb.group({
       carID: [null as number | null, Validators.required],
       parkingSpotID: [null as number | null, Validators.required],
       reservationTypeID: [null as number | null, Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      startDate: [startStr, Validators.required],
+      endDate: [endStr, Validators.required],
       finalPrice: [0, [Validators.required, Validators.min(0)]]
     });
+  }
+
+  /** Format za input type="datetime-local": yyyy-MM-ddTHH:mm */
+  private static toDatetimeLocal(d: Date): string {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const h = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${y}-${m}-${day}T${h}:${min}`;
   }
 
   ngOnInit(): void {
@@ -51,7 +71,13 @@ export class ReservationComponent implements OnInit {
   }
 
   private loadCars(): void {
-    this.carsService.handleAsync({ pageNumber: 1, pageSize: 200, isActive: true }).subscribe({
+    const userId = this.authService.getMyAuthInfo()?.userId;
+    this.carsService.handleAsync({
+      pageNumber: 1,
+      pageSize: 200,
+      isActive: true,
+      ...(userId != null ? { userId } : {})
+    }).subscribe({
       next: (res) => {
         this.cars = res.dataItems ?? [];
       },
@@ -126,17 +152,39 @@ export class ReservationComponent implements OnInit {
     this.reservationSaveService.handleAsync(request).subscribe({
       next: () => {
         this.successMessage = 'CLIENT.RESERVATION_SUCCESS';
-        this.form.reset({ carID: null, parkingSpotID: null, reservationTypeID: null, startDate: '', endDate: '', finalPrice: 0 });
+        const now = new Date();
+this.form.reset({
+  carID: null,
+  parkingSpotID: null,
+  reservationTypeID: null,
+  startDate: ReservationComponent.toDatetimeLocal(now),
+  endDate: ReservationComponent.toDatetimeLocal(new Date(now.getTime() + 60 * 60 * 1000)),
+  finalPrice: 0
+});
         this.isLoadingSubmit = false;
+        this.router.navigate(this.fromAdmin ? ['/admin/reservations'] : ['/client/dashboard']);
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'CLIENT.RESERVATION_ERROR';
+        const body = err.error;
+        const msg = body?.message
+          || (Array.isArray(body?.errors) ? body.errors.join(' ') : null)
+          || (typeof body?.title === 'string' ? body.title : null)
+          || err.message
+          || 'CLIENT.RESERVATION_ERROR';
+        this.errorMessage = msg;
         this.isLoadingSubmit = false;
       }
     });
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(this.fromAdmin ? ['/admin/reservations'] : ['/']);
+  }
+
+  /** Prikaz u selectu: DisplayName (Aria mall, Vijećnica, Baščaršija) ili fallback na #broj (Zone id). */
+  getParkingSpotLabel(spot: ParkingSpotsGetAllResponse): string {
+    const name = spot.displayName?.trim() || spot.zoneName?.trim();
+    if (name) return name;
+    return `#${spot.parkingNumber} (Zone ${spot.zoneId})`;
   }
 }

@@ -7,7 +7,8 @@
     "start:mobile": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "patch-package"
   },
   "private": true,
   "dependencies": {
@@ -32,17 +33,19 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.0.2",
-    "@angular/cli": "^19.0.2",
+    "@angular-devkit/build-angular": "^19.1.0",
+    "@angular/cli": "^21.2.0",
     "@angular/compiler-cli": "^19.0.1",
     "@angular/localize": "^19.0.1",
     "@types/jasmine": "~5.1.0",
+    "baseline-browser-mapping": "^2.10.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "patch-package": "^8.0.1",
     "typescript": "~5.5.2"
   }
 }

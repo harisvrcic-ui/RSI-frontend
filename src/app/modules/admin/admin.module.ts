@@ -39,7 +39,6 @@ import { AdminsComponent } from './admins/admins.component';
 
 
 import {TranslateModule} from '@ngx-translate/core';
-import {AdminTranslatePipe} from './admin-translate.pipe';
 import { BrandsComponent } from './brands/brand-component';
 import { CarsComponent } from './cars/cars.component';
 import {ColorsComponent} from './colors/colors.component';
@@ -52,13 +51,11 @@ import {ReservationsComponent} from './reservations/reservation.component';
 import {ReservationTypeComponent} from './reservation-types/reservation-type.component';
 import {ReviewsComponent} from './reviews/review.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {SettingsComponent} from './settings/settings.component';
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     DashboardComponent,
-    SettingsComponent,
     AdminErrorPageComponent,
     CitiesComponent,
     CitiesEditComponent,
@@ -80,8 +77,7 @@ import {SettingsComponent} from './settings/settings.component';
     ParkingZoneComponent,
     ReservationsComponent,
     ReservationTypeComponent,
-    ReviewsComponent,
-    AdminTranslatePipe
+    ReviewsComponent
   ],
     imports: [
         CommonModule,

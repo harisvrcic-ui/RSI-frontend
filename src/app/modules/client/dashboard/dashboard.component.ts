@@ -45,12 +45,13 @@ export class ClientDashboardComponent implements OnInit {
       .handleAsync({
         pageNumber: 1,
         pageSize: 100,
-        userId,
-        onlyActive: true
+        userId
+        // onlyActive: false = dohvatimo sve rezervacije korisnika (aktivne i prošle)
       })
       .subscribe({
         next: (res) => {
-          this.reservations = res.dataItems ?? [];
+          const raw = res as { dataItems?: ReservationsGetAllResponse[]; DataItems?: ReservationsGetAllResponse[] };
+          this.reservations = raw.dataItems ?? raw.DataItems ?? [];
           this.isLoading = false;
         },
         error: () => {
@@ -67,6 +68,12 @@ export class ClientDashboardComponent implements OnInit {
       dateStyle: 'short',
       timeStyle: 'short'
     });
+  }
+
+  /** Rezervacija je aktivna ako joj kraj (endDate) još nije prošao */
+  isActiveReservation(r: ReservationsGetAllResponse): boolean {
+    if (!r?.endDate) return false;
+    return new Date(r.endDate) >= new Date();
   }
 
   goToNewReservation(): void {

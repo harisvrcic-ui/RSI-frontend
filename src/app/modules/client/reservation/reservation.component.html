@@ -24,7 +24,7 @@
         <select formControlName="parkingSpotID" class="form-select">
           <option [ngValue]="null">{{ 'CLIENT.SELECT_PARKING_SPOT' | translate }}</option>
           <option *ngFor="let spot of parkingSpots" [ngValue]="spot.id">
-            #{{ spot.parkingNumber }} ({{ 'CLIENT.ZONE' | translate }} {{ spot.zoneId }})
+            {{ getParkingSpotLabel(spot) }}
           </option>
         </select>
         <span class="form-error" *ngIf="form.get('parkingSpotID')?.invalid && form.get('parkingSpotID')?.touched">
