@@ -1,6 +1,6 @@
 /* Home Component Styles - Matching Public Layout Design Language */
 
-/* Hero Section – kompaktno da ostane više prostora za mapu */
+/* Hero Section – compact to leave more space for map */
 .hero-section {
   min-height: auto;
   background: #ffffff;
@@ -176,7 +176,7 @@
 .parking-search-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 2px solid rgba(0,0,0,0.15); font-size: 1rem; }
 .parking-search-input:focus { outline: none; border-color: #ffd700; }
 
-/* Available count – samo h3, bez pozadine, poravnato lijevo sa naslovom i search barom */
+/* Available count – h3 only, no background, left-aligned with title and search bar */
 .parking-count-heading {
   font-size: 1.5rem;
   font-weight: 600;
@@ -401,7 +401,7 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
 }
-/* Sekundarni CTA – outline, Rezerviši */
+/* Secondary CTA – outline, Reserve */
 .feature-cta-secondary {
   background: transparent;
   color: #1a1a2e;
@@ -567,7 +567,7 @@
 .leaflet-map-container { min-height: 100%; }
 .leaflet-map-container.leaflet-map-container { z-index: 1; }
 
-/* Custom marker – pin kao prije (klasična map-pin ikona) */
+/* Custom marker – pin as before (classic map-pin icon) */
 :host ::ng-deep .leaflet-custom-marker {
   background: none;
   border: none;
@@ -663,7 +663,7 @@
 .map-container:hover .map-overlay { opacity:0.9; }
 .map-container:hover .map-info { transform:translateY(-2px); box-shadow:0 15px 40px rgba(0,0,0,0.4); }
 
-/* Responsive – mobilna: 32px razmak između search bara, available sekcije i mape */
+/* Responsive – mobile: 32px gap between search bar, available section and map */
 @media (max-width:768px) {
   .hero-section { padding:95px 15px 40px; margin-top:-70px; }
   .hero-title { font-size:2.5rem; }

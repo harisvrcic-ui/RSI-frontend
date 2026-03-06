@@ -55,7 +55,7 @@ const routes: Routes = [
       { path: 'reservation-types', component: ReservationTypeComponent },
       { path: 'reviews', component: ReviewsComponent },
 
-      {path: '**', component: AdminErrorPageComponent} // Default ruta
+      {path: '**', component: AdminErrorPageComponent} // Default route
     ]
   },
 ];

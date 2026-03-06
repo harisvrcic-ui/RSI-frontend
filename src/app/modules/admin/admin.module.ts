@@ -106,7 +106,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
         MatCard,
         MatProgressSpinner,
         MatTooltipModule,
-        // Omogućava pristup svemu što je eksportovano iz SharedModule
+        // Enables access to everything exported from SharedModule
     ],
   providers: []
 })

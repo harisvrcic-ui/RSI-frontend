@@ -109,7 +109,6 @@ export class ExceptionService {
   }
 
   handleError(error: any, title?: string): void {
-    console.error('Exception occurred:', error);
     this.showExceptionDialog(error, title);
   }
 }

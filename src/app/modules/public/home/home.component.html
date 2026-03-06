@@ -2,7 +2,7 @@
 <div class="hero-section">
   <div class="hero-content">
     <h1 class="hero-title">{{ 'HOME.HERO_TITLE' | translate }}</h1>
-    
+
   </div>
 
   <!-- Filter section: search, zone, availability, open now, sort -->
@@ -18,12 +18,12 @@
           <mat-option *ngFor="let g of zoneGroups" [value]="g.value">{{ g.labelKey | translate }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="filter-field filter-sort">
-        <mat-label>{{ 'HOME.SORT_BY' | translate }}</mat-label>
-        <mat-select formControlName="sortBy">
-          <mat-option *ngFor="let opt of sortOptions" [value]="opt.value">{{ opt.key | translate }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+<!--      <mat-form-field appearance="outline" class="filter-field filter-sort">-->
+<!--        <mat-label>{{ 'HOME.SORT_BY' | translate }}</mat-label>-->
+<!--        <mat-select formControlName="sortBy">-->
+<!--          <mat-option *ngFor="let opt of sortOptions" [value]="opt.value">{{ opt.key | translate }}</mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
     </div>
     <div class="filter-row filter-toggles">
       <mat-slide-toggle formControlName="onlyAvailable" color="primary">
@@ -114,7 +114,7 @@
     </div>
   </div>
 
-  <!-- Map (Right) – bez overlay kartice; hover na karticu lijevo prikaže pin na mapi -->
+  <!-- Map (Right) – no overlay card; hover on left card shows pin on map -->
   <div class="map-container" id="map">
     <div class="map-wrapper">
       <!-- Google Maps JavaScript API (with API key in index.html) -->
@@ -134,7 +134,7 @@
           <map-info-window></map-info-window>
         </google-map>
       </div>
-      <!-- Leaflet (OpenStreetMap) – radi bez API ključa -->
+      <!-- Leaflet (OpenStreetMap) – works without API key -->
       <div #leafletMap class="map-iframe-container leaflet-map-container" *ngIf="!mapApiLoaded"></div>
     </div>
   </div>

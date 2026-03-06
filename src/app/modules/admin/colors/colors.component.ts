@@ -84,7 +84,6 @@ export class ColorsComponent implements OnInit, AfterViewInit {
     useCache: boolean = true
   ): void {
     this.isLoading = true;
-    console.log('Fetching colors...', filter, page, pageSize);
 
     this.colorsGetService.handleAsync(
       { q: filter, pageNumber: page, pageSize: pageSize },
@@ -92,14 +91,13 @@ export class ColorsComponent implements OnInit, AfterViewInit {
       300_000
     ).subscribe({
       next: data => {
-        console.log('Received colors:', data);
         this.colors = data.dataItems;
         this.totalCount = data.totalCount;
         this.currentPage = page;
         this.pageSize = pageSize;
         this.isLoading = false;
       },
-      error: err => {
+      error: (err) => {
         this.isLoading = false;
         this.showExceptionDialog('Error Loading Colors', 'Failed to load colors. Please try again.', err);
       }
@@ -129,7 +127,7 @@ export class ColorsComponent implements OnInit, AfterViewInit {
         if (this.colors.length === 1 && this.currentPage > 1) this.currentPage--;
         setTimeout(() => this.fetchColors(this.searchQuery, this.currentPage, this.pageSize, false), 100);
       },
-      error: err => this.showExceptionDialog('Error Deleting Color', 'Failed to delete color. Please try again.', err)
+      error: (err) => this.showExceptionDialog('Error Deleting Color', 'Failed to delete color. Please try again.', err)
     });
   }
 

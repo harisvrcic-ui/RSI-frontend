@@ -88,7 +88,6 @@ export class AdminsComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching admins:', err);
         this.isLoading = false;
         this.showExceptionDialog('Error Loading admins', 'Failed to load admins. Please try again.', err);
       },

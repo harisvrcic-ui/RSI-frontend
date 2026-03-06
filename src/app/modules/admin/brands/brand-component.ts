@@ -204,10 +204,11 @@ export class BrandsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // 🖼 Logo helper
+  // 🖼 Logo helper – when no logo, use inline SVG placeholder to avoid 404
   getBrandLogo(logo: string | null | undefined): string {
     if (!logo || logo.length === 0) {
-      return 'assets/images/default-brand.png';
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="%23999"><text x="12" y="16" text-anchor="middle" font-size="10">?</text></svg>';
+      return 'data:image/svg+xml,' + encodeURIComponent(svg);
     }
     return `data:image/png;base64,${logo}`;
   }

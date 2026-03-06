@@ -71,7 +71,6 @@ export class LanguagesEditComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error loading language:', err);
         this.errorMessage = 'Failed to load language data. Please try again.';
         this.isLoading = false;
         this.exceptionService.handleError(err, 'Error Loading Language');
@@ -94,12 +93,10 @@ export class LanguagesEditComponent implements OnInit {
       };
 
       this.languageUpdateOrInsertService.handleAsync(request).subscribe({
-        next: (response) => {
-          console.log('Language saved successfully:', response);
+        next: () => {
           this.router.navigate(['/admin/languages']);
         },
         error: (err) => {
-          console.error('Error saving language:', err);
           this.errorMessage = 'Failed to save language. Please try again.';
           this.isSaving = false;
           this.exceptionService.handleError(err, 'Error Saving Language');

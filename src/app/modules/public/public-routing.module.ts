@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '', children: [
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: HomeComponent},
-      {path: '**', redirectTo: 'home', pathMatch: 'full'}  // Default ruta koja vodi na public
+      {path: '**', redirectTo: 'home', pathMatch: 'full'}  // Default route redirects to home
     ]
   }
 ];

@@ -1,4 +1,4 @@
-/* Modern Publisher Edit Form Styles */
+/* Modern Edit Form Styles */
 .admin-page {
   padding: 30px;
   min-height: calc(100vh - 80px);
@@ -137,9 +137,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.publisher-form {
-  max-width: 600px;
-}
 
 .form-group {
   margin-bottom: 25px;

@@ -82,13 +82,7 @@ export class MyCacheService {
     this.clear();
   }
 
-  // Clear all publishers-related cache
-  clearPublishersCache(): void {
-    // Set invalidation timestamp to invalidate all existing cache entries
-    this.lastInvalidationTime = Date.now();
-    // Also clear all cache entries to be extra sure
-    this.clear();
-  }
+  
 
   // Clear all languages-related cache
   clearLanguagesCache(): void {
@@ -132,7 +126,7 @@ export class MyCacheService {
   clearCarsCache(): void {
     const keys = Array.from(this.cache.keys());
     keys.forEach(key => {
-      if (key.startsWith('cars')) { // svi cache ključevi za Cars počinju sa "cars"
+      if (key.startsWith('cars')) { // all cache keys for Cars start with "cars"
         this.cache.delete(key);
       }
     });
@@ -148,7 +142,7 @@ export class MyCacheService {
     // Pretpostavimo da je this.cache tipa Map<string, any>
     const keys = Array.from(this.cache.keys());
     keys.forEach(key => {
-      if (key.startsWith('countries-')) { // svi cache ključevi za Countries počinju sa "countries-"
+      if (key.startsWith('countries-')) { // all cache keys for Countries start with "countries-"
         this.cache.delete(key);
       }
     });

@@ -553,7 +553,13 @@
     "TOTAL_REVIEWS": "Total Reviews",
     "LOADING_REVIEWS": "Loading reviews...",
     "NO_REVIEWS_FOUND": "No Reviews Found",
+    "NO_REVIEWS_IN_SYSTEM": "No reviews in the system yet.",
     "SEARCH_REVIEWS_PLACEHOLDER": "Search by comment...",
-    "ADD_REVIEW": "Add Review"
+    "ADD_REVIEW": "Add Review",
+    "NO_RESERVATIONS_IN_SYSTEM": "No reservations in the system yet.",
+    "NO_RESERVATION_TYPES_IN_SYSTEM": "No reservation types in the system yet.",
+    "NO_PARKING_ZONES_IN_SYSTEM": "No parking zones in the system yet.",
+    "NO_PARKING_SPOT_TYPES_IN_SYSTEM": "No spot types in the system yet.",
+    "NO_PARKING_SPOTS_IN_SYSTEM": "No parking spots in the system yet."
   }
 }

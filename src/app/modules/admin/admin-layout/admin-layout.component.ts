@@ -60,9 +60,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
         this.authService.setLoggedInUser(null);
         this.router.navigate(['/public/home']);
       },
-      error: (error) => {
-        console.error('Logout error:', error);
-        // Even if logout fails on server, clear local storage
+      error: () => {
+        // Even if logout fails on server, clear local storage (error shown by HTTP interceptor)
         this.authService.setLoggedInUser(null);
         this.router.navigate(['/public/home']);
       }

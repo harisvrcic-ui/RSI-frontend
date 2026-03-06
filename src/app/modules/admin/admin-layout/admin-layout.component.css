@@ -217,7 +217,7 @@
 .data-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px; /* vertikalni gap između redova */
+  border-spacing: 0 10px; /* vertical gap between rows */
 }
 
 .table-header-cell {

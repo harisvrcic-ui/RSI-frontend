@@ -46,7 +46,6 @@ export class BrandGetAllEndpointService
 
     if (useCache && this.cacheService.has(cacheKey)) {
       const data = this.cacheService.get<MyPagedList<BrandGetAllResponse>>(cacheKey)!;
-      console.log(cacheKey + ' use cached: ' + data.dataItems.length);
       return of(data);
     }
 
@@ -57,7 +56,6 @@ export class BrandGetAllEndpointService
       .pipe(
         tap((data) => {
           if (useCache) {
-            console.log(cacheKey + ' saving to cache: ' + data.dataItems.length);
             this.cacheService.set(cacheKey, data, cacheTTL);
           }
         })

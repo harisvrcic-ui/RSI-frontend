@@ -34,10 +34,9 @@ export class CityGetAllEndpointService implements MyBaseEndpointAsync<CityGetAll
   handleAsync(request: CityGetAllRequest, useCache: boolean = false, cacheTTL: number = 300000) {
 
     const cacheKey = `${request.q ?? ''}-${request.countryId ?? ''}-${request.isActive ?? ''}-${request.pageNumber ?? 1}-${request.pageSize ?? 10}`;
-    // Provjeri da li postoji keširana verzija
+    // Check if cached version exists
     if (useCache && this.cacheService.has(cacheKey)) {
-      let data = this.cacheService.get<MyPagedList<CityGetAllResponse>>(cacheKey)!;
-      console.log(cacheKey + " use cached: " + data.dataItems.length)
+      const data = this.cacheService.get<MyPagedList<CityGetAllResponse>>(cacheKey)!;
       return of(data);
     }
 
@@ -45,7 +44,6 @@ export class CityGetAllEndpointService implements MyBaseEndpointAsync<CityGetAll
     return this.httpClient.get<MyPagedList<CityGetAllResponse>>(`${this.apiUrl}`, {params}).pipe(
       tap((data) => {
         if (useCache) {
-          console.log(cacheKey + " saving to cache: " + data.dataItems.length)
           this.cacheService.set(cacheKey, data, cacheTTL);
         }
       }));

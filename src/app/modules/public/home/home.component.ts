@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedFeatureIndex: number | null = null;
 
   filterForm!: FormGroup;
-  /** Zona 1 = Vijećnica + Baščaršija, Zona 2 = Aria */
+  /** Zone 1 = Vijećnica + Baščaršija, Zone 2 = Aria */
   readonly zoneGroups = [
     { value: null as number | null, labelKey: 'HOME.ALL_ZONES' },
     { value: 1, labelKey: 'HOME.ZONE_1' },
@@ -74,6 +74,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('leafletMap') leafletMapRef!: ElementRef<HTMLDivElement>;
 
   private autoSlideInterval: ReturnType<typeof setInterval> | null = null;
+  private mapApiPollInterval: ReturnType<typeof setInterval> | null = null;
+  private mapApiPollTimeout: ReturnType<typeof setTimeout> | null = null;
   private leafletMap: L.Map | null = null;
   private leafletMarkers: L.Marker[] = [];
 
@@ -100,6 +102,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.breakpointObserver
       .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.isHandset = this.breakpointObserver.isMatched(Breakpoints.Handset);
         this.isTablet = this.breakpointObserver.isMatched(Breakpoints.TabletPortrait);
@@ -124,7 +127,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => this.leafletMap?.invalidateSize(), 200);
   }
 
-  /** Ažurira Leaflet markere prema broju trenutno prikazanih spotova (nakon promjene filtera). */
+  /** Updates Leaflet markers to match the number of currently displayed spots (after filter change). */
   private updateLeafletMarkers(): void {
     if (!this.leafletMap) return;
     this.leafletMarkers.forEach(m => m.remove());
@@ -184,15 +187,22 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cdr.detectChanges();
       return;
     }
-    const check = setInterval(() => {
+    this.mapApiPollInterval = setInterval(() => {
       if (typeof (window as unknown as { google?: unknown }).google !== 'undefined') {
         this.mapApiLoaded = true;
-        clearInterval(check);
+        if (this.mapApiPollInterval) {
+          clearInterval(this.mapApiPollInterval);
+          this.mapApiPollInterval = null;
+        }
         this.cdr.detectChanges();
       }
     }, 200);
-    setTimeout(() => {
-      clearInterval(check);
+    this.mapApiPollTimeout = setTimeout(() => {
+      if (this.mapApiPollInterval) {
+        clearInterval(this.mapApiPollInterval);
+        this.mapApiPollInterval = null;
+      }
+      this.mapApiPollTimeout = null;
       this.cdr.detectChanges();
     }, 8000);
   }
@@ -211,6 +221,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.complete();
     if (this.autoSlideInterval) {
       clearInterval(this.autoSlideInterval);
+      this.autoSlideInterval = null;
+    }
+    if (this.mapApiPollInterval) {
+      clearInterval(this.mapApiPollInterval);
+      this.mapApiPollInterval = null;
+    }
+    if (this.mapApiPollTimeout) {
+      clearTimeout(this.mapApiPollTimeout);
+      this.mapApiPollTimeout = null;
     }
     if (this.leafletMap) {
       this.leafletMap.remove();
@@ -246,22 +265,24 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       openNow: v.openNow || undefined,
       sortBy: v.sortBy || undefined
     };
-    this.parkingSpotService.handleAsync(request).subscribe({
-      next: (result: MyPagedList<ParkingSpotsGetAllResponse>) => {
-        this.parkingSpots = result;
-        this.currentSpotIndex = 0;
-        this.selectedFeatureIndex = null;
-        this.isLoading = false;
-        this.startAutoSlide();
-        this.updateLeafletMarkers();
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.isLoading = false;
-        this.errorMessage = 'ERROR_LOADING_PARKING';
-        this.cdr.detectChanges();
-      }
-    });
+    this.parkingSpotService.handleAsync(request)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result: MyPagedList<ParkingSpotsGetAllResponse>) => {
+          this.parkingSpots = result;
+          this.currentSpotIndex = 0;
+          this.selectedFeatureIndex = null;
+          this.isLoading = false;
+          this.startAutoSlide();
+          this.updateLeafletMarkers();
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.isLoading = false;
+          this.errorMessage = 'ERROR_LOADING_PARKING';
+          this.cdr.detectChanges();
+        }
+      });
   }
 
   getFilteredSpotItems(): ParkingSpotsGetAllResponse[] {
@@ -277,7 +298,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.getFilteredSpotItems().filter(s => s.isActive).length;
   }
 
-  /** Hover na karticu: odmah prikaži parking na mapi (bez klika). */
+  /** Hover on card: show parking on map immediately (no click). */
   hoverFeature(index: number): void {
     this.selectedFeatureIndex = index;
     this.centerMapOnFeature(index);
@@ -318,7 +339,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Mapiranje spota na lokaciju: 0 = Aria, 1 = Baščaršija, 2 = Vijećnica.
+   * Map spot to location index: 0 = Aria, 1 = Baščaršija, 2 = Vijećnica.
    * Zone 2 → Aria; Zone 1, parking 1 → Vijećnica; Zone 1, parking 2 → Baščaršija.
    */
   getFeatureIndexForSpot(spot: ParkingSpotsGetAllResponse): number {
@@ -339,7 +360,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return keys[this.getFeatureIndexForSpot(spot)] ?? 'HOME.FEATURE_1_DESC';
   }
 
-  /** URL za "Get directions" za spot (prema lokaciji Aria/Baščaršija/Vijećnica). */
+  /** URL for "Get directions" for spot (to location Aria/Baščaršija/Vijećnica). */
   getMapsUrlForSpot(spot: ParkingSpotsGetAllResponse): string {
     const idx = this.getFeatureIndexForSpot(spot);
     return this.openInMapsUrls[idx] ?? this.openInMapsUrls[0];
@@ -351,7 +372,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return spot ? this.getMapsUrlForSpot(spot) : (this.openInMapsUrls[index] ?? this.openInMapsUrls[0]);
   }
 
-  /** Broj slobodnih mjesta za prikaz na kartici: Aria Mall=0, Baščaršija=5, Vijećnica=10. */
+  /** Free spots count for card display: Aria Mall=0, Baščaršija=5, Vijećnica=10. */
   getAvailableSpotsForSpot(spot: ParkingSpotsGetAllResponse): number {
     if (!spot?.isActive) return 0;
     const idx = this.getFeatureIndexForSpot(spot);
@@ -377,7 +398,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  /** Pozicije markera za trenutne spotove – svaki spot dobiva koordinate svoje lokacije (Aria=0, Baščaršija=1, Vijećnica=2). */
+  /** Marker positions for current spots – each spot gets coordinates of its location (Aria=0, Baščaršija=1, Vijećnica=2). */
   getMarkerPositionsForCurrentSpots(): MapLocation[] {
     return this.getSpotItems().map(spot => this.markerPositions[this.getFeatureIndexForSpot(spot)] ?? this.markerPositions[0]);
   }
@@ -435,7 +456,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.openInMapsUrls[idx] ?? this.openInMapsUrls[0];
   }
 
-  private startAutoSlide() {
+  private startAutoSlide(): void {
+    if (this.autoSlideInterval) {
+      clearInterval(this.autoSlideInterval);
+      this.autoSlideInterval = null;
+    }
     const items = this.getFilteredSpotItems();
     if (items.length > 1) {
       this.autoSlideInterval = setInterval(() => {
@@ -472,7 +497,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.getFilteredSpotItems();
   }
 
-  /** Broj prikazanih parking mjesta – mora odgovarati broju kartica (nakon filtra Only available / Open now). */
+  /** Number of displayed parking spots – must match the number of cards (after Only available / Open now filter). */
   getTotalParkingCount(): number {
     return this.getSpotItems().length;
   }

@@ -68,7 +68,7 @@ import {MatSpinner} from '@angular/material/progress-spinner';
     MatSpinner
   ],
   exports: [
-    UnauthorizedComponent, // Omogućavamo ponovno korištenje UnauthorizedComponent
+    UnauthorizedComponent, // Re-export for reuse
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

@@ -11,7 +11,7 @@ export class MySnackbarHelperService {
   }
 
   /**
-   * Prikazuje jednostavan snackbar s porukom.
+   * Shows a simple snackbar with a message.
    * @param message Tekst poruke
    * @param duration Trajanje prikaza u milisekundama (podrazumijevano: 3000)
    */
@@ -24,9 +24,9 @@ export class MySnackbarHelperService {
   }
 
   /**
-   * Prikazuje snackbar s dodatnom opcijom za klik.
+   * Shows a snackbar with an optional action button.
    * @param message Tekst poruke
-   * @param action Tekst dugmeta (npr. "Undo")
+   * @param action Button label (e.g. "Undo")
    * @param callback Funkcija koja se poziva kada se klikne na dugme
    * @param duration Trajanje prikaza u milisekundama (podrazumijevano: 5000)
    */

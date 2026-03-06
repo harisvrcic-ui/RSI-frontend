@@ -66,7 +66,7 @@ export class GenderComponent implements OnInit {
 
     this.genderGetService.handleAsync().subscribe({
       next: data => {
-        // Ako backend vrati običan niz
+        // If backend returns plain array
         const q = this.searchQuery.toLowerCase();
         this.genders = data.dataItems.filter(g => {
           const name = (g.name ?? '').toLowerCase();

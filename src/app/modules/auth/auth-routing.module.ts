@@ -15,7 +15,7 @@ const routes: Routes = [
       {path: 'logout', component: LogoutComponent},
       {path: 'forget-password', component: ForgetPasswordComponent},
       {path: 'two-factor', component: TwoFactorComponent},
-      {path: '**', component: AdminErrorPageComponent}  // Default ruta koja vodi na public
+      {path: '**', component: AdminErrorPageComponent}  // Default route fallback
     ]
   }
 ]

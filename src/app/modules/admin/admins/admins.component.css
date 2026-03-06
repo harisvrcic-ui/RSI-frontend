@@ -2,7 +2,7 @@
 .admin-page {
   padding: 30px;
   min-height: calc(100vh - 80px);
-  background: #f4f6f9; /* zadržana boja */
+  background: #f4f6f9; /* kept color */
 }
 
 /* Page Header */

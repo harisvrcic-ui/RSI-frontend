@@ -35,10 +35,9 @@ export class LanguageGetAllEndpointService implements MyBaseEndpointAsync<Langua
   handleAsync(request: LanguageGetAllRequest, useCache: boolean = false, cacheTTL: number = 300000) {
 
     const cacheKey = `languages-${request.q || ''}-${request.pageNumber || 1}-${request.pageSize || 10}`;
-    // Provjeri da li postoji keširana verzija
+    // Check if cached version exists
     if (useCache && this.cacheService.has(cacheKey)) {
-      let data = this.cacheService.get<MyPagedList<LanguageGetAllResponse>>(cacheKey)!;
-      console.log(cacheKey + " use cached: " + data.dataItems.length)
+      const data = this.cacheService.get<MyPagedList<LanguageGetAllResponse>>(cacheKey)!;
       return of(data);
     }
 
@@ -46,7 +45,6 @@ export class LanguageGetAllEndpointService implements MyBaseEndpointAsync<Langua
     return this.httpClient.get<MyPagedList<LanguageGetAllResponse>>(`${this.apiUrl}`, {params}).pipe(
       tap((data) => {
         if (useCache) {
-          console.log(cacheKey + " saving to cache: " + data.dataItems.length)
           this.cacheService.set(cacheKey, data, cacheTTL);
         }
       }));

@@ -317,26 +317,11 @@
   flex: 1;
 }
 
-.publisher-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.publisher-name {
-  font-weight: 500;
-  color: #ffffff;
-}
 
 .description-cell {
   flex: 1;
 }
 
-.publisher-description {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
 
 .description-text {
   color: #ecf0f1;
@@ -348,11 +333,7 @@
   flex: 1;
 }
 
-.publisher-website {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+
 
 .website-link {
   color: #ffd700;

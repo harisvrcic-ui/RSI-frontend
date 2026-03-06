@@ -32,15 +32,13 @@ export class LoginComponent {
 
     this.authLoginService.handleAsync(this.form.value).subscribe({
       next: (response) => {
-        console.log('Login successful');
         // Store the login token
         this.authService.setLoggedInUser(response);
         // Redirect to home page
         this.router.navigate(['/public/home']);
       },
-      error: (error) => {
-        console.error('Login failed:', error);
-        // Handle login error (you can add error handling here)
+      error: () => {
+        // Error shown by HTTP interceptor
       }
     });
   }

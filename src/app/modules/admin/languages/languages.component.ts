@@ -103,7 +103,6 @@ export class LanguagesComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching languages:', err);
         this.isLoading = false;
         this.exceptionService.handleError(err, 'Error Loading Languages');
       },
@@ -160,7 +159,6 @@ export class LanguagesComponent implements OnInit, AfterViewInit {
   deleteLanguage(id: number): void {
     this.languageDeleteService.handleAsync(id).subscribe({
       next: () => {
-        console.log(`Language with ID ${id} deleted successfully`);
         // Clear languages cache after successful deletion
         this.cacheService.clearLanguagesCache();
         // Refresh the current page, but if we're on the last page and it becomes empty, go to previous page
@@ -173,7 +171,6 @@ export class LanguagesComponent implements OnInit, AfterViewInit {
         }, 100);
       },
       error: (err) => {
-        console.error('Error deleting language:', err);
         this.exceptionService.handleError(err, 'Error Deleting Language');
       }
     });

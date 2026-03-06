@@ -598,8 +598,14 @@
     "TOTAL_REVIEWS": "Ukupno recenzija",
     "LOADING_REVIEWS": "Učitavanje recenzija...",
     "NO_REVIEWS_FOUND": "Nema pronađenih recenzija",
+    "NO_REVIEWS_IN_SYSTEM": "Još nema recenzija u sistemu.",
     "SEARCH_REVIEWS_PLACEHOLDER": "Pretraga po komentaru...",
-    "ADD_REVIEW": "Dodaj recenziju"
+    "ADD_REVIEW": "Dodaj recenziju",
+    "NO_RESERVATIONS_IN_SYSTEM": "Još nema rezervacija u sistemu.",
+    "NO_RESERVATION_TYPES_IN_SYSTEM": "Još nema tipova rezervacija u sistemu.",
+    "NO_PARKING_ZONES_IN_SYSTEM": "Još nema parking zona u sistemu.",
+    "NO_PARKING_SPOT_TYPES_IN_SYSTEM": "Još nema tipova u sistemu.",
+    "NO_PARKING_SPOTS_IN_SYSTEM": "Još nema parking mjesta u sistemu."
   }
 }
 

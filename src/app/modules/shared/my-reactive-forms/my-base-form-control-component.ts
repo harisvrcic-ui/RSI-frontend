@@ -1,16 +1,16 @@
 import {ControlContainer, FormControl, FormGroup, ValidationErrors} from '@angular/forms';
 import {Directive} from '@angular/core';
 
-@Directive() // Dodaje Angular dekorator
+@Directive() // Adds Angular decorator
 export abstract class MyBaseFormControlComponent {
-  // Input za naziv kontrole
+  // Input for control name
   public myControlName!: string;
   public customMessages: Record<string, string> = {};
 
   constructor(protected controlContainer: ControlContainer) {
   }
 
-  // Dobijanje formGroup-a iz ControlContainer
+  // Get formGroup from ControlContainer
   get formGroup(): FormGroup {
     return this.controlContainer.control as FormGroup;
   }
@@ -20,7 +20,7 @@ export abstract class MyBaseFormControlComponent {
     return this.formGroup.get(this.myControlName) as FormControl;
   }
 
-  // Generisanje lista grešaka
+  // Build list of errors
   getErrorKeys(errors: ValidationErrors | null): string[] {
     return errors ? Object.keys(errors) : [];
   }
@@ -45,7 +45,7 @@ export abstract class MyBaseFormControlComponent {
     return `Validation error: ${errorKey}`;
   }
 
-  // Pomoćna metoda za generisanje ID-a kontrole
+  // Helper to generate control ID
   protected getControlName(): string {
     return Object.keys(this.formGroup.controls).find(
       key => this.formGroup.get(key) === this.formControl

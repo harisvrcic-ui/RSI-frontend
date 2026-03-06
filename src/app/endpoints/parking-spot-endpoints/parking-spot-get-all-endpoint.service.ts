@@ -27,7 +27,7 @@ export interface ParkingSpotsGetAllResponse {
   parkingSpotTypeId: number;
   zoneId: number;
   zoneName?: string;
-  /** Naziv lokacije iz baze (Aria mall, Vijećnica, Baščaršija) – za pretragu i prikaz. */
+  /** Location name from DB (Aria mall, Vijećnica, Baščaršija) – for search and display. */
   displayName?: string | null;
   isActive: boolean;
   latitude?: number;

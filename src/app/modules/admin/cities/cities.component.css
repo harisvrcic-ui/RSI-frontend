@@ -152,7 +152,7 @@
   vertical-align: middle;
 }
 
-/* Kolone poravnate ispod naslova: City Name | Actions */
+/* Columns aligned under header: City Name | Actions */
 .data-table .table-header-cell.actions-header { width: 110px; text-align: center; }
 
 .table-cell {
@@ -189,7 +189,7 @@
   background: rgba(239,68,68,0.2);
 }
 
-/* Pagination – kao table footer (ista širina, vizuelno povezano) */
+/* Pagination – as table footer (same width, visually connected) */
 .table-footer-pagination {
   margin-top: 0;
   padding: 16px 20px;

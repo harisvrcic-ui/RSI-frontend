@@ -1,6 +1,8 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, OnInit, OnDestroy} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Router} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
+import {filter} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 import {MyAuthService} from './services/auth-services/my-auth.service';
 import {AuthLoginEndpointService} from './endpoints/auth-endpoints/auth-login-endpoint.service';
 import {AuthLogoutEndpointService} from './endpoints/auth-endpoints/auth-logout-endpoint.service';
@@ -11,8 +13,12 @@ import {AuthLogoutEndpointService} from './endpoints/auth-endpoints/auth-logout-
   styleUrl: './app.component.css',
   standalone: false
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'eParking';
+
+  /** Sakriva navigaciju na login i ostalim auth stranicama */
+  showNavigation = true;
+  private routerSub?: Subscription;
 
   languages = [
     {code: 'en', label: 'English', icon: 'usa.png'},
@@ -32,10 +38,24 @@ export class AppComponent {
     private authLoginEndpoint: AuthLoginEndpointService,
     private authLogoutEndpoint: AuthLogoutEndpointService
   ) {
-    // Set default language to English
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.currentLanguage = 'en';
+  }
+
+  ngOnInit(): void {
+    this.updateShowNavigation(this.router.url);
+    this.routerSub = this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe(e => this.updateShowNavigation(e.url));
+  }
+
+  ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+  }
+
+  private updateShowNavigation(url: string): void {
+    this.showNavigation = !url.startsWith('/auth');
   }
 
   changeLanguage(lang: string): void {
@@ -160,9 +180,8 @@ export class AppComponent {
         this.isUserDropdownOpen = false;
         this.router.navigate(['/public/home']);
       },
-      error: (error) => {
-        console.error('Logout error:', error);
-        // Even if logout fails on server, clear local storage
+      error: () => {
+        // Even if logout fails on server, clear local storage (error shown by HTTP interceptor)
         this.authService.setLoggedInUser(null);
         this.isUserDropdownOpen = false;
         this.router.navigate(['/public/home']);

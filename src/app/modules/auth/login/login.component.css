@@ -44,6 +44,26 @@
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
 }
 
+.login-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-back-btn:hover {
+  color: #ffa500;
+}
+
+.login-back-btn::before {
+  content: "←";
+  font-size: 1rem;
+}
+
 /* TITLES */
 .login-title {
   font-size: 2rem;

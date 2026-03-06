@@ -43,16 +43,15 @@ export class ColorsGetAllEndpointService
     // Ako postoji cache, vrati ga odmah
     if (useCache && this.cacheService.has(cacheKey)) {
       const data = this.cacheService.get<MyPagedList<ColorsGetAllResponse>>(cacheKey)!;
-      console.log(cacheKey + ' use cached: ' + data.dataItems.length);
       return of(data);
     }
 
     const params = buildHttpParams(request);
 
-    // Fetch sa backend-a
+    // Fetch from backend
     return this.httpClient.get<MyPagedList<ColorsGetAllResponse>>(this.apiUrl, { params, observe: 'response' }).pipe(
       map((resp: HttpResponse<MyPagedList<ColorsGetAllResponse>>) => {
-        // Ako backend vrati 204 ili prazno tijelo, vrati default MyPagedList
+        // If backend returns 204 or empty body, return default MyPagedList
         if (resp.status === 204 || !resp.body) {
           return {
             dataItems: [],
@@ -68,7 +67,6 @@ export class ColorsGetAllEndpointService
       }),
       tap(data => {
         if (useCache) {
-          console.log(cacheKey + ' saving to cache: ' + data.dataItems.length);
           this.cacheService.set(cacheKey, data, cacheTTL);
         }
       })

@@ -10,10 +10,10 @@ import {ControlContainer} from '@angular/forms';
   styleUrl: './my-dropdown.component.css'
 })
 export class MyDropdownComponent extends MyBaseFormControlComponent implements OnInit, OnChanges {
-  @Input() myLabel!: string; // Labela za dropdown
-  @Input() myId: string = ''; // ID za dropdown (koristi se u <label> for atributu)
-  @Input() myPlaceholder: string = ''; // Placeholder tekst
-  @Input() options: { id: number | string; name: string }[] = []; // Opcije za dropdown
+  @Input() myLabel!: string; // Label for dropdown
+  @Input() myId: string = ''; // ID for dropdown (used in <label for>)
+  @Input() myPlaceholder: string = ''; // Placeholder text
+  @Input() options: { id: number | string; name: string }[] = []; // Dropdown options
   @Input() defaultValue: number | string | null = null; // Podrazumijevana vrijednost
 
   @Input() override customMessages: Record<string, string> = {}; // Dodano!
@@ -36,7 +36,7 @@ export class MyDropdownComponent extends MyBaseFormControlComponent implements O
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['options'] || changes['defaultValue']) {
-      // Provjera da li su opcije učitane i postavljanje podrazumijevane vrijednosti
+      // Check if options are loaded and set default value
       if (this.options.length > 0 && this.defaultValue !== null && !this.formControl.value) {
         this.formControl.patchValue(this.defaultValue, {emitEvent: true});
       }

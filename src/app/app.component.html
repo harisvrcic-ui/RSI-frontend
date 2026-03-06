@@ -1,7 +1,7 @@
 <app-my-page-progressbar></app-my-page-progressbar>
 
-<!-- Modern Navigation Bar -->
-<nav class="navbar">
+<!-- Modern Navigation Bar (sakriva se na login i ostalim auth stranicama) -->
+<nav class="navbar" *ngIf="showNavigation">
   <div class="nav-container">
     <!-- Hamburger (samo na mobilnom) -->
     <button type="button" class="nav-hamburger" (click)="toggleMobileMenu()" [attr.aria-expanded]="mobileMenuOpen" aria-label="Menu">
@@ -25,7 +25,7 @@
           <span class="nav-text">{{ 'NAVIGATION.DASHBOARD' | translate }}</span>
           <div class="nav-underline"></div>
         </a>
-        <a routerLink="/client/reservation" routerLinkActive="active" class="nav-link">
+        <a [routerLink]="authService.isLoggedIn() ? '/client/reservation' : '/auth/login'" routerLinkActive="active" class="nav-link">
           <span class="nav-text">{{ 'NAVIGATION.RESERVATIONS' | translate }}</span>
           <div class="nav-underline"></div>
         </a>
@@ -136,7 +136,7 @@
     <a routerLink="/client/dashboard" routerLinkActive="active" class="nav-mobile-link" (click)="closeMobileMenu()">
       {{ 'NAVIGATION.DASHBOARD' | translate }}
     </a>
-    <a routerLink="/client/reservation" routerLinkActive="active" class="nav-mobile-link" (click)="closeMobileMenu()">
+    <a [routerLink]="authService.isLoggedIn() ? '/client/reservation' : '/auth/login'" routerLinkActive="active" class="nav-mobile-link" (click)="closeMobileMenu()">
       {{ 'NAVIGATION.RESERVATIONS' | translate }}
     </a>
     <ng-container *ngIf="!authService.isLoggedIn()">

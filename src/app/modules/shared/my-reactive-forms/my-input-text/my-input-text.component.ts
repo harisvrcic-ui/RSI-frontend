@@ -18,9 +18,9 @@ export enum MyInputTextType {
   styleUrl: './my-input-text.component.css'
 })
 export class MyInputTextComponent extends MyBaseFormControlComponent implements OnInit {
-  @Input() myLabel!: string; // Labela za input
-  @Input() myId: string = ''; // ID za input (koristi se u <label> for atributu)
-  @Input() myPlaceholder: string = ''; // Placeholder tekst
+  @Input() myLabel!: string; // Label for input
+  @Input() myId: string = ''; // ID for input (used in <label for>)
+  @Input() myPlaceholder: string = ''; // Placeholder text
   @Input() myType: MyInputTextType = MyInputTextType.Text; // Tip inputa koristi enumeraciju
 
   @Input() override customMessages: Record<string, string> = {}; // Dodano!

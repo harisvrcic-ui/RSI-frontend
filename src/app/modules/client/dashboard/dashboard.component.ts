@@ -46,7 +46,7 @@ export class ClientDashboardComponent implements OnInit {
         pageNumber: 1,
         pageSize: 100,
         userId
-        // onlyActive: false = dohvatimo sve rezervacije korisnika (aktivne i prošle)
+        // onlyActive: false = fetch all user reservations (active and past)
       })
       .subscribe({
         next: (res) => {
@@ -70,7 +70,7 @@ export class ClientDashboardComponent implements OnInit {
     });
   }
 
-  /** Rezervacija je aktivna ako joj kraj (endDate) još nije prošao */
+  /** Reservation is active if its end (endDate) has not passed yet */
   isActiveReservation(r: ReservationsGetAllResponse): boolean {
     if (!r?.endDate) return false;
     return new Date(r.endDate) >= new Date();

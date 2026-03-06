@@ -21,7 +21,7 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name'];
   cities: CityGetAllResponse[] = [];
 
-  // Pagination – default 10 za admin efikasnost (Material/standard)
+  // Pagination – default 10 for admin efficiency (Material/standard)
   currentPage = 1;
   pageSize = 10;
   totalCount = 0;
@@ -114,9 +114,9 @@ export class CitiesComponent implements OnInit, AfterViewInit {
         this.pageSize = pageSize;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error fetching cities:', err);
+      error: () => {
         this.isLoading = false;
+        // Error message shown by MyErrorHandlingInterceptor (no console.error here)
       },
     });
   }
@@ -177,7 +177,6 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   deleteCity(id: number): void {
     this.cityDeleteService.handleAsync(id).subscribe({
       next: () => {
-        console.log(`City with ID ${id} deleted successfully`);
         // Clear cities cache after successful deletion
         this.cacheService.clearCitiesCache();
         // Refresh the current page, but if we're on the last page and it becomes empty, go to previous page
@@ -189,8 +188,8 @@ export class CitiesComponent implements OnInit, AfterViewInit {
           this.fetchCities(this.searchQuery, this.currentPage, this.pageSize, false);
         }, 100);
       },
-      error: (err) => {
-        console.error('Error deleting city:', err);
+      error: () => {
+        // Error shown by HTTP interceptor
       }
     });
   }

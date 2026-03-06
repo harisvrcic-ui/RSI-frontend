@@ -16,7 +16,7 @@ export interface ReservationsGetAllResponse {
   userId: number;
   carID: number;
   parkingSpotID: number;
-  /** Ime lokacije (npr. Aria mall, Vijećnica, Baščaršija) */
+  /** Location display name (e.g. Aria mall, Vijećnica, Baščaršija) */
   parkingSpotDisplayName?: string | null;
   reservationTypeID: number;
   startDate: string;
@@ -28,7 +28,7 @@ export interface ReservationsGetAllResponse {
   providedIn: 'root',
 })
 export class ReservationsGetAllEndpointService {
-  private apiUrl = `${MyConfig.api_address}/Reservations/filter`; // ✔ koristi /filter kao na ParkingZones
+  private apiUrl = `${MyConfig.api_address}/Reservations/filter`; // Uses /filter same as ParkingZones
 
   constructor(private httpClient: HttpClient) {}
 

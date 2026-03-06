@@ -122,8 +122,8 @@ export class ReservationTypeComponent implements OnInit {
         this.editId = null;
         this.loadReservationTypes(this.currentPage, this.pageSize);
       },
-      error: (err) => {
-        console.error('Error saving reservation type:', err);
+      error: () => {
+        // Error shown by HTTP interceptor
       }
     });
   }

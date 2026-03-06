@@ -88,7 +88,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Error fetching users:', err);
         this.isLoading = false;
         this.showExceptionDialog('Error Loading Users', 'Failed to load users. Please try again.', err);
       },

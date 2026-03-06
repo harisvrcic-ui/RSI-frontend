@@ -58,7 +58,7 @@ export class CountriesComponent implements OnInit {
       next: (res) => {
         let data = res.dataItems;
 
-        // Ako želiš dodatni klijentski search
+        // Optional client-side search
         if (this.searchQuery) {
           data = data.filter(c =>
             c.name.toLowerCase().includes(this.searchQuery.toLowerCase())

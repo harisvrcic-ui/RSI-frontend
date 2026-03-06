@@ -44,8 +44,7 @@ export class CountryGetAllEndpointService
 
     if (useCache && this.cacheService.has(cacheKey)) {
       const data = this.cacheService.get<MyPagedList<CountryGetAllResponse>>(cacheKey)!;
-      console.log(cacheKey + ' use cached: ' + data.dataItems.length);
-      return of(data);  // → NE null, već stvarni MyPagedList
+      return of(data);  // Return actual MyPagedList, not null
     }
 
     const params = buildHttpParams(request);
@@ -53,7 +52,6 @@ export class CountryGetAllEndpointService
     return this.httpClient.get<MyPagedList<CountryGetAllResponse>>(this.apiUrl, { params }).pipe(
       tap((data) => {
         if (useCache) {
-          console.log(cacheKey + ' saving to cache: ' + data.dataItems.length);
           this.cacheService.set(cacheKey, data, cacheTTL);
         }
       })

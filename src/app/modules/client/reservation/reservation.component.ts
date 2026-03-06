@@ -181,7 +181,7 @@ this.form.reset({
     this.router.navigate(this.fromAdmin ? ['/admin/reservations'] : ['/']);
   }
 
-  /** Prikaz u selectu: DisplayName (Aria mall, Vijećnica, Baščaršija) ili fallback na #broj (Zone id). */
+  /** Display in select: DisplayName (e.g. Aria mall, Vijećnica, Baščaršija) or fallback to #number (Zone id). */
   getParkingSpotLabel(spot: ParkingSpotsGetAllResponse): string {
     const name = spot.displayName?.trim() || spot.zoneName?.trim();
     if (name) return name;

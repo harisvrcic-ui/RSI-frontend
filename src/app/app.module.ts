@@ -20,7 +20,7 @@ import {CustomTranslateLoader} from './services/custom-translate-loader';
     AppComponent
   ],
   imports: [
-    BrowserAnimationsModule, // Potrebno za animacije
+    BrowserAnimationsModule, // Required for animations
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -47,7 +47,7 @@ import {CustomTranslateLoader} from './services/custom-translate-loader';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MyErrorHandlingInterceptor,
-      multi: true // Dodaje ErrorHandlingInterceptor u lanac
+      multi: true // Adds ErrorHandlingInterceptor to the chain
     },
     MyAuthService,
     provideAnimationsAsync() // Ensure MyAuthService is available for the interceptor

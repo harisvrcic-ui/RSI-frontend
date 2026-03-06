@@ -27,18 +27,17 @@ export class LogoutComponent implements OnInit {
   logout(): void {
     this.httpClient.post<void>(this.apiUrl, {}).subscribe({
       next: () => this.handleLogoutSuccessOrError(),
-      error: (error) => {
-        console.error('Error during logout:', error);
+      error: () => {
         this.handleLogoutSuccessOrError();
       }
     });
   }
 
-  // Metoda za zajedničko uklanjanje tokena i preusmjeravanje
+  // Shared method to clear token and redirect
   private handleLogoutSuccessOrError(): void {
     this.authService.setLoggedInUser(null);
     setTimeout(() => {
-      this.router.navigate(['/auth/login']); // Preusmjeravanje na login nakon 3 sekunde
+      this.router.navigate(['/auth/login']); // Redirect to login after 3 seconds
     }, 3000);
   }
 }

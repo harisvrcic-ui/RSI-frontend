@@ -79,8 +79,7 @@ export class CitiesEditComponent implements OnInit {
         });
         this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Error loading city:', error);
+      error: () => {
         this.errorMessage = 'Failed to load city data. Please try again.';
         this.isLoading = false;
       }
@@ -104,8 +103,7 @@ export class CitiesEditComponent implements OnInit {
           this.isSaving = false;
           this.router.navigate(['/admin/cities']);
         },
-        error: (error) => {
-          console.error('Error saving city:', error);
+        error: () => {
           this.errorMessage = 'Failed to save city. Please check your input and try again.';
           this.isSaving = false;
         }

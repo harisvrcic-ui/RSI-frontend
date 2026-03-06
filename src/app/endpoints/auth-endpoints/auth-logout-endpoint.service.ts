@@ -18,15 +18,14 @@ export class AuthLogoutEndpointService implements MyBaseEndpointAsync<void, void
     return new Observable<void>((observer) => {
       this.httpClient.post<void>(this.apiUrl, {}).subscribe({
         next: () => {
-          // Nakon uspješnog odgovora sa servera, uklonite token na klijentu
-          this.authService.setLoggedInUser(null); // Uklanja token iz localStorage
+          // After successful response from server, remove token on client
+          this.authService.setLoggedInUser(null); // Removes token from localStorage
           observer.next();
           observer.complete();
         },
         error: (error) => {
-          console.error('Error during logout:', error);
           observer.error(error);
-          this.authService.setLoggedInUser(null); // Uklanja token iz localStorage
+          this.authService.setLoggedInUser(null); // Removes token from localStorage
         }
       });
     });

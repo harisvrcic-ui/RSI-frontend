@@ -71,7 +71,7 @@ export class CarsComponent implements OnInit, AfterViewInit {
 
   fetchCars(filter: string = '', page: number = 1, pageSize: number = 10, useCache: boolean = false): void {
     this.isLoading = true;
-    // Admin: ne šaljemo userId da vidimo sve automobile; cache isključen da se uvijek vidi ažuran popis
+    // Admin: do not send userId to see all cars; cache disabled to always show up-to-date list
     this.carsGetService.handleAsync({ q: filter, pageNumber: page, pageSize: pageSize }, useCache, 300000)
       .subscribe({
         next: data => {
@@ -82,8 +82,7 @@ export class CarsComponent implements OnInit, AfterViewInit {
           this.pageSize = pageSize;
           this.isLoading = false;
         },
-        error: err => {
-          console.error('Error fetching cars:', err);
+        error: (err) => {
           this.isLoading = false;
           this.showExceptionDialog('Error Loading Cars', 'Failed to load cars.', err);
         }
@@ -123,7 +122,7 @@ export class CarsComponent implements OnInit, AfterViewInit {
         if (this.cars.length === 1 && this.currentPage > 1) this.currentPage--;
         setTimeout(() => this.fetchCars(this.searchQuery, this.currentPage, this.pageSize, false), 100);
       },
-      error: err => this.showExceptionDialog('Error Deleting Car', 'Failed to delete car.', err)
+      error: (err) => this.showExceptionDialog('Error Deleting Car', 'Failed to delete car.', err)
     });
   }
 

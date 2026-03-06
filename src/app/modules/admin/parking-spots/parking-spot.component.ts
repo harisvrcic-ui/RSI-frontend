@@ -124,7 +124,7 @@ export class ParkingSpotsComponent implements OnInit {
     });
   }
 
-  // Dodaj paginacijske metode
+  // Pagination methods
   onPageChange(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.loadSpots(page, this.pageSize);

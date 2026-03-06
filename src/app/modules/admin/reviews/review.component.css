@@ -87,3 +87,4 @@
 .empty-state { text-align: center; padding: 48px 20px; }
 .empty-icon { color: #d1d5db; margin-bottom: 16px; }
 .empty-title { font-size: 1.25rem; font-weight: 600; color: #374151; margin: 0; }
+.empty-description { margin: 8px 0 0; font-size: 0.9rem; color: #6b7280; }
